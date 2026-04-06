@@ -763,12 +763,13 @@ body {
 .gp-panel-list-item.active { background: rgba(72,150,106,0.1); }
 
 .gp-panel-list-item .list-logo {
-  font-size: 20px;
-  width: 36px; height: 36px;
+  font-size: 16px;
+  width: 32px; height: 32px;
   display: flex; align-items: center; justify-content: center;
   background: var(--bg);
   border-radius: 8px;
   flex-shrink: 0;
+  line-height: 1;
 }
 
 .gp-panel-list-item .list-info { min-width: 0; }
