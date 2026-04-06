@@ -394,6 +394,17 @@ function renderInitiatives() {
   });
 }
 
+// Clear all filters
+document.getElementById('clear-all-filters').addEventListener('click', () => {
+  activeFilters = {};
+  idSearchQuery = '';
+  const searchInput = document.getElementById('id-search-input');
+  if (searchInput) searchInput.value = '';
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('filter-dropdown').classList.remove('open');
+  renderInitiatives();
+});
+
 // Search input
 const idSearchInput = document.getElementById('id-search-input');
 if (idSearchInput) {

@@ -940,6 +940,8 @@ body {
 
 .filter-btn:hover, .filter-btn.active { border-color: var(--green); color: var(--green); }
 .filter-btn.highlight { background: rgba(72,150,106,0.1); color: var(--green); border-color: var(--green); }
+.filter-clear { color: var(--text-light); font-size: 11px; border-style: dashed; }
+.filter-clear:hover { color: #c44; border-color: #c44; }
 .arrow { font-size: 10px; }
 
 .filter-dropdown {
