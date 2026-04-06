@@ -571,17 +571,29 @@ body {
   align-items: center;
   gap: 0;
   flex-shrink: 0;
-  background: none;
-  padding: 0;
-  border: none;
+  padding: 4px;
+  border-radius: 14px;
   position: relative;
+  overflow: hidden;
+}
+
+.dg-stats--green {
+  background: url('hero.jpg') center/cover no-repeat;
+}
+
+.dg-stats--green::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 0;
 }
 
 .dg-stat {
   text-align: center;
   position: relative;
   z-index: 1;
-  padding: 10px 20px;
+  padding: 12px 22px;
   background: var(--dark-teal);
   border: 1px solid rgba(255,255,255,0.1);
 }
@@ -617,9 +629,12 @@ body {
 }
 
 .dg-stats--teal .dg-stat { background: var(--dark-teal); }
-.dg-stats--green .dg-stat:nth-child(1) { background: #3d8a5e; }
-.dg-stats--green .dg-stat:nth-child(2) { background: #48966a; }
-.dg-stats--green .dg-stat:nth-child(3) { background: #54a276; }
+.dg-stats--green .dg-stat {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.15);
+}
 
 .dg-stats-title {
   font-size: 9px;
