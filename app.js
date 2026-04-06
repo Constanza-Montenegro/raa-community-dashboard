@@ -37,6 +37,7 @@ function goToSection(sectionId) {
     showPanelList();
   }
   if (sectionId === 'initiatives-directory') updateIDStats();
+  if (sectionId === 'land-ecosystem') updateEcoStats();
   if (sectionId === 'community-snapshot') animateCounters();
 }
 
@@ -530,26 +531,43 @@ document.querySelectorAll('.eco-tab').forEach(tab => {
   });
 });
 
-function renderPlatforms(containerId, data) {
+const ecoColors = { data: '#48966a', funding: '#F8AA41', knowledge: '#587da0' };
+
+function renderPlatforms(containerId, data, color) {
   const grid = document.getElementById(containerId);
   data.forEach(p => {
     const card = document.createElement('div');
     card.className = 'platform-card';
+    card.style.setProperty('--platform-color', color);
+    if (p.link) {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', () => window.open(p.link, '_blank'));
+    }
     card.innerHTML = `
       <div class="platform-header">
         <div class="platform-logo">${p.logo}</div>
         <div class="platform-name">${p.name}</div>
       </div>
       <div class="platform-desc">${p.description}</div>
-      ${p.link ? `<a href="${p.link}" target="_blank" class="platform-link">Visit platform \u2192</a>` : '<span class="platform-link" style="opacity:0.4;">Link coming soon</span>'}
+      ${p.link ? `<span class="platform-link">Visit platform \u2192</span>` : '<span class="platform-link" style="opacity:0.4;">Link coming soon</span>'}
     `;
     grid.appendChild(card);
   });
 }
 
-renderPlatforms('platforms-data', platforms.data);
-renderPlatforms('platforms-funding', platforms.funding);
-renderPlatforms('platforms-knowledge', platforms.knowledge);
+renderPlatforms('platforms-data', platforms.data, ecoColors.data);
+renderPlatforms('platforms-funding', platforms.funding, ecoColors.funding);
+renderPlatforms('platforms-knowledge', platforms.knowledge, ecoColors.knowledge);
+
+// Ecosystem stats
+function updateEcoStats() {
+  const total = platforms.data.length + platforms.funding.length + platforms.knowledge.length;
+  animateDgStat('eco-total', total);
+  animateDgStat('eco-categories', 3);
+  document.getElementById('eco-count-data').textContent = platforms.data.length;
+  document.getElementById('eco-count-funding').textContent = platforms.funding.length;
+  document.getElementById('eco-count-knowledge').textContent = platforms.knowledge.length;
+}
 
 // ---- SECTION 4: COMMUNITY SNAPSHOT ----
 document.getElementById('snapshot-date').textContent = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });

@@ -1036,6 +1036,17 @@ body {
 
 .eco-tab:hover { border-color: var(--dark-teal); color: var(--dark-teal); }
 .eco-tab.active { background: var(--dark-teal); color: white; border-color: var(--dark-teal); }
+
+.eco-tab-count {
+  font-size: 10px;
+  font-weight: 700;
+  background: rgba(0,0,0,0.1);
+  padding: 2px 7px;
+  border-radius: 10px;
+  margin-left: 4px;
+}
+
+.eco-tab.active .eco-tab-count { background: rgba(255,255,255,0.2); }
 .eco-dot { width: 8px; height: 8px; border-radius: 50%; }
 .eco-tab.active .eco-dot { opacity: 0.6; }
 
@@ -1048,6 +1059,7 @@ body {
 .platform-card {
   background: var(--bg-card); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 18px; transition: all var(--t);
+  border-left: 3px solid var(--platform-color, var(--border));
 }
 
 .platform-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
