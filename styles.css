@@ -1036,7 +1036,7 @@ body {
 
 .eco-category-card {
   border-radius: var(--radius);
-  min-height: 200px;
+  min-height: 140px;
   display: flex;
   align-items: flex-end;
   position: relative;
