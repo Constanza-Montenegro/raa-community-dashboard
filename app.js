@@ -415,7 +415,7 @@ if (idSearchInput) {
 }
 
 // Filters
-document.querySelectorAll('.filter-btn').forEach(btn => {
+document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
   btn.addEventListener('click', () => {
     const filterKey = btn.dataset.filter;
     const dropdown = document.getElementById('filter-dropdown');
