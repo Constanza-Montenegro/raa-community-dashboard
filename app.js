@@ -423,10 +423,6 @@ document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
 
     if (dropdown.classList.contains('open') && dropdown.dataset.filter === filterKey) {
       dropdown.classList.remove('open');
-      const grid = document.getElementById('initiatives-grid');
-      const resultsCount = document.getElementById('id-results-count');
-      if (grid) grid.style.marginTop = '';
-      if (resultsCount) resultsCount.style.marginTop = '';
       return;
     }
 
@@ -443,10 +439,6 @@ document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
       return `<span class="filter-option ${sel}" data-value="${opt}">${opt}</span>`;
     }).join('') + '<span class="filter-option" data-value="__clear" style="color:#c44;">Clear</span>';
     dropdown.classList.add('open');
-    const grid = document.getElementById('initiatives-grid');
-    const resultsCount = document.getElementById('id-results-count');
-    if (grid) grid.style.marginTop = dropdown.offsetHeight + 20 + 'px';
-    if (resultsCount) resultsCount.style.marginTop = dropdown.offsetHeight + 10 + 'px';
 
     dropdown.querySelectorAll('.filter-option').forEach(opt => {
       opt.addEventListener('click', () => {
@@ -461,8 +453,6 @@ document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
           btn.classList.toggle('active', activeFilters[filterKey].length > 0);
         }
         dropdown.classList.remove('open');
-        if (grid) grid.style.marginTop = '';
-        if (resultsCount) resultsCount.style.marginTop = '';
         renderInitiatives();
       });
     });
