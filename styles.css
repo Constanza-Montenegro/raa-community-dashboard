@@ -917,7 +917,7 @@ body {
   font-family: inherit;
   font-size: 12px;
   color: var(--text);
-  width: 160px;
+  width: 220px;
 }
 
 .id-search input::placeholder { color: var(--text-light); }
