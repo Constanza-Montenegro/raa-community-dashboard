@@ -428,6 +428,10 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
       return;
     }
 
+    // Position dropdown under the clicked button
+    const btnRect = btn.offsetLeft;
+    dropdown.style.left = btnRect + 'px';
+
     const options = filterOptions[filterKey] || [];
     if (!activeFilters[filterKey]) activeFilters[filterKey] = [];
 
