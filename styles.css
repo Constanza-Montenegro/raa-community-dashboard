@@ -548,7 +548,7 @@ body {
 
 /* ============ BACK BUTTON ============ */
 .btn-back {
-  background: none;
+  background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 20px;
   font-family: inherit; font-size: 13px; font-weight: 500;
@@ -557,7 +557,7 @@ body {
   transition: all var(--t);
 }
 
-.btn-back:hover { border-color: var(--green); color: var(--dark-teal); }
+.btn-back:hover { border-color: var(--green); }
 
 /* ============ SECTION INTRO ============ */
 /* ---- DG top row (title + stats) ---- */
