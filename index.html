@@ -173,16 +173,30 @@
       <!-- ===== DETAIL: Initiatives Directory ===== -->
       <section id="initiatives-directory" class="page-section">
         <button class="btn-back" onclick="goHome()">&larr; Back to overview</button>
-        <div class="section-intro"><h1 class="page-title">Initiatives Directory</h1><p class="page-desc">Structured profiles of initiatives within the RAA Community. All data is self-reported.</p></div>
-        <div class="filters-bar">
-          <button class="filter-btn" data-filter="scope">Scope <span class="arrow">&#9662;</span></button>
-          <button class="filter-btn" data-filter="priority">Priority Area <span class="arrow">&#9662;</span></button>
-          <button class="filter-btn" data-filter="enabler">Enabler <span class="arrow">&#9662;</span></button>
-          <button class="filter-btn" data-filter="actor">Actor Type <span class="arrow">&#9662;</span></button>
-          <button class="filter-btn" data-filter="breakthrough">Breakthrough Targets <span class="arrow">&#9662;</span></button>
-          <button class="filter-btn highlight" data-filter="activePartner">RAA Active Partners</button>
+        <div class="section-top-row">
+          <div class="section-intro"><h1 class="page-title">Initiatives Directory</h1><p class="page-desc">Structured profiles of initiatives within the RAA Community. All data is self-reported.</p></div>
+          <div class="dg-stats">
+            <div class="dg-stat"><span class="dg-stat-num" id="id-total">0</span><span class="dg-stat-label">Initiatives</span></div>
+            <div class="dg-stat-divider"></div>
+            <div class="dg-stat"><span class="dg-stat-num" id="id-partners">0</span><span class="dg-stat-label">Active Partners</span></div>
+          </div>
+        </div>
+        <div class="id-toolbar">
+          <div class="id-search">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="id-search-input" placeholder="Search initiatives..." />
+          </div>
+          <div class="filters-bar">
+            <button class="filter-btn" data-filter="scope">Scope <span class="arrow">&#9662;</span></button>
+            <button class="filter-btn" data-filter="priority">Priority Area <span class="arrow">&#9662;</span></button>
+            <button class="filter-btn" data-filter="enabler">Enabler <span class="arrow">&#9662;</span></button>
+            <button class="filter-btn" data-filter="actor">Actor Type <span class="arrow">&#9662;</span></button>
+            <button class="filter-btn" data-filter="breakthrough">Breakthrough Targets <span class="arrow">&#9662;</span></button>
+            <button class="filter-btn highlight" data-filter="activePartner">RAA Active Partners</button>
+          </div>
         </div>
         <div class="filter-dropdown" id="filter-dropdown"></div>
+        <div class="id-results-count" id="id-results-count"></div>
         <div class="initiatives-grid" id="initiatives-grid"></div>
       </section>
 

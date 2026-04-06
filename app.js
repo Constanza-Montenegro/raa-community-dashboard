@@ -36,6 +36,7 @@ function goToSection(sectionId) {
     renderPanelList();
     showPanelList();
   }
+  if (sectionId === 'initiatives-directory') updateIDStats();
   if (sectionId === 'community-snapshot') animateCounters();
 }
 
@@ -326,12 +327,22 @@ partners.slice(0, 8).forEach(p => {
 
 // ---- SECTION 2: INITIATIVES DIRECTORY ----
 let activeFilters = {};
+let idSearchQuery = '';
+
+function updateIDStats() {
+  animateDgStat('id-total', initiatives.length);
+  animateDgStat('id-partners', initiatives.filter(i => i.activePartner).length);
+}
 
 function renderInitiatives() {
   const grid = document.getElementById('initiatives-grid');
+  const countEl = document.getElementById('id-results-count');
   grid.innerHTML = '';
 
   const filtered = initiatives.filter(init => {
+    // Search filter
+    if (idSearchQuery && !init.name.toLowerCase().includes(idSearchQuery.toLowerCase())) return false;
+    // Dropdown filters
     for (const [key, values] of Object.entries(activeFilters)) {
       if (values.length === 0) continue;
       if (key === 'scope' && !values.includes(init.scope)) return false;
@@ -344,6 +355,14 @@ function renderInitiatives() {
     return true;
   });
 
+  // Results count
+  if (countEl) {
+    const hasFilters = idSearchQuery || Object.values(activeFilters).some(v => v.length > 0);
+    countEl.textContent = hasFilters
+      ? `Showing ${filtered.length} of ${initiatives.length} initiatives`
+      : `${initiatives.length} initiatives`;
+  }
+
   if (filtered.length === 0) {
     grid.innerHTML = '<p style="color:#6b6b6b;padding:20px;">No initiatives match the selected filters.</p>';
     return;
@@ -355,6 +374,8 @@ function renderInitiatives() {
     if (init.activePartner) stamps.push('<span class="stamp partner">RAA Active Partner</span>');
     if (init.breakthroughTarget) stamps.push(`<span class="stamp breakthrough">\u2705 ${init.breakthroughTarget}</span>`);
 
+    const priorities = init.thematicPriorities.map(t => `<span class="card-priority-tag">${t}</span>`).join('');
+
     const card = document.createElement('div');
     card.className = 'initiative-card';
     card.innerHTML = `
@@ -365,11 +386,21 @@ function renderInitiatives() {
       <div class="card-country"><span class="flag">${init.flag}</span> ${init.country}</div>
       <span class="card-scope ${sc}">${init.scope}</span>
       <div class="card-stamps">${stamps.join('')}</div>
+      <div class="card-priorities">${priorities}</div>
       <div class="card-actions">
         <button class="btn-view-profile" onclick="showProfile('${init.name.replace(/'/g, "\\'")}')">View Full Profile</button>
       </div>
     `;
     grid.appendChild(card);
+  });
+}
+
+// Search input
+const idSearchInput = document.getElementById('id-search-input');
+if (idSearchInput) {
+  idSearchInput.addEventListener('input', () => {
+    idSearchQuery = idSearchInput.value;
+    renderInitiatives();
   });
 }
 

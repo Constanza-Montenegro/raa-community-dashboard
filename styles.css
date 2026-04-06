@@ -887,7 +887,48 @@ body {
 .map-popup .leaflet-popup-content-wrapper { border-radius: var(--radius); box-shadow: var(--shadow-lg); }
 
 /* ============ DIRECTORY ============ */
-.filters-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+.id-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.id-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--bg-card);
+  flex-shrink: 0;
+  transition: border-color var(--t);
+}
+
+.id-search:focus-within { border-color: var(--green); }
+
+.id-search svg { color: var(--text-light); flex-shrink: 0; }
+
+.id-search input {
+  border: none;
+  outline: none;
+  background: none;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--text);
+  width: 160px;
+}
+
+.id-search input::placeholder { color: var(--text-light); }
+
+.id-results-count {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-bottom: 10px;
+}
+
+.filters-bar { display: flex; gap: 6px; flex-wrap: wrap; }
 
 .filter-btn {
   padding: 7px 14px; border: 1px solid var(--border); border-radius: 20px;
@@ -939,6 +980,14 @@ body {
 .stamp { font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
 .stamp.partner { background: rgba(72,150,106,0.1); color: var(--green); }
 .stamp.breakthrough { background: rgba(248,170,65,0.15); color: var(--brown-gold); }
+
+.card-priorities { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px; }
+
+.card-priority-tag {
+  font-size: 10px; font-weight: 500;
+  padding: 2px 8px; border-radius: 4px;
+  background: var(--bg); color: var(--text-secondary);
+}
 
 .card-actions { display: flex; justify-content: flex-end; }
 
