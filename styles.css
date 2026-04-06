@@ -1035,62 +1035,51 @@ body {
 }
 
 .eco-category-card {
-  position: relative;
   border-radius: var(--radius);
+  min-height: 200px;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
   overflow: hidden;
-  height: 240px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--t);
   border: 2px solid transparent;
 }
 
-.eco-category-card.active { border-color: var(--eco-color); box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
-.eco-category-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.eco-category-card.active { border-color: var(--eco-color); }
+.eco-category-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.25); }
 
 .eco-card-bg {
   position: absolute;
   inset: 0;
   background-size: cover;
   background-position: center;
+  filter: saturate(1.15) brightness(1.03);
   transition: transform 0.4s ease;
+  z-index: 0;
 }
 
 .eco-category-card:hover .eco-card-bg { transform: scale(1.05); }
 
 .eco-category-card .eco-card-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 100%);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 18px;
-  color: white;
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, transparent 100%);
+  position: relative;
+  z-index: 1;
 }
 
 .eco-category-card .eco-card-overlay h3 {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
-  margin-bottom: 3px;
+  color: white;
+  margin-bottom: 4px;
 }
 
 .eco-category-card .eco-card-overlay p {
-  font-size: 11px;
-  opacity: 0.75;
-  line-height: 1.4;
-}
-
-.eco-card-count {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  background: var(--eco-color);
-  font-size: 12px;
-  font-weight: 700;
-  color: white;
-  margin-bottom: 8px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.5;
 }
 
 /* Eco expanded area */
