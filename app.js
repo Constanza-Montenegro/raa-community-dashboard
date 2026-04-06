@@ -567,7 +567,7 @@ function renderPlatforms(containerId, data, color) {
         </div>
         <div class="platform-desc">${p.description}</div>
         <div class="platform-footer">
-          <span class="platform-link">View details \u2192</span>
+          <span class="platform-link">Know more \u2192</span>
         </div>
       </div>
     `;
