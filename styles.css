@@ -782,15 +782,18 @@ body {
 
 /* Panel detail view */
 .gp-panel-back {
-  background: none; border: none;
-  font-family: inherit; font-size: 12px; font-weight: 600;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-family: inherit; font-size: 11px; font-weight: 500;
   color: var(--green); cursor: pointer;
-  padding: 14px 16px 8px;
-  display: block;
-  transition: color var(--t);
+  padding: 6px 14px;
+  margin: 14px 16px 8px;
+  display: inline-block;
+  transition: all var(--t);
 }
 
-.gp-panel-back:hover { color: var(--dark-teal); }
+.gp-panel-back:hover { border-color: var(--green); }
 
 .gp-panel-content { padding: 8px 16px 20px; }
 
