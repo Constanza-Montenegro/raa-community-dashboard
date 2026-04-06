@@ -569,53 +569,46 @@ body {
 .dg-stats {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 0;
   flex-shrink: 0;
-  background: var(--dark-teal);
-  padding: 14px 22px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.15);
+  background: none;
+  padding: 0;
+  border: none;
   position: relative;
-  overflow: hidden;
 }
 
-.dg-stats::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  opacity: 0.25;
-  background-image: url('raa-pattern.png');
-  background-size: 400px auto;
-  background-repeat: repeat;
-  pointer-events: none;
+.dg-stat {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  padding: 10px 20px;
+  background: var(--dark-teal);
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
-.dg-stat { text-align: center; position: relative; z-index: 1; }
+.dg-stat:first-child { border-radius: 10px 0 0 10px; }
+.dg-stat:last-child { border-radius: 0 10px 10px 0; }
 
 .dg-stat-num {
   display: block;
-  font-size: 24px;
-  font-weight: 800;
+  font-size: 28px;
+  font-weight: 900;
   color: #ffffff;
-  letter-spacing: -1px;
+  letter-spacing: -1.5px;
   line-height: 1;
 }
 
 .dg-stat-label {
-  font-size: 10px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.65);
-  margin-top: 3px;
+  font-size: 9px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  margin-top: 4px;
   display: block;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-.dg-stat-divider {
-  width: 1px;
-  height: 28px;
-  background: rgba(255,255,255,0.2);
-  position: relative;
-  z-index: 1;
-}
+.dg-stat-divider { display: none; }
 
 .dg-stats-group {
   display: flex;
@@ -623,8 +616,10 @@ body {
   flex-shrink: 0;
 }
 
-.dg-stats--teal { background: var(--dark-teal); }
-.dg-stats--green { background: var(--green); }
+.dg-stats--teal .dg-stat { background: var(--dark-teal); }
+.dg-stats--green .dg-stat:nth-child(1) { background: #3d8a5e; }
+.dg-stats--green .dg-stat:nth-child(2) { background: #48966a; }
+.dg-stats--green .dg-stat:nth-child(3) { background: #54a276; }
 
 .dg-stats-title {
   font-size: 9px;
