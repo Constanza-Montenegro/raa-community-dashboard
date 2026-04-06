@@ -577,17 +577,7 @@ body {
   overflow: hidden;
 }
 
-.dg-stats--green {
-  background: url('hero.jpg') center/cover no-repeat;
-}
-
-.dg-stats--green::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.25);
-  z-index: 0;
-}
+.dg-stats--green { background: none; }
 
 .dg-stat {
   text-align: center;
@@ -629,12 +619,7 @@ body {
 }
 
 .dg-stats--teal .dg-stat { background: var(--dark-teal); }
-.dg-stats--green .dg-stat {
-  background: rgba(255,255,255,0.12);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.15);
-}
+.dg-stats--green .dg-stat { background: var(--dark-teal); }
 
 .dg-stats-title {
   font-size: 9px;
