@@ -378,6 +378,7 @@ function renderInitiatives() {
 
     const card = document.createElement('div');
     card.className = 'initiative-card';
+    card.style.cursor = 'pointer';
     card.innerHTML = `
       <div class="card-header">
         <span class="card-name">${init.name}</span>
@@ -387,10 +388,8 @@ function renderInitiatives() {
       <span class="card-scope ${sc}">${init.scope}</span>
       <div class="card-stamps">${stamps.join('')}</div>
       <div class="card-priorities">${priorities}</div>
-      <div class="card-actions">
-        <button class="btn-view-profile" onclick="showProfile('${init.name.replace(/'/g, "\\'")}')">View Full Profile</button>
-      </div>
     `;
+    card.addEventListener('click', () => showProfile(init.name));
     grid.appendChild(card);
   });
 }
