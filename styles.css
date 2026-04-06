@@ -700,7 +700,6 @@ body {
 .gp-side-panel::-webkit-scrollbar-track { background: transparent; }
 .gp-side-panel::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 10px; }
 .gp-side-panel::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.25); }
-}
 
 /* Panel scope filters */
 .gp-panel-filters {
