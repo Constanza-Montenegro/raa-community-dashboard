@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAA Community Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Barlow+Condensed:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header class="header">
+    <a href="#" class="logo" id="logo-home">
+      <img src="RAA cirlced logo.png" alt="RAA" class="logo-img">
+      <div class="logo-text">
+        <span class="logo-title">RAA Community</span>
+        <span class="logo-subtitle">DASHBOARD</span>
+      </div>
+    </a>
+    <nav class="header-nav">
+      <a href="#" class="nav-link" data-section="global-presence">Global Presence</a>
+      <a href="#" class="nav-link" data-section="initiatives-directory">Initiatives Directory</a>
+      <a href="#" class="nav-link" data-section="land-ecosystem">The Land &amp; Soil Ecosystem</a>
+      <a href="#" class="nav-link" data-section="community-snapshot">Community Snapshot</a>
+      <a href="#" class="nav-link" data-section="partners-list">Partners</a>
+    </nav>
+    <div class="header-actions">
+      <button class="header-action-btn" onclick="document.getElementById('join-modal').classList.add('open')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Join with my initiative
+      </button>
+      <button class="header-action-btn secondary" onclick="document.getElementById('invite-modal').classList.add('open')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Invite other initiatives
+      </button>
+    </div>
+  </header>
+
+  <div class="app-body">
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <div class="main-content">
+
+      <!-- ===== LANDING ===== -->
+      <div id="landing" class="landing active-view">
+
+        <!-- Hero Card -->
+        <div class="hero-card">
+          <div class="hero-card-text">
+            <h1>RAA Community Dashboard</h1>
+            <p>Explore the global community advancing land restoration and drought resilience.</p>
+          </div>
+          <div class="hero-card-stats">
+            <div class="hero-stat"><span class="hero-stat-num" data-count="125" data-suffix="+">0</span><span class="hero-stat-label">Initiatives</span></div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat"><span class="hero-stat-num" data-count="45" data-suffix="+">0</span><span class="hero-stat-label">Countries</span></div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat"><span class="hero-stat-num" data-count="2.5" data-suffix="M+" data-decimal="1">0</span><span class="hero-stat-label">Hectares</span></div>
+          </div>
+        </div>
+
+        <!-- Global Presence -->
+        <div class="ov-block" data-goto="global-presence">
+          <div class="overview-header">
+            <h2>Global Presence</h2>
+            <button class="ov-cta">Explore map <span>&rarr;</span></button>
+          </div>
+          <div id="map-overview" class="map-overview"></div>
+        </div>
+
+
+        <!-- Initiatives Directory -->
+        <div class="ov-block" data-goto="initiatives-directory">
+          <div class="overview-header">
+            <h2>Initiatives Directory</h2>
+            <button class="ov-cta">View all initiatives <span>&rarr;</span></button>
+          </div>
+          <div class="overview-cards" id="overview-initiatives"></div>
+        </div>
+
+
+        <!-- Land & Soil Ecosystem -->
+        <div class="ov-block" data-goto="land-ecosystem">
+          <div class="overview-header">
+            <h2>The Land &amp; Soil Ecosystem</h2>
+            <button class="ov-cta">Explore platforms <span>&rarr;</span></button>
+          </div>
+          <div class="eco-overview-grid">
+            <div class="eco-overview-card" data-eco="data-metrics" style="background-image:url('5. .jpg'); background-position: center 65%"><div class="eco-card-overlay"><strong>Data &amp; Metrics on Land</strong><p>Data portals, monitoring systems and metric platforms.</p></div></div>
+            <div class="eco-overview-card" data-eco="funding-grants" style="background-image:url('6..jpg'); background-position: center center"><div class="eco-card-overlay"><strong>Funding &amp; Grants</strong><p>Financial instruments and funding opportunities.</p></div></div>
+            <div class="eco-overview-card" data-eco="knowledge" style="background-image:url('1..jpg'); background-position: center 28%"><div class="eco-card-overlay"><strong>Knowledge Ecosystem</strong><p>Research hubs, policy frameworks and technical support.</p></div></div>
+          </div>
+        </div>
+
+
+        <!-- Community Snapshot -->
+        <div class="ov-block" data-goto="community-snapshot">
+          <div class="overview-header">
+            <h2>Community Snapshot</h2>
+            <button class="ov-cta">View full snapshot <span>&rarr;</span></button>
+          </div>
+          <div class="snapshot-ov-grid">
+            <div class="snap-card">
+              <div class="snap-icon icon-initiatives"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+              <div><span class="snap-num">125+</span><span class="snap-label">Total Initiatives</span></div>
+            </div>
+            <div class="snap-card">
+              <div class="snap-icon icon-countries"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+              <div><span class="snap-num">45+</span><span class="snap-label">Countries</span></div>
+            </div>
+            <div class="snap-card">
+              <div class="snap-icon icon-hectares"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+              <div><span class="snap-num">2.5M+</span><span class="snap-label">Hectares Under Restoration</span></div>
+            </div>
+            <div class="snap-card">
+              <div class="snap-icon icon-actors"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+              <div><span class="snap-num">7</span><span class="snap-label">Actor Types</span></div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Partners -->
+        <div class="ov-block" data-goto="partners-list">
+          <div class="overview-header">
+            <h2>Partners</h2>
+            <button class="ov-cta">View all partners <span>&rarr;</span></button>
+          </div>
+          <div class="partners-overview" id="overview-partners"></div>
+        </div>
+
+      </div>
+
+      <!-- ===== DETAIL: Global Presence ===== -->
+      <section id="global-presence" class="page-section">
+        <button class="btn-back" onclick="goHome()">&larr; Back to overview</button>
+        <div class="section-intro"><h1 class="page-title">Global Presence</h1><p class="page-desc">Geographic overview of the RAA Community's initiatives across regions and countries.</p></div>
+        <div class="map-legend">
+          <span class="legend-label">Scope:</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#002929"></span> Global</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#48966a"></span> Regional</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#b4bab6"></span> National</span>
+        </div>
+        <div id="map-detail" class="map-container"></div>
+      </section>
+
+      <!-- ===== DETAIL: Initiatives Directory ===== -->
+      <section id="initiatives-directory" class="page-section">
+        <button class="btn-back" onclick="goHome()">&larr; Back to overview</button>
+        <div class="section-intro"><h1 class="page-title">Initiatives Directory</h1><p class="page-desc">Structured profiles of initiatives within the RAA Community. All data is self-reported.</p></div>
+        <div class="filters-bar">
+          <button class="filter-btn" data-filter="scope">Scope <span class="arrow">&#9662;</span></button>
+          <button class="filter-btn" data-filter="priority">Priority Area <span class="arrow">&#9662;</span></button>
+          <button class="filter-btn" data-filter="enabler">Enabler <span class="arrow">&#9662;</span></button>
+          <button class="filter-btn" data-filter="actor">Actor Type <span class="arrow">&#9662;</span></button>
+          <button class="filter-btn" data-filter="breakthrough">Breakthrough Targets <span class="arrow">&#9662;</span></button>
+          <button class="filter-btn highlight" data-filter="activePartner">RAA Active Partners</button>
+        </div>
+        <div class="filter-dropdown" id="filter-dropdown"></div>
+        <div class="initiatives-grid" id="initiatives-grid"></div>
+      </section>
+
+      <!-- ===== DETAIL: Land & Soil Ecosystem ===== -->
+      <section id="land-ecosystem" class="page-section">
+        <button class="btn-back" onclick="goHome()">&larr; Back to overview</button>
+        <div class="section-intro"><h1 class="page-title">The Land &amp; Soil Ecosystem</h1><p class="page-desc">Curated access to existing platforms, tools and institutional resources relevant to the land and drought agenda.</p></div>
+        <div class="ecosystem-tabs">
+          <button class="eco-tab active" data-eco="data-metrics"><span class="eco-dot" style="background:#48966a"></span> Data &amp; Metrics on Land</button>
+          <button class="eco-tab" data-eco="funding-grants"><span class="eco-dot" style="background:#F8AA41"></span> Funding &amp; Grants</button>
+          <button class="eco-tab" data-eco="knowledge"><span class="eco-dot" style="background:#587da0"></span> Knowledge Ecosystem</button>
+        </div>
+        <div class="eco-panel active" id="eco-data-metrics">
+          <p class="eco-desc">Access to data portals, monitoring systems and metric platforms tackling land degradation and supporting restoration and drought resilience.</p>
+          <div class="platforms-grid" id="platforms-data"></div>
+        </div>
+        <div class="eco-panel" id="eco-funding-grants">
+          <p class="eco-desc">Visibility of existing financial instruments and funding opportunities related to land and drought.</p>
+          <div class="platforms-grid" id="platforms-funding"></div>
+        </div>
+        <div class="eco-panel" id="eco-knowledge">
+          <p class="eco-desc">Orientation across knowledge, technical and policy infrastructures shaping the global land and soil agenda.</p>
+          <div class="platforms-grid" id="platforms-knowledge"></div>
+        </div>
+      </section>
+
+      <!-- ===== DETAIL: Community Snapshot ===== -->
+      <section id="community-snapshot" class="page-section">
+        <button class="btn-back" onclick="goHome()">&larr; Back to overview</button>
+        <div class="section-intro"><h1 class="page-title">Community Snapshot</h1><p class="page-desc">Aggregated overview of the RAA Community's scale and composition.</p></div>
+        <div class="snapshot-counters">
+          <div class="counter-card c-primary"><span class="counter-num" data-target="125">0</span><span class="counter-suffix">+</span><span class="counter-label">Total Initiatives</span></div>
+          <div class="counter-card"><span class="counter-num" data-target="45">0</span><span class="counter-suffix">+</span><span class="counter-label">Countries Represented</span></div>
+          <div class="counter-card c-gold"><span class="counter-num" data-target="2.5">0</span><span class="counter-suffix">M+</span><span class="counter-label">Hectares Under Restoration</span></div>
+        </div>
+        <div class="snapshot-grid">
+          <div class="snapshot-card"><h3>By Type of Actor</h3><div class="bar-chart" id="chart-sector"></div></div>
+          <div class="snapshot-card"><h3>By Scope</h3><div class="donut-wrap"><div class="donut" id="chart-scope"></div><div class="donut-legend" id="legend-scope"></div></div></div>
+          <div class="snapshot-card"><h3>By Priority Area</h3><div class="bar-chart" id="chart-priority"></div></div>
+          <div class="snapshot-card"><h3>By Critical Enabler</h3><div class="bar-chart" id="chart-enabler"></div></div>
+          <div class="snapshot-card"><h3>By Region</h3><div class="donut-wrap"><div class="donut" id="chart-region"></div><div class="donut-legend" id="legend-region"></div></div></div>
+          <div class="snapshot-card"><h3>Breakthrough Targets</h3><div class="bar-chart" id="chart-breakthrough"></div></div>
+        </div>
+        <div class="section-footer">
+          <span class="timestamp">Last updated: <strong id="snapshot-date"></strong></span>
+          <span class="disclaimer">All data is self-reported by participating initiatives. The Dashboard is committed to progressively strengthening data consistency.</span>
+        </div>
+      </section>
+
+      <!-- ===== DETAIL: Partners ===== -->
+      <section id="partners-list" class="page-section">
+        <button class="btn-back" onclick="goHome()">&larr; Back to overview</button>
+        <div class="section-intro"><h1 class="page-title">Partners</h1><p class="page-desc">Organisations that support the Riyadh Action Agenda and the RAA Community.</p></div>
+        <div class="partners-grid" id="partners-grid"></div>
+        <div class="section-footer"><span class="disclaimer">Inclusion does not imply endorsement, ranking, or level of engagement.</span></div>
+      </section>
+
+
+    </div>
+  </div>
+
+  <!-- ========== GET INVOLVED FOOTER ========== -->
+  <footer class="get-involved">
+    <div class="footer-left">
+      <span class="get-involved-label">Get Involved</span>
+      <div class="get-involved-actions">
+        <button class="get-involved-btn primary" onclick="document.getElementById('join-modal').classList.add('open')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Join with my initiative
+        </button>
+        <button class="get-involved-btn secondary" onclick="document.getElementById('invite-modal').classList.add('open')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Invite other initiatives
+        </button>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-right">
+      <span class="get-involved-label">Contact Us</span>
+      <a href="mailto:land@ambitionloop.earth" class="footer-email">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+        land@ambitionloop.earth
+      </a>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Riyadh Action Agenda</span>
+      <span class="footer-dot">&middot;</span>
+      <a href="#" onclick="event.preventDefault();document.getElementById('privacy-modal').classList.add('open')">Privacy Policy &amp; Data Collection</a>
+    </div>
+  </footer>
+
+  <!-- ========== MODALS ========== -->
+  <div class="modal-overlay" id="profile-modal">
+    <div class="modal-content"><button class="modal-close" onclick="closeModal('profile-modal')">&times;</button><div id="modal-body"></div></div>
+  </div>
+  <div class="modal-overlay" id="join-modal">
+    <div class="modal-content sm">
+      <button class="modal-close" onclick="closeModal('join-modal')">&times;</button>
+      <h2>Join the RAA Community</h2>
+      <p class="modal-desc">Interested in adding your initiative? Fill out the form below to get started.</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSebRBtAKXOfwMMmu9m2l3ZOG-iP8IFXuBxyOVhLhWPBG39O7g/viewform?usp=dialog" target="_blank" class="btn-primary">Go to Form</a>
+    </div>
+  </div>
+  <div class="modal-overlay" id="invite-modal">
+    <div class="modal-content sm">
+      <button class="modal-close" onclick="closeModal('invite-modal')">&times;</button>
+      <h2>Invite Other Initiatives</h2>
+      <p class="modal-desc">Know an initiative that should be part of the RAA Community? Send them an invitation.</p>
+      <button class="btn-primary" onclick="closeModal('invite-modal')">Send Invitation</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="privacy-modal">
+    <div class="modal-content sm">
+      <button class="modal-close" onclick="closeModal('privacy-modal')">&times;</button>
+      <h2>Privacy Policy &amp; Data Collection</h2>
+      <p class="modal-desc">All data displayed in this dashboard is self-reported by participating initiatives through a structured survey process. The RAA Community Dashboard is committed to transparency, data accuracy, and progressively strengthening data consistency. No personal data is collected or stored through this platform. For questions, contact <a href="mailto:land@ambitionloop.earth">land@ambitionloop.earth</a>.</p>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    // Hero count-up animation (0.9s)
+    function animateCountUp() {
+      document.querySelectorAll('.hero-stat-num[data-count]').forEach(el => {
+        const target = parseFloat(el.dataset.count);
+        const suffix = el.dataset.suffix || '';
+        const decimal = parseInt(el.dataset.decimal) || 0;
+        const duration = 900;
+        const start = performance.now();
+
+        function update(now) {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = eased * target;
+          el.textContent = (decimal ? current.toFixed(decimal) : Math.floor(current)) + suffix;
+          if (progress < 1) requestAnimationFrame(update);
+        }
+        requestAnimationFrame(update);
+      });
+    }
+
+    // Run on page load
+    animateCountUp();
+
+    // Re-run when returning to landing via goHome
+    const origGoHome = window.goHome;
+    if (origGoHome) {
+      window.goHome = function() {
+        origGoHome.apply(this, arguments);
+        setTimeout(animateCountUp, 100);
+      };
+    }
+  </script>
+</body>
+</html>
