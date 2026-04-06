@@ -32,6 +32,7 @@ function goToSection(sectionId) {
       if (!mapDetail) initDetailMap();
       else mapDetail.invalidateSize();
     }, 150);
+    updateGPStats();
   }
   if (sectionId === 'community-snapshot') animateCounters();
 }
@@ -143,6 +144,28 @@ function initDetailMap() {
 }
 
 initOverviewMap();
+
+// ---- GLOBAL PRESENCE STATS ----
+function updateGPStats() {
+  const countries = new Set(initiatives.map(i => i.country)).size;
+  const regions = new Set(initiatives.flatMap(i => i.geographicScope)).size;
+  animateDgStat('gp-countries', countries);
+  animateDgStat('gp-regions', regions);
+}
+
+function animateDgStat(id, target) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const duration = 900;
+  const start = performance.now();
+  function update(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(eased * target);
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
 
 // Prevent map clicks from navigating to detail section
 document.getElementById('map-overview').addEventListener('click', e => e.stopPropagation());
