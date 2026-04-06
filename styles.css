@@ -389,9 +389,9 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 14px;
+  padding: 8px 18px;
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 20px;
   background: var(--bg);
   font-family: inherit;
   font-size: 12px;
