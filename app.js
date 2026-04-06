@@ -533,16 +533,31 @@ document.querySelectorAll('.eco-tab').forEach(tab => {
 
 const ecoColors = { data: '#48966a', funding: '#F8AA41', knowledge: '#587da0' };
 
+function showPlatformProfile(p, color) {
+  const objectives = p.objectives ? p.objectives.map(o => `<li>${o}</li>`).join('') : '';
+  document.getElementById('platform-modal-body').innerHTML = `
+    <div class="plat-profile-banner" style="background:${color}">
+      <div class="plat-profile-logo">${p.logo}</div>
+    </div>
+    <div class="plat-profile-body">
+      <h2 class="plat-profile-name">${p.name}</h2>
+      <p class="plat-profile-desc">${p.description}</p>
+      ${p.relevance ? `<div class="plat-profile-section"><h4>Relevance</h4><p>${p.relevance}</p></div>` : ''}
+      ${objectives ? `<div class="plat-profile-section"><h4>Main Objectives</h4><ul>${objectives}</ul></div>` : ''}
+      ${p.link ? `<a href="${p.link}" target="_blank" class="plat-profile-btn">Visit Platform \u2192</a>` : '<span class="plat-profile-btn disabled">Link coming soon</span>'}
+    </div>
+  `;
+  document.getElementById('platform-modal').classList.add('open');
+}
+
 function renderPlatforms(containerId, data, color) {
   const grid = document.getElementById(containerId);
   data.forEach(p => {
     const card = document.createElement('div');
     card.className = 'platform-card';
     card.style.setProperty('--platform-color', color);
-    if (p.link) {
-      card.style.cursor = 'pointer';
-      card.addEventListener('click', () => window.open(p.link, '_blank'));
-    }
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => showPlatformProfile(p, color));
     card.innerHTML = `
       <div class="platform-banner"></div>
       <div class="platform-body">
@@ -552,7 +567,7 @@ function renderPlatforms(containerId, data, color) {
         </div>
         <div class="platform-desc">${p.description}</div>
         <div class="platform-footer">
-          ${p.link ? `<span class="platform-link">Visit Platform \u2192</span>` : '<span class="platform-link disabled">Link coming soon</span>'}
+          <span class="platform-link">View details \u2192</span>
         </div>
       </div>
     `;
