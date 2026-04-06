@@ -1152,6 +1152,7 @@ body {
   background: var(--bg-card); border: 1px solid var(--border);
   border-radius: var(--radius); overflow: hidden; transition: all var(--t);
   display: flex; flex-direction: column;
+  border-top: 3px solid var(--platform-color, var(--border));
 }
 
 .platform-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
