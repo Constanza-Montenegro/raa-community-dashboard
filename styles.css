@@ -548,14 +548,16 @@ body {
 
 /* ============ BACK BUTTON ============ */
 .btn-back {
-  background: none; border: none;
-  font-family: inherit; font-size: 13px; font-weight: 600;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-family: inherit; font-size: 13px; font-weight: 500;
   color: var(--green); cursor: pointer;
-  padding: 4px 0; margin-top: 32px;
-  transition: color var(--t);
+  padding: 8px 18px; margin-top: 32px;
+  transition: all var(--t);
 }
 
-.btn-back:hover { color: var(--dark-teal); }
+.btn-back:hover { border-color: var(--green); color: var(--dark-teal); }
 
 /* ============ SECTION INTRO ============ */
 /* ---- DG top row (title + stats) ---- */
