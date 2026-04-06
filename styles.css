@@ -706,12 +706,13 @@ body {
 .gp-panel-filters {
   display: flex;
   gap: 6px;
-  padding: 12px 14px;
+  padding: 16px 14px 12px;
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
   background: var(--bg-card);
   z-index: 1;
+  justify-content: center;
 }
 
 .gp-filter-btn {
