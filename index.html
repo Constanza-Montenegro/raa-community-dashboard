@@ -140,6 +140,7 @@
           <div class="section-intro"><h1 class="page-title">Global Presence</h1><p class="page-desc">Geographic overview of the RAA Community's initiatives across regions and countries.</p></div>
           <div class="dg-stats-group">
             <div class="dg-stats dg-stats--teal">
+              <span class="dg-stats-title">Geography</span>
               <div class="dg-stat"><span class="dg-stat-num" id="gp-initiatives">0</span><span class="dg-stat-label">Initiatives</span></div>
               <div class="dg-stat-divider"></div>
               <div class="dg-stat"><span class="dg-stat-num" id="gp-countries">0</span><span class="dg-stat-label">Countries</span></div>
@@ -147,6 +148,7 @@
               <div class="dg-stat"><span class="dg-stat-num" id="gp-regions">0</span><span class="dg-stat-label">Regions</span></div>
             </div>
             <div class="dg-stats dg-stats--green">
+              <span class="dg-stats-title">Scope</span>
               <div class="dg-stat"><span class="dg-stat-num" id="gp-global">0</span><span class="dg-stat-label">Global</span></div>
               <div class="dg-stat-divider"></div>
               <div class="dg-stat"><span class="dg-stat-num" id="gp-regional">0</span><span class="dg-stat-label">Regional</span></div>
@@ -164,11 +166,11 @@
         <div class="gp-map-layout">
           <div id="map-detail" class="map-container map-container--large"></div>
           <div class="gp-side-panel" id="gp-side-panel">
-            <div class="gp-panel-empty">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              <p>Click on a pin to see initiative details</p>
+            <div class="gp-panel-list" id="gp-panel-list"></div>
+            <div class="gp-panel-detail" id="gp-panel-detail" style="display:none">
+              <button class="gp-panel-back" id="gp-panel-back">&larr; All initiatives</button>
+              <div class="gp-panel-content" id="gp-panel-content"></div>
             </div>
-            <div class="gp-panel-content" id="gp-panel-content" style="display:none"></div>
           </div>
         </div>
       </section>

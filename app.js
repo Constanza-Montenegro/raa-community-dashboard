@@ -33,6 +33,8 @@ function goToSection(sectionId) {
       else mapDetail.invalidateSize();
     }, 150);
     updateGPStats();
+    renderPanelList();
+    showPanelList();
   }
   if (sectionId === 'community-snapshot') animateCounters();
 }
@@ -143,7 +145,7 @@ function initOverviewMap() {
 // Detail map
 function initDetailMap() {
   mapDetail = L.map('map-detail', { center: [20, 15], zoom: 2.5, minZoom: 2, maxZoom: 8, scrollWheelZoom: true, maxBounds: [[-85, -180],[85, 180]], maxBoundsViscosity: 1.0 });
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', { subdomains: 'abcd' }).addTo(mapDetail);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/voyager_nolabels/{z}/{x}/{y}{r}.png', { subdomains: 'abcd' }).addTo(mapDetail);
   addMarkers(mapDetail, true);
 }
 
@@ -166,10 +168,37 @@ function updateGPStats() {
 }
 
 // ---- SIDE PANEL (Global Presence) ----
+function renderPanelList() {
+  const list = document.getElementById('gp-panel-list');
+  if (!list) return;
+  list.innerHTML = '';
+  initiatives.forEach(init => {
+    const sc = init.scope.toLowerCase();
+    const item = document.createElement('div');
+    item.className = 'gp-panel-list-item';
+    item.innerHTML = `
+      <div class="list-logo">${init.logo}</div>
+      <div class="list-info">
+        <div class="list-name">${init.name}</div>
+        <div class="list-meta">${init.flag} ${init.country}</div>
+      </div>
+      <span class="list-scope ${sc}">${init.scope}</span>
+    `;
+    item.addEventListener('click', () => {
+      showSidePanel(init);
+      if (mapDetail) mapDetail.flyTo([init.lat, init.lng], 5, { duration: 0.8 });
+      list.querySelectorAll('.gp-panel-list-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+    });
+    list.appendChild(item);
+  });
+}
+
 function showSidePanel(init) {
   const panel = document.getElementById('gp-panel-content');
-  const empty = document.querySelector('.gp-panel-empty');
-  if (!panel || !empty) return;
+  const listView = document.getElementById('gp-panel-list');
+  const detailView = document.getElementById('gp-panel-detail');
+  if (!panel || !listView || !detailView) return;
 
   const sc = init.scope.toLowerCase();
   panel.innerHTML = `
@@ -184,9 +213,20 @@ function showSidePanel(init) {
     ${init.breakthroughTarget ? `<div class="panel-section-label">Breakthrough Target</div><div class="panel-tags"><span class="panel-tag">\u2705 ${init.breakthroughTarget}</span></div>` : ''}
     <button class="btn-panel-profile" onclick="showProfile('${init.name.replace(/'/g, "\\'")}', true)">View Full Profile</button>
   `;
-  empty.style.display = 'none';
-  panel.style.display = 'block';
+  listView.style.display = 'none';
+  detailView.style.display = 'block';
 }
+
+function showPanelList() {
+  document.getElementById('gp-panel-list').style.display = 'block';
+  document.getElementById('gp-panel-detail').style.display = 'none';
+  document.querySelectorAll('.gp-panel-list-item').forEach(i => i.classList.remove('active'));
+}
+
+// Back button in panel
+document.addEventListener('click', e => {
+  if (e.target.id === 'gp-panel-back') showPanelList();
+});
 
 function animateDgStat(id, target) {
   const el = document.getElementById(id);
