@@ -149,8 +149,14 @@ initOverviewMap();
 function updateGPStats() {
   const countries = new Set(initiatives.map(i => i.country)).size;
   const regions = new Set(initiatives.flatMap(i => i.geographicScope)).size;
+  const global = initiatives.filter(i => i.scope === 'Global').length;
+  const regional = initiatives.filter(i => i.scope === 'Regional').length;
+  const national = initiatives.filter(i => i.scope === 'National').length;
   animateDgStat('gp-countries', countries);
   animateDgStat('gp-regions', regions);
+  animateDgStat('gp-global', global);
+  animateDgStat('gp-regional', regional);
+  animateDgStat('gp-national', national);
 }
 
 function animateDgStat(id, target) {
