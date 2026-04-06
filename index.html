@@ -140,6 +140,8 @@
           <div class="section-intro"><h1 class="page-title">Global Presence</h1><p class="page-desc">Geographic overview of the RAA Community's initiatives across regions and countries.</p></div>
           <div class="dg-stats-group">
             <div class="dg-stats dg-stats--teal">
+              <div class="dg-stat"><span class="dg-stat-num" id="gp-initiatives">0</span><span class="dg-stat-label">Initiatives</span></div>
+              <div class="dg-stat-divider"></div>
               <div class="dg-stat"><span class="dg-stat-num" id="gp-countries">0</span><span class="dg-stat-label">Countries</span></div>
               <div class="dg-stat-divider"></div>
               <div class="dg-stat"><span class="dg-stat-num" id="gp-regions">0</span><span class="dg-stat-label">Regions</span></div>
@@ -153,13 +155,22 @@
             </div>
           </div>
         </div>
-        <div class="map-legend">
+        <div class="map-legend-bar">
           <span class="legend-label">Scope:</span>
-          <span class="legend-item"><span class="legend-dot" style="background:#002929"></span> Global</span>
-          <span class="legend-item"><span class="legend-dot" style="background:#48966a"></span> Regional</span>
-          <span class="legend-item"><span class="legend-dot" style="background:#b4bab6"></span> National</span>
+          <span class="legend-badge" style="--badge-color:#002929">Global</span>
+          <span class="legend-badge" style="--badge-color:#48966a">Regional</span>
+          <span class="legend-badge" style="--badge-color:#b4bab6">National</span>
         </div>
-        <div id="map-detail" class="map-container"></div>
+        <div class="gp-map-layout">
+          <div id="map-detail" class="map-container map-container--large"></div>
+          <div class="gp-side-panel" id="gp-side-panel">
+            <div class="gp-panel-empty">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <p>Click on a pin to see initiative details</p>
+            </div>
+            <div class="gp-panel-content" id="gp-panel-content" style="display:none"></div>
+          </div>
+        </div>
       </section>
 
       <!-- ===== DETAIL: Initiatives Directory ===== -->

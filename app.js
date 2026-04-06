@@ -121,11 +121,15 @@ function popupHtml(init) {
   </div>`;
 }
 
-function addMarkers(map) {
+function addMarkers(map, usePanel) {
   initiatives.forEach(init => {
-    L.marker([init.lat, init.lng], { icon: pinIcon(init.scope) })
-      .addTo(map)
-      .bindPopup(popupHtml(init), { className: 'map-popup', maxWidth: 280 });
+    const marker = L.marker([init.lat, init.lng], { icon: pinIcon(init.scope) })
+      .addTo(map);
+    if (usePanel) {
+      marker.on('click', () => showSidePanel(init));
+    } else {
+      marker.bindPopup(popupHtml(init), { className: 'map-popup', maxWidth: 280 });
+    }
   });
 }
 
@@ -133,30 +137,55 @@ function addMarkers(map) {
 function initOverviewMap() {
   mapOverview = L.map('map-overview', { center: [20, 0], zoom: 1.5, minZoom: 1, maxZoom: 6, scrollWheelZoom: true, zoomControl: true, dragging: true, maxBounds: [[-85, -180],[85, 180]], maxBoundsViscosity: 1.0 });
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', { subdomains: 'abcd' }).addTo(mapOverview);
-  addMarkers(mapOverview);
+  addMarkers(mapOverview, false);
 }
 
 // Detail map
 function initDetailMap() {
   mapDetail = L.map('map-detail', { center: [20, 15], zoom: 2.5, minZoom: 2, maxZoom: 8, scrollWheelZoom: true, maxBounds: [[-85, -180],[85, 180]], maxBoundsViscosity: 1.0 });
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', { subdomains: 'abcd' }).addTo(mapDetail);
-  addMarkers(mapDetail);
+  addMarkers(mapDetail, true);
 }
 
 initOverviewMap();
 
 // ---- GLOBAL PRESENCE STATS ----
 function updateGPStats() {
+  const total = initiatives.length;
   const countries = new Set(initiatives.map(i => i.country)).size;
   const regions = new Set(initiatives.flatMap(i => i.geographicScope)).size;
   const global = initiatives.filter(i => i.scope === 'Global').length;
   const regional = initiatives.filter(i => i.scope === 'Regional').length;
   const national = initiatives.filter(i => i.scope === 'National').length;
+  animateDgStat('gp-initiatives', total);
   animateDgStat('gp-countries', countries);
   animateDgStat('gp-regions', regions);
   animateDgStat('gp-global', global);
   animateDgStat('gp-regional', regional);
   animateDgStat('gp-national', national);
+}
+
+// ---- SIDE PANEL (Global Presence) ----
+function showSidePanel(init) {
+  const panel = document.getElementById('gp-panel-content');
+  const empty = document.querySelector('.gp-panel-empty');
+  if (!panel || !empty) return;
+
+  const sc = init.scope.toLowerCase();
+  panel.innerHTML = `
+    <div class="panel-name">${init.name}</div>
+    <div class="panel-country">${init.flag} ${init.country}</div>
+    <span class="panel-scope ${sc}">${init.scope}</span>
+    <p class="panel-desc">${init.shortDescription}</p>
+    <div class="panel-section-label">Thematic Priorities</div>
+    <div class="panel-tags">${init.thematicPriorities.map(t => `<span class="panel-tag">${t}</span>`).join('')}</div>
+    <div class="panel-section-label">Actor Type</div>
+    <div class="panel-tags"><span class="panel-tag">${init.actorType}</span></div>
+    ${init.breakthroughTarget ? `<div class="panel-section-label">Breakthrough Target</div><div class="panel-tags"><span class="panel-tag">\u2705 ${init.breakthroughTarget}</span></div>` : ''}
+    <button class="btn-panel-profile" onclick="showProfile('${init.name.replace(/'/g, "\\'")}', true)">View Full Profile</button>
+  `;
+  empty.style.display = 'none';
+  panel.style.display = 'block';
 }
 
 function animateDgStat(id, target) {
