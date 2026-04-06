@@ -957,12 +957,9 @@ body {
   border-radius: var(--radius-sm);
   padding: 6px 0;
   box-shadow: var(--shadow-lg);
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 20;
   min-width: 200px;
-  margin-top: 6px;
+  margin-top: 8px;
+  width: 100%;
 }
 
 .filter-dropdown.open { display: flex; flex-direction: column; }
