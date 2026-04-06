@@ -70,14 +70,7 @@ document.querySelectorAll('.eco-overview-card[data-eco]').forEach(card => {
     e.stopPropagation();
     const ecoId = card.dataset.eco;
     goToSection('land-ecosystem');
-    setTimeout(() => {
-      document.querySelectorAll('.eco-tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.eco-panel').forEach(p => p.classList.remove('active'));
-      const targetTab = document.querySelector(`.eco-tab[data-eco="${ecoId}"]`);
-      if (targetTab) targetTab.classList.add('active');
-      const targetPanel = document.getElementById('eco-' + ecoId);
-      if (targetPanel) targetPanel.classList.add('active');
-    }, 50);
+    setTimeout(() => switchEcoCategory(ecoId), 50);
   });
 });
 
@@ -85,15 +78,8 @@ document.querySelectorAll('.eco-overview-card[data-eco]').forEach(card => {
 document.querySelectorAll('.sidebar-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const ecoId = btn.dataset.ecoNav;
-    // Navigate to ecosystem section
     goToSection('land-ecosystem');
-    // Activate the right tab/panel
-    document.querySelectorAll('.eco-tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.eco-panel').forEach(p => p.classList.remove('active'));
-    const targetTab = document.querySelector(`.eco-tab[data-eco="${ecoId}"]`);
-    if (targetTab) targetTab.classList.add('active');
-    const targetPanel = document.getElementById('eco-' + ecoId);
-    if (targetPanel) targetPanel.classList.add('active');
+    setTimeout(() => switchEcoCategory(ecoId), 50);
     // Highlight sidebar btn
     document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -522,6 +508,34 @@ document.querySelectorAll('.modal-overlay').forEach(ov => {
 });
 
 // ---- SECTION 3: ECOSYSTEM ----
+const ecoDescriptions = {
+  'data-metrics': { title: 'Data & Metrics on Land', desc: 'Access to data portals, monitoring systems and metric platforms tackling land degradation and supporting restoration and drought resilience.' },
+  'funding-grants': { title: 'Funding & Grants', desc: 'Visibility of existing financial instruments and funding opportunities related to land and drought.' },
+  'knowledge': { title: 'Knowledge Ecosystem', desc: 'Orientation across knowledge, technical and policy infrastructures shaping the global land and soil agenda.' }
+};
+
+function switchEcoCategory(ecoId) {
+  document.querySelectorAll('.eco-category-card').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.eco-panel').forEach(p => p.classList.remove('active'));
+  const activeCard = document.querySelector(`.eco-category-card[data-eco="${ecoId}"]`);
+  if (activeCard) activeCard.classList.add('active');
+  const panel = document.getElementById('eco-' + ecoId);
+  if (panel) panel.classList.add('active');
+  const info = ecoDescriptions[ecoId];
+  if (info) {
+    document.getElementById('eco-expanded-title').textContent = info.title;
+    document.getElementById('eco-expanded-desc').textContent = info.desc;
+  }
+}
+
+document.querySelectorAll('.eco-category-card').forEach(card => {
+  card.addEventListener('click', () => switchEcoCategory(card.dataset.eco));
+});
+
+// Initialize first category
+switchEcoCategory('data-metrics');
+
+// Keep old tab logic for sidebar navigation
 document.querySelectorAll('.eco-tab').forEach(tab => {
   tab.addEventListener('click', () => {
     document.querySelectorAll('.eco-tab').forEach(t => t.classList.remove('active'));

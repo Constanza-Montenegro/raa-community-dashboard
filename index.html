@@ -205,22 +205,46 @@
       <section id="land-ecosystem" class="page-section">
         <button class="btn-back" onclick="goHome()">&larr; Back to overview</button>
         <div class="section-intro"><h1 class="page-title">The Land &amp; Soil Ecosystem</h1><p class="page-desc">Curated access to existing platforms, tools and institutional resources relevant to the land and drought agenda.</p></div>
-        <div class="ecosystem-tabs">
-          <button class="eco-tab active" data-eco="data-metrics"><span class="eco-dot" style="background:#48966a"></span> Data &amp; Metrics on Land</button>
-          <button class="eco-tab" data-eco="funding-grants"><span class="eco-dot" style="background:#F8AA41"></span> Funding &amp; Grants</button>
-          <button class="eco-tab" data-eco="knowledge"><span class="eco-dot" style="background:#587da0"></span> Knowledge Ecosystem</button>
+        <div class="eco-cards-grid">
+          <div class="eco-category-card active" data-eco="data-metrics" style="--eco-color:#48966a">
+            <div class="eco-card-bg" style="background-image:url('5. .jpg')"></div>
+            <div class="eco-card-overlay">
+              <span class="eco-card-count" id="eco-count-data"></span>
+              <h3>Data &amp; Metrics on Land</h3>
+              <p>Data portals, monitoring systems and metric platforms.</p>
+            </div>
+          </div>
+          <div class="eco-category-card" data-eco="funding-grants" style="--eco-color:#F8AA41">
+            <div class="eco-card-bg" style="background-image:url('6..jpg')"></div>
+            <div class="eco-card-overlay">
+              <span class="eco-card-count" id="eco-count-funding"></span>
+              <h3>Funding &amp; Grants</h3>
+              <p>Financial instruments and funding opportunities.</p>
+            </div>
+          </div>
+          <div class="eco-category-card" data-eco="knowledge" style="--eco-color:#587da0">
+            <div class="eco-card-bg" style="background-image:url('1..jpg')"></div>
+            <div class="eco-card-overlay">
+              <span class="eco-card-count" id="eco-count-knowledge"></span>
+              <h3>Knowledge Ecosystem</h3>
+              <p>Research hubs, policy frameworks and technical support.</p>
+            </div>
+          </div>
         </div>
-        <div class="eco-panel active" id="eco-data-metrics">
-          <p class="eco-desc">Access to data portals, monitoring systems and metric platforms tackling land degradation and supporting restoration and drought resilience.</p>
-          <div class="platforms-grid" id="platforms-data"></div>
-        </div>
-        <div class="eco-panel" id="eco-funding-grants">
-          <p class="eco-desc">Visibility of existing financial instruments and funding opportunities related to land and drought.</p>
-          <div class="platforms-grid" id="platforms-funding"></div>
-        </div>
-        <div class="eco-panel" id="eco-knowledge">
-          <p class="eco-desc">Orientation across knowledge, technical and policy infrastructures shaping the global land and soil agenda.</p>
-          <div class="platforms-grid" id="platforms-knowledge"></div>
+        <div class="eco-expanded" id="eco-expanded">
+          <div class="eco-expanded-header">
+            <h3 id="eco-expanded-title"></h3>
+            <p id="eco-expanded-desc"></p>
+          </div>
+          <div class="eco-panel active" id="eco-data-metrics">
+            <div class="platforms-grid" id="platforms-data"></div>
+          </div>
+          <div class="eco-panel" id="eco-funding-grants">
+            <div class="platforms-grid" id="platforms-funding"></div>
+          </div>
+          <div class="eco-panel" id="eco-knowledge">
+            <div class="platforms-grid" id="platforms-knowledge"></div>
+          </div>
         </div>
       </section>
 
