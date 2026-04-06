@@ -1058,24 +1058,79 @@ body {
 
 .platform-card {
   background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 18px; transition: all var(--t);
-  border-left: 3px solid var(--platform-color, var(--border));
+  border-radius: var(--radius); overflow: hidden; transition: all var(--t);
+  display: flex; flex-direction: column;
 }
 
-.platform-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
-.platform-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.platform-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+
+.platform-banner {
+  height: 100px;
+  background: var(--platform-color, var(--dark-teal));
+  position: relative;
+  overflow: hidden;
+}
+
+.platform-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.2;
+  background-image: url('raa-pattern.png');
+  background-size: 300px auto;
+  background-repeat: repeat;
+  pointer-events: none;
+}
+
+.platform-body {
+  padding: 0 18px 18px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.platform-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: -20px;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
+}
 
 .platform-logo {
-  width: 40px; height: 40px; border-radius: var(--radius-sm);
-  background: rgba(0,41,41,0.06);
+  width: 44px; height: 44px; border-radius: 10px;
+  background: var(--bg-card);
+  border: 2px solid var(--bg-card);
+  box-shadow: var(--shadow);
   display: flex; align-items: center; justify-content: center;
-  font-size: 18px; flex-shrink: 0;
+  font-size: 20px; flex-shrink: 0;
 }
 
-.platform-name { font-size: 14px; font-weight: 700; color: var(--dark-teal); }
-.platform-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 10px; }
-.platform-link { font-size: 12px; font-weight: 600; color: var(--green); text-decoration: none; transition: color var(--t); }
-.platform-link:hover { color: var(--dark-teal); }
+.platform-name { font-size: 15px; font-weight: 700; color: var(--dark-teal); margin-top: 20px; }
+.platform-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 14px; flex: 1; }
+
+.platform-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.platform-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px; font-weight: 600;
+  color: var(--white);
+  background: var(--dark-teal);
+  padding: 7px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background var(--t);
+}
+
+.platform-link:hover { background: var(--muted-teal); }
+.platform-link.disabled { background: var(--grey); opacity: 0.5; cursor: default; }
 
 /* ============ SNAPSHOT ============ */
 .snapshot-counters { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 22px; }

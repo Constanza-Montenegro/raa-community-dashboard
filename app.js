@@ -544,12 +544,17 @@ function renderPlatforms(containerId, data, color) {
       card.addEventListener('click', () => window.open(p.link, '_blank'));
     }
     card.innerHTML = `
-      <div class="platform-header">
-        <div class="platform-logo">${p.logo}</div>
-        <div class="platform-name">${p.name}</div>
+      <div class="platform-banner"></div>
+      <div class="platform-body">
+        <div class="platform-header">
+          <div class="platform-logo">${p.logo}</div>
+          <div class="platform-name">${p.name}</div>
+        </div>
+        <div class="platform-desc">${p.description}</div>
+        <div class="platform-footer">
+          ${p.link ? `<span class="platform-link">Visit Platform \u2192</span>` : '<span class="platform-link disabled">Link coming soon</span>'}
+        </div>
       </div>
-      <div class="platform-desc">${p.description}</div>
-      ${p.link ? `<span class="platform-link">Visit platform \u2192</span>` : '<span class="platform-link" style="opacity:0.4;">Link coming soon</span>'}
     `;
     grid.appendChild(card);
   });
