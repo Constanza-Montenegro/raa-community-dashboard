@@ -225,6 +225,7 @@ document.querySelectorAll('.gp-filter-btn').forEach(btn => {
     gpScopeFilter = btn.dataset.scope;
     document.querySelectorAll('.gp-filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+    showPanelList();
     renderPanelList();
   });
 });
