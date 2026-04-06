@@ -699,6 +699,33 @@ body {
   max-height: 560px;
 }
 
+/* Panel scope filters */
+.gp-panel-filters {
+  display: flex;
+  gap: 6px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg-card);
+  z-index: 1;
+}
+
+.gp-filter-btn {
+  font-family: inherit;
+  font-size: 11px; font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--t);
+}
+
+.gp-filter-btn:hover { border-color: var(--green); color: var(--green); }
+.gp-filter-btn.active { background: var(--dark-teal); color: white; border-color: var(--dark-teal); }
+
 /* Panel list view */
 .gp-panel-list {
   padding: 0;

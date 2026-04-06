@@ -168,11 +168,14 @@ function updateGPStats() {
 }
 
 // ---- SIDE PANEL (Global Presence) ----
+let gpScopeFilter = 'all';
+
 function renderPanelList() {
   const list = document.getElementById('gp-panel-list');
   if (!list) return;
   list.innerHTML = '';
-  initiatives.forEach(init => {
+  const filtered = gpScopeFilter === 'all' ? initiatives : initiatives.filter(i => i.scope === gpScopeFilter);
+  filtered.forEach(init => {
     const sc = init.scope.toLowerCase();
     const item = document.createElement('div');
     item.className = 'gp-panel-list-item';
@@ -226,6 +229,16 @@ function showPanelList() {
 // Back button in panel
 document.addEventListener('click', e => {
   if (e.target.id === 'gp-panel-back') showPanelList();
+});
+
+// Scope filter buttons
+document.querySelectorAll('.gp-filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    gpScopeFilter = btn.dataset.scope;
+    document.querySelectorAll('.gp-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderPanelList();
+  });
 });
 
 function animateDgStat(id, target) {
