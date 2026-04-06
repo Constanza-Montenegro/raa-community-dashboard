@@ -617,6 +617,12 @@ body {
   z-index: 1;
 }
 
+.dg-stats-group {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
 .section-intro { padding: 10px 0 22px; }
 .page-title { font-size: 26px; font-weight: 800; color: var(--dark-teal); letter-spacing: -0.5px; margin-bottom: 4px; }
 .page-desc { font-size: 13px; color: var(--text-secondary); max-width: 580px; line-height: 1.5; }
