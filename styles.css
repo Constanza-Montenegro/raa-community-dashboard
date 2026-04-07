@@ -889,7 +889,8 @@ body {
 }
 
 .btn-profile:hover { background: var(--muted-teal); }
-.map-container .leaflet-control-zoom { margin-top: 14px; }
+.map-container { z-index: 0; position: relative; }
+.map-overview { z-index: 0; position: relative; }
 
 .map-popup .leaflet-popup-content-wrapper { border-radius: var(--radius); box-shadow: var(--shadow-lg); }
 
