@@ -125,14 +125,16 @@ function addMarkers(map, usePanel) {
 
 // Overview map (landing)
 function initOverviewMap() {
-  mapOverview = L.map('map-overview', { center: [20, 0], zoom: 1.5, minZoom: 1, maxZoom: 6, scrollWheelZoom: true, zoomControl: true, dragging: true, maxBounds: [[-85, -180],[85, 180]], maxBoundsViscosity: 1.0 });
+  mapOverview = L.map('map-overview', { center: [20, 0], zoom: 1.5, minZoom: 1, maxZoom: 6, scrollWheelZoom: true, zoomControl: false, dragging: true, maxBounds: [[-85, -180],[85, 180]], maxBoundsViscosity: 1.0 });
+  L.control.zoom({ position: 'bottomleft' }).addTo(mapOverview);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', { subdomains: 'abcd' }).addTo(mapOverview);
   addMarkers(mapOverview, false);
 }
 
 // Detail map
 function initDetailMap() {
-  mapDetail = L.map('map-detail', { center: [20, 15], zoom: 2.5, minZoom: 2, maxZoom: 8, scrollWheelZoom: true, maxBounds: [[-85, -180],[85, 180]], maxBoundsViscosity: 1.0 });
+  mapDetail = L.map('map-detail', { center: [20, 15], zoom: 2.5, minZoom: 2, maxZoom: 8, scrollWheelZoom: true, zoomControl: false, maxBounds: [[-85, -180],[85, 180]], maxBoundsViscosity: 1.0 });
+  L.control.zoom({ position: 'bottomleft' }).addTo(mapDetail);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', { subdomains: 'abcd' }).addTo(mapDetail);
   addMarkers(mapDetail, true);
 }
