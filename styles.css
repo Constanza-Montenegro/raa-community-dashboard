@@ -1431,6 +1431,43 @@ body {
 
 /* ============ SNAPSHOT ============ */
 
+/* Counter cards */
+.cs-counters { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 22px; }
+
+.cs-counter {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 26px 20px; text-align: center;
+}
+
+.cs-counter--teal { background: linear-gradient(135deg, #002929, #1a4040); border: none; }
+.cs-counter--gold { background: linear-gradient(160deg, #b8a06a, #a08450, #c4a265); border: none; }
+
+.cs-counter-num { font-size: 42px; font-weight: 800; letter-spacing: -2px; color: var(--dark-teal); line-height: 1; }
+.cs-counter--teal .cs-counter-num, .cs-counter--gold .cs-counter-num { color: white; }
+
+.cs-counter-suffix { font-size: 22px; font-weight: 700; color: var(--text-light); }
+.cs-counter--teal .cs-counter-suffix, .cs-counter--gold .cs-counter-suffix { color: rgba(255,255,255,0.5); }
+
+.cs-counter-label { display: block; font-size: 13px; font-weight: 500; color: var(--text-secondary); margin-top: 4px; }
+.cs-counter--teal .cs-counter-label, .cs-counter--gold .cs-counter-label { color: rgba(255,255,255,0.7); }
+
+/* Chart grid */
+.cs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 18px; }
+
+.cs-chart-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px;
+}
+
+.cs-chart-card h3 { font-size: 13px; font-weight: 700; color: var(--dark-teal); margin-bottom: 12px; letter-spacing: -0.2px; }
+
+.cs-chart-card--dark {
+  background: linear-gradient(135deg, #002929, #1a4040);
+  border: none; text-align: center;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.cs-chart-card--dark h3 { color: rgba(255,255,255,0.6); }
+
 /* Section labels */
 .cs-section-label {
   font-size: 11px;

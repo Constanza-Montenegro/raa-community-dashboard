@@ -246,196 +246,25 @@
         <button class="btn-back" onclick="goHome()">&larr; Back to overview</button>
         <div class="section-intro"><h1 class="page-title">Community Snapshot</h1><p class="page-desc">Aggregated overview of the RAA Community's scale and composition.</p></div>
 
-        <!-- Hero Banner -->
-        <div class="cs-hero-banner">
-          <div class="cs-hero-stat">
-            <span class="cs-hero-num" id="cs-hero-initiatives">0</span>
-            <span class="cs-hero-label">Initiatives</span>
-          </div>
-          <div class="cs-hero-divider"></div>
-          <div class="cs-hero-stat">
-            <span class="cs-hero-num" id="cs-hero-countries">0</span>
-            <span class="cs-hero-label">Countries</span>
-          </div>
-          <div class="cs-hero-divider"></div>
-          <div class="cs-hero-stat">
-            <span class="cs-hero-num" id="cs-hero-hectares">0</span>
-            <span class="cs-hero-label">Hectares</span>
-          </div>
-          <div class="cs-hero-divider"></div>
-          <div class="cs-hero-stat">
-            <span class="cs-hero-num" id="cs-hero-people">0</span>
-            <span class="cs-hero-label">People Benefited</span>
-          </div>
+        <!-- Counter Cards -->
+        <div class="cs-counters">
+          <div class="cs-counter cs-counter--teal"><span class="cs-counter-num" id="cs-c-init">0</span><span class="cs-counter-suffix">+</span><span class="cs-counter-label">Total Initiatives</span></div>
+          <div class="cs-counter"><span class="cs-counter-num" id="cs-c-countries">0</span><span class="cs-counter-suffix">+</span><span class="cs-counter-label">Countries Represented</span></div>
+          <div class="cs-counter cs-counter--gold"><span class="cs-counter-num" id="cs-c-hectares">0</span><span class="cs-counter-suffix"></span><span class="cs-counter-label">Hectares</span></div>
         </div>
 
-        <!-- RAA Goals Progress -->
-        <div class="cs-section-label">RAA Goals Progress</div>
-        <div class="raa-goals-grid">
-
-          <div class="raa-goal-card" style="--goal-color:#48966a; --goal-gradient: linear-gradient(135deg, #2d6a4f, #48966a)">
-            <div class="raa-goal-icon">
-              <svg width="36" height="36" viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2">
-                <path d="M24 44V22"/>
-                <path d="M24 22c-6-8-16-6-16 2s10 10 16 2z"/>
-                <path d="M24 22c6-8 16-6 16 2s-10 10-16 2z"/>
-                <path d="M24 28c-3-4-8-3-8 1s5 5 8 1z"/>
-                <path d="M24 28c3-4 8-3 8 1s-5 5-8 1z"/>
-              </svg>
-            </div>
-            <div class="raa-goal-body">
-              <div class="raa-goal-title">Land Conservation & Restoration</div>
-              <div class="raa-goal-target">Global target: <strong>1.5 billion hectares</strong></div>
-              <div class="raa-goal-progress-row">
-                <span class="raa-goal-current" id="goal-land-current">--</span>
-                <span class="raa-goal-pct" id="goal-land-pct">0.17%</span>
-              </div>
-              <div class="raa-goal-bar"><div class="raa-goal-bar-fill" id="goal-land-bar" style="width:0%"></div></div>
-              <div class="raa-goal-desc">Conserve and restore 1.5 billion ha of degraded land, including 250 million ha of degraded agricultural land.</div>
-            </div>
-          </div>
-
-          <div class="raa-goal-card" style="--goal-color:#587da0; --goal-gradient: linear-gradient(135deg, #3a6b8a, #587da0)">
-            <div class="raa-goal-icon">
-              <svg width="36" height="36" viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2">
-                <path d="M24 4S10 20 10 30a14 14 0 0 0 28 0C38 20 24 4 24 4z"/>
-                <path d="M18 32a6 6 0 0 0 6 6"/>
-              </svg>
-            </div>
-            <div class="raa-goal-body">
-              <div class="raa-goal-title">Drought & Water Resilience</div>
-              <div class="raa-goal-target">Global target: <strong>30% of lands and inland waters</strong></div>
-              <div class="raa-goal-progress-row">
-                <span class="raa-goal-current" id="goal-drought-current">--</span>
-                <span class="raa-goal-pct" id="goal-drought-pct">Data coming soon</span>
-              </div>
-              <div class="raa-goal-bar"><div class="raa-goal-bar-fill" id="goal-drought-bar" style="width:0%"></div></div>
-              <div class="raa-goal-desc">Boost drought and water resilience, protecting 30% of lands and inland waters.</div>
-            </div>
-          </div>
-
-          <div class="raa-goal-card" style="--goal-color:#c49a3c; --goal-gradient: linear-gradient(135deg, #8b6f47, #c49a3c)">
-            <div class="raa-goal-icon">
-              <svg width="36" height="36" viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2">
-                <path d="M14 40c-6 0-10-4-10-10s6-14 14-20"/>
-                <path d="M34 40c6 0 10-4 10-10s-6-14-14-20"/>
-                <circle cx="24" cy="20" r="6"/>
-                <path d="M24 16v8"/>
-                <path d="M20 20h8"/>
-              </svg>
-            </div>
-            <div class="raa-goal-body">
-              <div class="raa-goal-title">Finance Mobilization</div>
-              <div class="raa-goal-target">Global target: <strong>US$2.1 trillion</strong></div>
-              <div class="raa-goal-progress-row">
-                <span class="raa-goal-current" id="goal-finance-current">--</span>
-                <span class="raa-goal-pct" id="goal-finance-pct">Data coming soon</span>
-              </div>
-              <div class="raa-goal-bar"><div class="raa-goal-bar-fill" id="goal-finance-bar" style="width:0%"></div></div>
-              <div class="raa-goal-desc">Mobilize US$2.1 trillion in global investments towards these goals.</div>
-            </div>
-          </div>
-
+        <!-- Main Grid: 3x2 -->
+        <div class="cs-grid">
+          <div class="cs-chart-card"><h3>By Type of Actor</h3><div class="bar-chart" id="chart-sector"></div></div>
+          <div class="cs-chart-card"><h3>By Scope</h3><div class="donut-wrap"><div class="donut" id="chart-scope"></div><div class="donut-legend" id="legend-scope"></div></div></div>
+          <div class="cs-chart-card"><h3>By Priority Area</h3><div class="bar-chart" id="chart-priority"></div></div>
+          <div class="cs-chart-card"><h3>By Critical Enabler</h3><div class="bar-chart" id="chart-enabler"></div></div>
+          <div class="cs-chart-card"><h3>By Region</h3><div class="donut-wrap"><div class="donut" id="chart-region"></div><div class="donut-legend" id="legend-region"></div></div></div>
+          <div class="cs-chart-card cs-chart-card--dark"><h3>Breakthrough Targets</h3><div class="cs-btt-num" id="btt-count">0</div><div class="cs-btt-label">initiatives engaged with L&S BTT</div></div>
         </div>
 
-        <!-- Action Areas & Enablers with Wheel -->
-        <div class="cs-section-label">Action Areas & Critical Enablers</div>
-        <div class="cs-wheel-layout-v2">
-
-          <!-- Left: RAA Wheel -->
-          <div class="cs-wheel-side">
-            <img src="raa-brand/raa wheel.png" alt="RAA Framework" class="raa-wheel-img">
-          </div>
-
-          <!-- Right: Indicators in grouped cards -->
-          <div class="cs-indicators-col">
-
-            <div class="cs-ind-group-card">
-              <div class="cs-group-title">Action Areas</div>
-              <div class="cs-ind-row" style="--ind-gradient: linear-gradient(135deg, #2d6a4f, #48966a)">
-                <div class="cs-ind-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 22V10"/><path d="M12 10c-3-5-9-4-9 1s6 6 9 1z"/><path d="M12 10c3-5 9-4 9 1s-6 6-9 1z"/></svg></div>
-                <div class="cs-ind-info"><div class="cs-ind-name">Land Conservation & Restoration</div><div class="cs-ind-bar"><div class="cs-ind-bar-fill" id="area-land-bar" data-width="60%"></div></div></div>
-                <div class="cs-ind-num" id="area-land">0</div>
-              </div>
-              <div class="cs-ind-row" style="--ind-gradient: linear-gradient(135deg, #8b6f47, #c49a3c)">
-                <div class="cs-ind-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2L4 7v6c0 5 4 10 8 11 4-1 8-6 8-11V7l-8-5z"/></svg></div>
-                <div class="cs-ind-info"><div class="cs-ind-name">Agriculture & Food Systems</div><div class="cs-ind-bar"><div class="cs-ind-bar-fill" id="area-agri-bar" data-width="40%"></div></div></div>
-                <div class="cs-ind-num" id="area-agri">0</div>
-              </div>
-              <div class="cs-ind-row" style="--ind-gradient: linear-gradient(135deg, #3a6b8a, #587da0)">
-                <div class="cs-ind-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2S6 10 6 14a6 6 0 0 0 12 0c0-4-6-12-6-12z"/></svg></div>
-                <div class="cs-ind-info"><div class="cs-ind-name">Drought & Water Resilience</div><div class="cs-ind-bar"><div class="cs-ind-bar-fill" id="area-drought-bar" data-width="35%"></div></div></div>
-                <div class="cs-ind-num" id="area-drought">0</div>
-              </div>
-            </div>
-
-            <div class="cs-ind-group-card">
-              <div class="cs-group-title">Critical Enablers</div>
-              <div class="cs-ind-row" style="--ind-gradient: linear-gradient(135deg, #002929, #2A4644)">
-                <div class="cs-ind-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></div>
-                <div class="cs-ind-info"><div class="cs-ind-name">Governance</div><div class="cs-ind-bar"><div class="cs-ind-bar-fill" id="enabler-gov-bar" data-width="50%"></div></div></div>
-                <div class="cs-ind-num" id="enabler-gov">0</div>
-              </div>
-              <div class="cs-ind-row" style="--ind-gradient: linear-gradient(135deg, #1a4a6a, #2a7ab5)">
-                <div class="cs-ind-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4"/></svg></div>
-                <div class="cs-ind-info"><div class="cs-ind-name">Science, Technology & Innovation</div><div class="cs-ind-bar"><div class="cs-ind-bar-fill" id="enabler-sci-bar" data-width="35%"></div></div></div>
-                <div class="cs-ind-num" id="enabler-sci">0</div>
-              </div>
-              <div class="cs-ind-row" style="--ind-gradient: linear-gradient(135deg, #6d5a2a, #a08450)">
-                <div class="cs-ind-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
-                <div class="cs-ind-info"><div class="cs-ind-name">Finance</div><div class="cs-ind-bar"><div class="cs-ind-bar-fill" id="enabler-fin-bar" data-width="45%"></div></div></div>
-                <div class="cs-ind-num" id="enabler-fin">0</div>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- 3. Community Profile -->
-        <div class="cs-section-label">Community Profile</div>
-        <div class="cs-profile-grid-v3">
-          <div class="cs-card-v3 cs-actors-v3">
-            <h3>By Type of Actor</h3>
-            <div class="bar-chart-v2" id="chart-sector"></div>
-          </div>
-          <div class="cs-card-v3 cs-scope-v3">
-            <h3>By Scope</h3>
-            <div class="cs-donut-wrap-v3">
-              <div class="cs-donut-v3" id="chart-scope">
-                <div class="cs-donut-center-v3">
-                  <span class="cs-donut-total" id="scope-total">0</span>
-                  <span class="cs-donut-total-label">Total</span>
-                </div>
-              </div>
-              <div class="cs-donut-legend-v3" id="legend-scope"></div>
-            </div>
-          </div>
-          <div class="cs-card-v3 cs-region-v3">
-            <h3>By Region</h3>
-            <div class="cs-donut-wrap-v3">
-              <div class="cs-donut-v3" id="chart-region">
-                <div class="cs-donut-center-v3">
-                  <span class="cs-donut-total" id="region-total">0</span>
-                  <span class="cs-donut-total-label">Regions</span>
-                </div>
-              </div>
-              <div class="cs-donut-legend-v3" id="legend-region"></div>
-            </div>
-          </div>
-          <div class="cs-card-v3 cs-btt-v3">
-            <div class="cs-btt-inner">
-              <h3>Breakthrough Targets</h3>
-              <div class="cs-btt-num" id="btt-count">0</div>
-              <div class="cs-btt-label">initiatives engaged with L&S Breakthrough Targets</div>
-            </div>
-          </div>
-        </div>
         <div class="section-footer cs-footer">
-          <span class="cs-timestamp">
-            <span class="cs-pulse-dot"></span>
-            Last updated: <strong id="snapshot-date"></strong>
-          </span>
+          <span class="cs-timestamp"><span class="cs-pulse-dot"></span>Last updated: <strong id="snapshot-date"></strong></span>
           <span class="disclaimer">All data is self-reported by participating initiatives. The Dashboard is committed to progressively strengthening data consistency.</span>
         </div>
       </section>

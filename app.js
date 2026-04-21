@@ -844,97 +844,49 @@ function animateGoalBars() {
 }
 
 function animateCounters() {
-  // === STEP 1: RESET everything to initial state ===
-
-  // Reset RAA goal cards
-  document.querySelectorAll('.raa-goal-card').forEach(c => c.classList.remove('animated'));
-  // Reset indicator group cards
-  document.querySelectorAll('.cs-ind-group-card').forEach(c => c.classList.remove('animated'));
-  // Reset community profile cards
-  document.querySelectorAll('.cs-card-v3').forEach(c => c.classList.remove('animated'));
-  // Reset bar items
-  document.querySelectorAll('.bar-item-v2').forEach(item => item.classList.remove('animated'));
-  // Reset all bar fills to 0
-  document.querySelectorAll('.bar-fill-v2').forEach(bar => { bar.style.width = '0%'; });
-  document.querySelectorAll('.cs-ind-bar-fill').forEach(bar => { bar.style.width = '0%'; });
-  document.querySelectorAll('.bar-fill').forEach(bar => { bar.style.width = '0%'; });
-  // Reset donuts
-  document.querySelectorAll('.cs-donut-v3').forEach(d => d.classList.remove('animated'));
-  // Reset goal bar
-  const landBar = document.getElementById('goal-land-bar');
-  if (landBar) landBar.style.width = '0%';
-
-  // === STEP 2: ANIMATE everything with delays ===
   const totalInit = initiatives.length;
   const totalCountries = new Set(initiatives.map(i => i.country)).size;
   const totalHa = initiatives.reduce((s, i) => s + (i.haToBeRestored || 0) + (i.haToBeConserved || 0) + (i.haUnderRestoration || 0) + (i.haConserved || 0), 0);
-  const totalPeople = initiatives.reduce((s, i) => s + (i.peopleToBeBenefited || 0) + (i.peopleBenefited || 0), 0);
 
+  // Reset all bar fills to 0
+  document.querySelectorAll('.bar-fill').forEach(bar => { bar.style.width = '0%'; });
+
+  // Counter cards count-up
+  function countUp(id, target, suffix) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const duration = 900;
+    const start = performance.now();
+    const isDecimal = target % 1 !== 0;
+    function update(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = eased * target;
+      el.textContent = isDecimal ? current.toFixed(1) : Math.floor(current);
+      if (progress < 1) requestAnimationFrame(update);
+      else el.textContent = isDecimal ? target.toFixed(1) : target;
+    }
+    requestAnimationFrame(update);
+  }
+
+  countUp('cs-c-init', totalInit);
+  countUp('cs-c-countries', totalCountries);
+  if (totalHa >= 1000000) {
+    countUp('cs-c-hectares', parseFloat((totalHa/1000000).toFixed(1)));
+    const suffEl = document.querySelector('#cs-c-hectares + .cs-counter-suffix');
+    if (suffEl) suffEl.textContent = 'M+';
+  } else {
+    countUp('cs-c-hectares', totalHa);
+    const suffEl = document.querySelector('#cs-c-hectares + .cs-counter-suffix');
+    if (suffEl) suffEl.textContent = '+';
+  }
+
+  // Bar fills animate with stagger
   setTimeout(() => {
-    // Hero banner count-up
-    animateDgStat('cs-hero-initiatives', totalInit);
-    animateDgStat('cs-hero-countries', totalCountries);
-    const heroHa = document.getElementById('cs-hero-hectares');
-    if (heroHa) heroHa.textContent = totalHa > 0 ? (totalHa >= 1000000 ? (totalHa/1000000).toFixed(1) + 'M' : totalHa.toLocaleString()) : '--';
-    const heroPeople = document.getElementById('cs-hero-people');
-    if (heroPeople) heroPeople.textContent = totalPeople > 0 ? totalPeople.toLocaleString() : '--';
-
-    // RAA Goal cards slide in
-    animateGoalBars();
-
-    // Scope & Region totals
-    const scopeTotal = snapshotData.byScope.reduce((s, d) => s + d.value, 0);
-    const scopeTotalEl = document.getElementById('scope-total');
-    if (scopeTotalEl) scopeTotalEl.textContent = scopeTotal;
-    const regionTotalEl = document.getElementById('region-total');
-    if (regionTotalEl) regionTotalEl.textContent = snapshotData.byRegion.length;
-  }, 100);
-
-  // Indicator group cards slide in
-  setTimeout(() => {
-    document.querySelectorAll('.cs-ind-group-card').forEach((card, i) => {
-      card.style.transitionDelay = `${i * 0.15}s`;
-      card.classList.add('animated');
+    document.querySelectorAll('.bar-fill').forEach((bar, i) => {
+      setTimeout(() => { bar.style.width = bar.dataset.width; }, i * 60);
     });
   }, 300);
-
-  // Indicator bars fill
-  setTimeout(() => {
-    document.querySelectorAll('.cs-ind-bar-fill').forEach(bar => {
-      bar.style.width = bar.dataset.width;
-    });
-  }, 600);
-
-  // Community profile cards slide in
-  setTimeout(() => {
-    document.querySelectorAll('.cs-card-v3').forEach((card, i) => {
-      setTimeout(() => card.classList.add('animated'), i * 120);
-    });
-  }, 500);
-
-  // Actor bars animate
-  setTimeout(() => {
-    document.querySelectorAll('.bar-item-v2').forEach((item, i) => {
-      setTimeout(() => {
-        item.classList.add('animated');
-      }, i * 100);
-    });
-    document.querySelectorAll('.bar-fill-v2').forEach((bar, i) => {
-      setTimeout(() => { bar.style.width = bar.dataset.width; }, 200 + i * 100);
-    });
-  }, 700);
-
-  // Old bar fills (if any)
-  setTimeout(() => {
-    document.querySelectorAll('.bar-fill').forEach(bar => {
-      bar.style.width = bar.dataset.width;
-    });
-  }, 800);
-
-  // Donuts spin in
-  setTimeout(() => {
-    document.querySelectorAll('.cs-donut-v3').forEach(d => d.classList.add('animated'));
-  }, 900);
 
   // BTT count
   const bttEl = document.getElementById('btt-count');
@@ -1058,9 +1010,11 @@ async function initApp() {
   const elFin = document.getElementById('enabler-fin'); if (elFin) elFin.textContent = enFin;
 
   // Community Profile charts
-  renderBarChartV2('chart-sector', snapshotData.bySector);
-  renderDonutV3('chart-scope', 'legend-scope', snapshotData.byScope, 'scope-total');
-  renderDonutV3('chart-region', 'legend-region', snapshotData.byRegion, 'region-total');
+  renderBarChart('chart-sector', snapshotData.bySector);
+  renderBarChart('chart-priority', snapshotData.byPriority);
+  renderBarChart('chart-enabler', snapshotData.byEnabler);
+  renderDonut('chart-scope', 'legend-scope', snapshotData.byScope);
+  renderDonut('chart-region', 'legend-region', snapshotData.byRegion);
 
   // BTT count
   const bttEl = document.getElementById('btt-count');
