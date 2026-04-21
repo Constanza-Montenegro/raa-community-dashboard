@@ -315,83 +315,74 @@
 
         </div>
 
-        <!-- Action Areas + Wheel + Enablers -->
+        <!-- Action Areas & Enablers with Wheel -->
         <div class="cs-section-label">Action Areas & Critical Enablers</div>
-        <div class="cs-wheel-layout">
+        <div class="cs-wheel-layout-v2">
 
-          <!-- Left: Action Areas -->
-          <div class="cs-wheel-col">
-            <div class="cs-wheel-col-title">Action Areas</div>
-            <div class="cs-bar-item" style="--bar-color:#48966a">
-              <div class="cs-bar-header">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#48966a" stroke-width="2"><path d="M12 22V10"/><path d="M12 10c-3-5-9-4-9 1s6 6 9 1z"/><path d="M12 10c3-5 9-4 9 1s-6 6-9 1z"/></svg>
-                <span class="cs-bar-name">Land Conservation & Restoration</span>
+          <!-- Left: All 6 indicators -->
+          <div class="cs-indicators-col">
+
+            <div class="cs-indicator-group">
+              <div class="cs-group-title">Action Areas</div>
+              <div class="cs-ind-card" style="--ind-gradient: linear-gradient(135deg, #2d6a4f, #48966a)">
+                <div class="cs-ind-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 22V10"/><path d="M12 10c-3-5-9-4-9 1s6 6 9 1z"/><path d="M12 10c3-5 9-4 9 1s-6 6-9 1z"/></svg></div>
+                <div class="cs-ind-info">
+                  <div class="cs-ind-name">Land Conservation & Restoration</div>
+                  <div class="cs-ind-bar"><div class="cs-ind-bar-fill" id="area-land-bar" data-width="60%"></div></div>
+                </div>
+                <div class="cs-ind-num" id="area-land">0</div>
               </div>
-              <div class="cs-bar-row">
-                <div class="cs-bar-track"><div class="cs-bar-fill" id="area-land-bar" data-width="60%"></div></div>
-                <span class="cs-bar-num" id="area-land">0</span>
+              <div class="cs-ind-card" style="--ind-gradient: linear-gradient(135deg, #8b6f47, #c49a3c)">
+                <div class="cs-ind-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2L4 7v6c0 5 4 10 8 11 4-1 8-6 8-11V7l-8-5z"/></svg></div>
+                <div class="cs-ind-info">
+                  <div class="cs-ind-name">Agriculture & Food Systems</div>
+                  <div class="cs-ind-bar"><div class="cs-ind-bar-fill" id="area-agri-bar" data-width="40%"></div></div>
+                </div>
+                <div class="cs-ind-num" id="area-agri">0</div>
               </div>
-            </div>
-            <div class="cs-bar-item" style="--bar-color:#c49a3c">
-              <div class="cs-bar-header">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c49a3c" stroke-width="2"><path d="M12 2L4 7v6c0 5 4 10 8 11 4-1 8-6 8-11V7l-8-5z"/></svg>
-                <span class="cs-bar-name">Agriculture & Food Systems</span>
-              </div>
-              <div class="cs-bar-row">
-                <div class="cs-bar-track"><div class="cs-bar-fill" id="area-agri-bar" data-width="40%"></div></div>
-                <span class="cs-bar-num" id="area-agri">0</span>
-              </div>
-            </div>
-            <div class="cs-bar-item" style="--bar-color:#587da0">
-              <div class="cs-bar-header">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#587da0" stroke-width="2"><path d="M12 2S6 10 6 14a6 6 0 0 0 12 0c0-4-6-12-6-12z"/></svg>
-                <span class="cs-bar-name">Drought & Water Resilience</span>
-              </div>
-              <div class="cs-bar-row">
-                <div class="cs-bar-track"><div class="cs-bar-fill" id="area-drought-bar" data-width="35%"></div></div>
-                <span class="cs-bar-num" id="area-drought">0</span>
+              <div class="cs-ind-card" style="--ind-gradient: linear-gradient(135deg, #3a6b8a, #587da0)">
+                <div class="cs-ind-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2S6 10 6 14a6 6 0 0 0 12 0c0-4-6-12-6-12z"/></svg></div>
+                <div class="cs-ind-info">
+                  <div class="cs-ind-name">Drought & Water Resilience</div>
+                  <div class="cs-ind-bar"><div class="cs-ind-bar-fill" id="area-drought-bar" data-width="35%"></div></div>
+                </div>
+                <div class="cs-ind-num" id="area-drought">0</div>
               </div>
             </div>
+
+            <div class="cs-indicator-group">
+              <div class="cs-group-title">Critical Enablers</div>
+              <div class="cs-ind-card" style="--ind-gradient: linear-gradient(135deg, #002929, #2A4644)">
+                <div class="cs-ind-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></div>
+                <div class="cs-ind-info">
+                  <div class="cs-ind-name">Governance</div>
+                  <div class="cs-ind-bar"><div class="cs-ind-bar-fill" id="enabler-gov-bar" data-width="50%"></div></div>
+                </div>
+                <div class="cs-ind-num" id="enabler-gov">0</div>
+              </div>
+              <div class="cs-ind-card" style="--ind-gradient: linear-gradient(135deg, #1a4a6a, #2a7ab5)">
+                <div class="cs-ind-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4"/></svg></div>
+                <div class="cs-ind-info">
+                  <div class="cs-ind-name">Science, Technology & Innovation</div>
+                  <div class="cs-ind-bar"><div class="cs-ind-bar-fill" id="enabler-sci-bar" data-width="35%"></div></div>
+                </div>
+                <div class="cs-ind-num" id="enabler-sci">0</div>
+              </div>
+              <div class="cs-ind-card" style="--ind-gradient: linear-gradient(135deg, #6d5a2a, #a08450)">
+                <div class="cs-ind-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+                <div class="cs-ind-info">
+                  <div class="cs-ind-name">Finance</div>
+                  <div class="cs-ind-bar"><div class="cs-ind-bar-fill" id="enabler-fin-bar" data-width="45%"></div></div>
+                </div>
+                <div class="cs-ind-num" id="enabler-fin">0</div>
+              </div>
+            </div>
+
           </div>
 
-          <!-- Center: RAA Wheel -->
-          <div class="cs-wheel-center">
+          <!-- Right: RAA Wheel -->
+          <div class="cs-wheel-side">
             <img src="raa-brand/raa wheel.png" alt="RAA Framework" class="raa-wheel-img">
-          </div>
-
-          <!-- Right: Critical Enablers -->
-          <div class="cs-wheel-col">
-            <div class="cs-wheel-col-title">Critical Enablers</div>
-            <div class="cs-bar-item" style="--bar-color:#002929">
-              <div class="cs-bar-header">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#002929" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
-                <span class="cs-bar-name">Governance</span>
-              </div>
-              <div class="cs-bar-row">
-                <div class="cs-bar-track"><div class="cs-bar-fill" id="enabler-gov-bar" data-width="50%"></div></div>
-                <span class="cs-bar-num" id="enabler-gov">0</span>
-              </div>
-            </div>
-            <div class="cs-bar-item" style="--bar-color:#2a7ab5">
-              <div class="cs-bar-header">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2a7ab5" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4"/></svg>
-                <span class="cs-bar-name">Science, Technology & Innovation</span>
-              </div>
-              <div class="cs-bar-row">
-                <div class="cs-bar-track"><div class="cs-bar-fill" id="enabler-sci-bar" data-width="35%"></div></div>
-                <span class="cs-bar-num" id="enabler-sci">0</span>
-              </div>
-            </div>
-            <div class="cs-bar-item" style="--bar-color:#a08450">
-              <div class="cs-bar-header">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a08450" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                <span class="cs-bar-name">Finance</span>
-              </div>
-              <div class="cs-bar-row">
-                <div class="cs-bar-track"><div class="cs-bar-fill" id="enabler-fin-bar" data-width="45%"></div></div>
-                <span class="cs-bar-num" id="enabler-fin">0</span>
-              </div>
-            </div>
           </div>
 
         </div>

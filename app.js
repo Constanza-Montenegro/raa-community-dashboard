@@ -863,8 +863,8 @@ async function initApp() {
   const bttEl = document.getElementById('btt-count');
   if (bttEl) bttEl.textContent = initiatives.filter(i => i.breakthroughTarget).length;
 
-  // Animate wheel bars
-  document.querySelectorAll('.cs-bar-fill').forEach(bar => {
+  // Animate indicator bars
+  document.querySelectorAll('.cs-ind-bar-fill').forEach(bar => {
     setTimeout(() => { bar.style.width = bar.dataset.width; }, 200);
   });
 
