@@ -818,9 +818,29 @@ function animateGoalBars() {
     card.style.transitionDelay = `${i * 0.15}s`;
     setTimeout(() => card.classList.add('animated'), 100);
   });
+
+  // Calculate real hectares from data
+  const totalHa = initiatives.reduce((s, i) => s + (i.haToBeRestored || 0) + (i.haToBeConserved || 0) + (i.haUnderRestoration || 0) + (i.haConserved || 0), 0);
+  const goalLandEl = document.getElementById('goal-land-current');
+  if (goalLandEl) {
+    if (totalHa > 0) {
+      goalLandEl.textContent = totalHa >= 1000000 ? (totalHa/1000000).toFixed(1) + 'M' : totalHa.toLocaleString();
+    } else {
+      goalLandEl.textContent = '--';
+    }
+  }
+  const goalLandPct = document.getElementById('goal-land-pct');
+  if (goalLandPct && totalHa > 0) {
+    const pct = (totalHa / 1500000000 * 100).toFixed(2);
+    goalLandPct.textContent = pct + '%';
+  }
+
   // Land goal bar
   const landBar = document.getElementById('goal-land-bar');
-  if (landBar) setTimeout(() => { landBar.style.width = '0.17%'; }, 500);
+  if (landBar && totalHa > 0) {
+    const barPct = Math.max(0.5, totalHa / 1500000000 * 100);
+    setTimeout(() => { landBar.style.width = barPct + '%'; }, 500);
+  }
 }
 
 function animateCounters() {
@@ -1068,8 +1088,58 @@ async function initApp() {
   const overlay = document.getElementById('loading-overlay');
   if (overlay) overlay.style.display = 'none';
 
-  // Animate hero count-up
-  animateCountUp();
+  // Populate dynamic numbers everywhere
+  const dynInit = initiatives.length;
+  const dynCountries = new Set(initiatives.map(i => i.country)).size;
+  const dynHa = initiatives.reduce((s, i) => s + (i.haToBeRestored || 0) + (i.haToBeConserved || 0) + (i.haUnderRestoration || 0) + (i.haConserved || 0), 0);
+  const dynActors = new Set(initiatives.map(i => i.actorType)).size;
+
+  function formatHa(ha) {
+    if (ha >= 1000000) return (ha/1000000).toFixed(1) + 'M';
+    if (ha > 0) return ha.toLocaleString();
+    return '--';
+  }
+
+  // Hero (overview landing)
+  const heroInit = document.getElementById('hero-initiatives');
+  const heroCountries = document.getElementById('hero-countries');
+  const heroHectares = document.getElementById('hero-hectares');
+  if (heroInit) heroInit.textContent = dynInit;
+  if (heroCountries) heroCountries.textContent = dynCountries;
+  if (heroHectares) heroHectares.textContent = formatHa(dynHa);
+
+  // Snapshot overview cards
+  const snapInit = document.getElementById('snap-initiatives');
+  const snapCountries = document.getElementById('snap-countries');
+  const snapHectares = document.getElementById('snap-hectares');
+  const snapActors = document.getElementById('snap-actors');
+  if (snapInit) snapInit.textContent = dynInit + '+';
+  if (snapCountries) snapCountries.textContent = dynCountries + '+';
+  if (snapHectares) snapHectares.textContent = formatHa(dynHa) + '+';
+  if (snapActors) snapActors.textContent = dynActors;
+
+  // Animate hero count-up (for overview hero)
+  // Re-animate the hero numbers with count-up effect
+  function animateHeroNum(id, target) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const duration = 900;
+    const start = performance.now();
+    const text = el.textContent;
+    const suffix = text.replace(/[\d.,]/g, '');
+    function update(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(eased * target);
+      el.textContent = current.toLocaleString() + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+      else el.textContent = target.toLocaleString() + suffix;
+    }
+    el.textContent = '0' + suffix;
+    requestAnimationFrame(update);
+  }
+  animateHeroNum('hero-initiatives', dynInit);
+  animateHeroNum('hero-countries', dynCountries);
 }
 
 // Start the app

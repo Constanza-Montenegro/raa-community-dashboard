@@ -1759,12 +1759,9 @@ body {
 }
 
 .cs-ind-num {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 900;
-  background: var(--ind-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--dark-teal);
   letter-spacing: -1px;
   min-width: 36px;
   text-align: right;
@@ -1988,7 +1985,7 @@ body {
 .bar-item-v2 .bar-value-v2 {
   font-size: 13px;
   font-weight: 800;
-  color: #48966a;
+  color: var(--dark-teal);
 }
 
 .bar-item-v2 .bar-track-v2 {

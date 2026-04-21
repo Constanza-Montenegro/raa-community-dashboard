@@ -53,11 +53,11 @@
             <p>Explore the global community advancing land restoration and drought resilience.</p>
           </div>
           <div class="hero-card-stats">
-            <div class="hero-stat"><span class="hero-stat-num" data-count="125" data-suffix="+">0</span><span class="hero-stat-label">Initiatives</span></div>
+            <div class="hero-stat"><span class="hero-stat-num" id="hero-initiatives">0</span><span class="hero-stat-label">Initiatives</span></div>
             <div class="hero-stat-divider"></div>
-            <div class="hero-stat"><span class="hero-stat-num" data-count="45" data-suffix="+">0</span><span class="hero-stat-label">Countries</span></div>
+            <div class="hero-stat"><span class="hero-stat-num" id="hero-countries">0</span><span class="hero-stat-label">Countries</span></div>
             <div class="hero-stat-divider"></div>
-            <div class="hero-stat"><span class="hero-stat-num" data-count="2.5" data-suffix="M+" data-decimal="1">0</span><span class="hero-stat-label">Hectares</span></div>
+            <div class="hero-stat"><span class="hero-stat-num" id="hero-hectares">0</span><span class="hero-stat-label">Hectares</span></div>
           </div>
         </div>
 
@@ -103,19 +103,19 @@
           </div>
           <div class="snapshot-ov-grid">
             <div class="snap-card-v2" style="--snap-color:#48966a">
-              <span class="snap-num">125+</span>
+              <span class="snap-num" id="snap-initiatives">0</span>
               <span class="snap-label">Total Initiatives</span>
             </div>
             <div class="snap-card-v2" style="--snap-color:#587da0">
-              <span class="snap-num">45+</span>
+              <span class="snap-num" id="snap-countries">0</span>
               <span class="snap-label">Countries</span>
             </div>
             <div class="snap-card-v2" style="--snap-color:#c49a3c">
-              <span class="snap-num">2.5M+</span>
+              <span class="snap-num" id="snap-hectares">0</span>
               <span class="snap-label">Hectares Under Restoration</span>
             </div>
             <div class="snap-card-v2" style="--snap-color:#002929">
-              <span class="snap-num">7</span>
+              <span class="snap-num" id="snap-actors">0</span>
               <span class="snap-label">Actor Types</span>
             </div>
           </div>
@@ -287,7 +287,7 @@
               <div class="raa-goal-title">Land Conservation & Restoration</div>
               <div class="raa-goal-target">Global target: <strong>1.5 billion hectares</strong></div>
               <div class="raa-goal-progress-row">
-                <span class="raa-goal-current" id="goal-land-current">2.5M</span>
+                <span class="raa-goal-current" id="goal-land-current">--</span>
                 <span class="raa-goal-pct" id="goal-land-pct">0.17%</span>
               </div>
               <div class="raa-goal-bar"><div class="raa-goal-bar-fill" id="goal-land-bar" style="width:0%"></div></div>
