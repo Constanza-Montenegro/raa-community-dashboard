@@ -844,55 +844,101 @@ function animateGoalBars() {
 }
 
 function animateCounters() {
-  animateGoalBars();
+  // === STEP 1: RESET everything to initial state ===
 
-  // Hero banner numbers
+  // Reset RAA goal cards
+  document.querySelectorAll('.raa-goal-card').forEach(c => c.classList.remove('animated'));
+  // Reset indicator group cards
+  document.querySelectorAll('.cs-ind-group-card').forEach(c => c.classList.remove('animated'));
+  // Reset community profile cards
+  document.querySelectorAll('.cs-card-v3').forEach(c => c.classList.remove('animated'));
+  // Reset bar items
+  document.querySelectorAll('.bar-item-v2').forEach(item => item.classList.remove('animated'));
+  // Reset all bar fills to 0
+  document.querySelectorAll('.bar-fill-v2').forEach(bar => { bar.style.width = '0%'; });
+  document.querySelectorAll('.cs-ind-bar-fill').forEach(bar => { bar.style.width = '0%'; });
+  document.querySelectorAll('.bar-fill').forEach(bar => { bar.style.width = '0%'; });
+  // Reset donuts
+  document.querySelectorAll('.cs-donut-v3').forEach(d => d.classList.remove('animated'));
+  // Reset goal bar
+  const landBar = document.getElementById('goal-land-bar');
+  if (landBar) landBar.style.width = '0%';
+
+  // === STEP 2: ANIMATE everything with delays ===
   const totalInit = initiatives.length;
   const totalCountries = new Set(initiatives.map(i => i.country)).size;
   const totalHa = initiatives.reduce((s, i) => s + (i.haToBeRestored || 0) + (i.haToBeConserved || 0) + (i.haUnderRestoration || 0) + (i.haConserved || 0), 0);
   const totalPeople = initiatives.reduce((s, i) => s + (i.peopleToBeBenefited || 0) + (i.peopleBenefited || 0), 0);
 
-  animateDgStat('cs-hero-initiatives', totalInit);
-  animateDgStat('cs-hero-countries', totalCountries);
-  const heroHa = document.getElementById('cs-hero-hectares');
-  if (heroHa) heroHa.textContent = totalHa > 0 ? (totalHa >= 1000000 ? (totalHa/1000000).toFixed(1) + 'M' : totalHa.toLocaleString()) : '--';
-  const heroPeople = document.getElementById('cs-hero-people');
-  if (heroPeople) heroPeople.textContent = totalPeople > 0 ? totalPeople.toLocaleString() : '--';
-
-  // Scope total
-  const scopeTotal = snapshotData.byScope.reduce((s, d) => s + d.value, 0);
-  const scopeTotalEl = document.getElementById('scope-total');
-  if (scopeTotalEl) scopeTotalEl.textContent = scopeTotal;
-
-  // Staggered card entrance animation
-  document.querySelectorAll('.cs-card-v3').forEach((card, i) => {
-    setTimeout(() => { card.classList.add('animated'); }, 100 + i * 120);
-  });
-
-  // Staggered bar animation
   setTimeout(() => {
-    document.querySelectorAll('.bar-item-v2').forEach(item => item.classList.add('animated'));
-    document.querySelectorAll('.bar-fill-v2').forEach(bar => {
-      setTimeout(() => { bar.style.width = bar.dataset.width; }, 100);
-    });
-  }, 200);
+    // Hero banner count-up
+    animateDgStat('cs-hero-initiatives', totalInit);
+    animateDgStat('cs-hero-countries', totalCountries);
+    const heroHa = document.getElementById('cs-hero-hectares');
+    if (heroHa) heroHa.textContent = totalHa > 0 ? (totalHa >= 1000000 ? (totalHa/1000000).toFixed(1) + 'M' : totalHa.toLocaleString()) : '--';
+    const heroPeople = document.getElementById('cs-hero-people');
+    if (heroPeople) heroPeople.textContent = totalPeople > 0 ? totalPeople.toLocaleString() : '--';
 
-  document.querySelectorAll('.counter-num').forEach(counter => {
-    const target = parseFloat(counter.dataset.target);
-    if (isNaN(target)) return;
-    const isDecimal = target % 1 !== 0;
-    const steps = 30;
-    const inc = target / steps;
-    let cur = 0, step = 0;
-    const timer = setInterval(() => {
-      step++; cur += inc;
-      if (step >= steps) { cur = target; clearInterval(timer); }
-      counter.textContent = isDecimal ? cur.toFixed(1) : Math.round(cur);
-    }, 30);
-  });
-  document.querySelectorAll('.bar-fill').forEach(bar => {
-    setTimeout(() => { bar.style.width = bar.dataset.width; }, 100);
-  });
+    // RAA Goal cards slide in
+    animateGoalBars();
+
+    // Scope & Region totals
+    const scopeTotal = snapshotData.byScope.reduce((s, d) => s + d.value, 0);
+    const scopeTotalEl = document.getElementById('scope-total');
+    if (scopeTotalEl) scopeTotalEl.textContent = scopeTotal;
+    const regionTotalEl = document.getElementById('region-total');
+    if (regionTotalEl) regionTotalEl.textContent = snapshotData.byRegion.length;
+  }, 100);
+
+  // Indicator group cards slide in
+  setTimeout(() => {
+    document.querySelectorAll('.cs-ind-group-card').forEach((card, i) => {
+      card.style.transitionDelay = `${i * 0.15}s`;
+      card.classList.add('animated');
+    });
+  }, 300);
+
+  // Indicator bars fill
+  setTimeout(() => {
+    document.querySelectorAll('.cs-ind-bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.width;
+    });
+  }, 600);
+
+  // Community profile cards slide in
+  setTimeout(() => {
+    document.querySelectorAll('.cs-card-v3').forEach((card, i) => {
+      setTimeout(() => card.classList.add('animated'), i * 120);
+    });
+  }, 500);
+
+  // Actor bars animate
+  setTimeout(() => {
+    document.querySelectorAll('.bar-item-v2').forEach((item, i) => {
+      setTimeout(() => {
+        item.classList.add('animated');
+      }, i * 100);
+    });
+    document.querySelectorAll('.bar-fill-v2').forEach((bar, i) => {
+      setTimeout(() => { bar.style.width = bar.dataset.width; }, 200 + i * 100);
+    });
+  }, 700);
+
+  // Old bar fills (if any)
+  setTimeout(() => {
+    document.querySelectorAll('.bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.width;
+    });
+  }, 800);
+
+  // Donuts spin in
+  setTimeout(() => {
+    document.querySelectorAll('.cs-donut-v3').forEach(d => d.classList.add('animated'));
+  }, 900);
+
+  // BTT count
+  const bttEl = document.getElementById('btt-count');
+  if (bttEl) bttEl.textContent = initiatives.filter(i => i.breakthroughTarget).length;
 }
 
 // ============================================================
