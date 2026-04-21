@@ -711,6 +711,74 @@ function renderDonut(chartId, legendId, data) {
   if (chartEl) chartEl.style.background = `conic-gradient(${parts.join(', ')})`;
 }
 
+// Bar chart v2 with gradient bars and staggered animation
+const actorGradients = {
+  'Civil Society': ['#2d6a4f','#48966a'],
+  'National Government': ['#002929','#2A4644'],
+  'Private Sector': ['#8b6f47','#c49a3c'],
+  'Academia': ['#3a6b8a','#587da0'],
+  'Multilateral Org.': ['#6d5a2a','#a08450'],
+  'Local Government': ['#6d7042','#8a8d55']
+};
+
+function renderBarChartV2(id, data) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = '';
+  const max = Math.max(...data.map(d => d.pct || d.value));
+  data.forEach((d, i) => {
+    const w = Math.round(((d.pct || d.value) / max) * 100);
+    const grad = actorGradients[d.label] || ['#48966a','#48966a'];
+    const item = document.createElement('div');
+    item.className = 'bar-item-v2';
+    item.style.transitionDelay = `${i * 0.1}s`;
+    item.innerHTML = `
+      <div class="bar-header-v2">
+        <span class="bar-label-v2">${d.label}</span>
+        <span class="bar-value-v2">${d.value}</span>
+      </div>
+      <div class="bar-track-v2"><div class="bar-fill-v2" style="--bar-gradient:linear-gradient(90deg,${grad[0]},${grad[1]})" data-width="${w}%"></div></div>
+    `;
+    el.appendChild(item);
+  });
+}
+
+// Region map (simplified SVG paths)
+const regionPaths = {
+  Africa: "M480 180l10 20 15 5 5 15-5 25-15 10-5 20 10 30 20 15 10 25-5 20-15 10-25 5-15-5-10-15-20-5-15 10-10 20-15 5-10-10 5-25 10-15 5-25 15-20 10-15 20-10 15-5 10-15 5-20z",
+  Americas: "M220 60l5 15 10 10-5 20-10 15 5 15 15 10 10 20 5 25-5 15-10 10 5 20 10 15 15 25 10 30 5 25-5 20-10 15-15 20-10 25-5 20 5 15-10 10-5-15-10-20-5-25 5-20 10-25 5-20-5-15-10-20 5-15 10-10 5-20-5-25-10-15 5-20 10-15 15-10 5-15z",
+  Asia: "M560 80l25 10 20 15 30 5 25 10 15 15 10 20 20 10 15 15-5 20-15 15-10 20-20 10-25 5-15 15-20 10-25-5-15-10-10-15-20-5-15-10-10-15 5-20 10-15 15-10 5-15-5-20 10-10 15-5 20-10z",
+  Europe: "M460 60l15 5 20 10 15 5 10 10-5 15-10 10-15 5-20 10-15 5-10 10 5 15-5 10-15 5-10-5-15-10-10-15 5-15 10-10 15-5 10-10 5-15 15-10z",
+  Oceania: "M720 290l20 5 15 10 10 15 5 15-5 15-10 10-15 5-20 5-15-5-10-10-5-15 5-15 10-10 15-10z"
+};
+
+function renderRegionMap(data) {
+  const svg = document.getElementById('cs-region-map');
+  const legend = document.getElementById('legend-region');
+  if (!svg || !legend) return;
+  svg.innerHTML = '';
+  legend.innerHTML = '';
+
+  const total = data.reduce((s, d) => s + d.value, 0);
+
+  data.forEach(d => {
+    const pathData = regionPaths[d.label];
+    if (!pathData) return;
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', pathData);
+    path.setAttribute('fill', d.color);
+    path.setAttribute('data-region', d.label);
+    const pct = Math.round((d.value / total) * 100);
+    path.innerHTML = `<title>${d.label}: ${pct}% (${d.value})</title>`;
+    svg.appendChild(path);
+
+    const item = document.createElement('div');
+    item.className = 'cs-region-legend-item';
+    item.innerHTML = `<span class="cs-region-legend-dot" style="background:${d.color}"></span>${d.label}<span class="cs-region-legend-value">${pct}%</span>`;
+    legend.appendChild(item);
+  });
+}
+
 function animateGoalBars() {
   // Land goal: placeholder 2.5M of 1.5B = 0.17%
   const landBar = document.getElementById('goal-land-bar');
@@ -720,6 +788,33 @@ function animateGoalBars() {
 
 function animateCounters() {
   animateGoalBars();
+
+  // Hero banner numbers
+  const totalInit = initiatives.length;
+  const totalCountries = new Set(initiatives.map(i => i.country)).size;
+  const totalHa = initiatives.reduce((s, i) => s + (i.haToBeRestored || 0) + (i.haToBeConserved || 0) + (i.haUnderRestoration || 0) + (i.haConserved || 0), 0);
+  const totalPeople = initiatives.reduce((s, i) => s + (i.peopleToBeBenefited || 0) + (i.peopleBenefited || 0), 0);
+
+  animateDgStat('cs-hero-initiatives', totalInit);
+  animateDgStat('cs-hero-countries', totalCountries);
+  const heroHa = document.getElementById('cs-hero-hectares');
+  if (heroHa) heroHa.textContent = totalHa > 0 ? (totalHa >= 1000000 ? (totalHa/1000000).toFixed(1) + 'M' : totalHa.toLocaleString()) : '--';
+  const heroPeople = document.getElementById('cs-hero-people');
+  if (heroPeople) heroPeople.textContent = totalPeople > 0 ? totalPeople.toLocaleString() : '--';
+
+  // Scope total
+  const scopeTotal = snapshotData.byScope.reduce((s, d) => s + d.value, 0);
+  const scopeTotalEl = document.getElementById('scope-total');
+  if (scopeTotalEl) scopeTotalEl.textContent = scopeTotal;
+
+  // Staggered bar animation
+  setTimeout(() => {
+    document.querySelectorAll('.bar-item-v2').forEach(item => item.classList.add('animated'));
+    document.querySelectorAll('.bar-fill-v2').forEach(bar => {
+      setTimeout(() => { bar.style.width = bar.dataset.width; }, 100);
+    });
+  }, 200);
+
   document.querySelectorAll('.counter-num').forEach(counter => {
     const target = parseFloat(counter.dataset.target);
     if (isNaN(target)) return;
@@ -855,9 +950,9 @@ async function initApp() {
   const elFin = document.getElementById('enabler-fin'); if (elFin) elFin.textContent = enFin;
 
   // Community Profile charts
-  renderBarChart('chart-sector', snapshotData.bySector);
+  renderBarChartV2('chart-sector', snapshotData.bySector);
   renderDonut('chart-scope', 'legend-scope', snapshotData.byScope);
-  renderDonut('chart-region', 'legend-region', snapshotData.byRegion);
+  renderRegionMap(snapshotData.byRegion);
 
   // BTT count
   const bttEl = document.getElementById('btt-count');

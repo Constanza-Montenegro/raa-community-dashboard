@@ -1757,6 +1757,251 @@ body {
   text-align: right;
 }
 
+/* Hero Banner */
+.cs-hero-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  background: var(--dark-teal);
+  padding: 36px 48px;
+  border-radius: var(--radius);
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cs-hero-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.2;
+  background-image: url('raa-brand/raa-pattern.png');
+  background-size: 400px auto;
+  background-repeat: repeat;
+  pointer-events: none;
+}
+
+.cs-hero-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.cs-hero-num {
+  font-size: 40px;
+  font-weight: 900;
+  color: white;
+  letter-spacing: -2px;
+  line-height: 1;
+}
+
+.cs-hero-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-top: 6px;
+}
+
+.cs-hero-divider {
+  width: 1px;
+  height: 48px;
+  background: rgba(255,255,255,0.15);
+  position: relative;
+  z-index: 1;
+}
+
+/* Profile grid v2 */
+.cs-profile-grid-v2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.cs-actors-card { grid-row: span 2; }
+
+/* Bar chart v2 (staggered gradient bars) */
+.bar-chart-v2 { display: flex; flex-direction: column; gap: 10px; }
+
+.bar-item-v2 {
+  opacity: 0;
+  transform: translateX(-16px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.bar-item-v2.animated {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.bar-item-v2 .bar-header-v2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.bar-item-v2 .bar-label-v2 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dark-teal);
+}
+
+.bar-item-v2 .bar-value-v2 {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--dark-teal);
+}
+
+.bar-item-v2 .bar-track-v2 {
+  height: 10px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.bar-item-v2 .bar-fill-v2 {
+  height: 100%;
+  width: 0%;
+  border-radius: 5px;
+  background: var(--bar-gradient);
+  transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Scope donut v2 */
+.cs-scope-card-v2 { display: flex; flex-direction: column; }
+
+.cs-scope-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  justify-content: center;
+}
+
+.cs-scope-donut {
+  width: 150px; height: 150px;
+  border-radius: 50%;
+  position: relative;
+}
+
+.cs-scope-center {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 76px; height: 76px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  z-index: 1;
+}
+
+.cs-scope-total {
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--dark-teal);
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.cs-scope-total-label {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-light);
+  letter-spacing: 0.5px;
+}
+
+.cs-scope-legend { justify-content: center; }
+
+/* Region map */
+.cs-region-card { grid-column: span 2; }
+
+.cs-region-wrap {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.cs-region-map {
+  flex: 1;
+  max-height: 220px;
+}
+
+.cs-region-map path {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  stroke: white;
+  stroke-width: 0.5;
+}
+
+.cs-region-map path:hover {
+  filter: brightness(1.15);
+  stroke-width: 1.5;
+}
+
+.cs-region-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.cs-region-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.cs-region-legend-dot {
+  width: 12px; height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.cs-region-legend-value {
+  font-weight: 800;
+  color: var(--dark-teal);
+  margin-left: auto;
+  padding-left: 12px;
+}
+
+/* Pulse dot footer */
+.cs-footer { display: flex; align-items: center; justify-content: space-between; }
+
+.cs-timestamp {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.cs-pulse-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(72, 150, 106, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(72, 150, 106, 0); }
+}
+
 /* BTT card */
 .cs-btt-card {
   display: flex;
@@ -1916,8 +2161,10 @@ body {
   width: 60px; height: 60px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
   background: #fff; border-radius: 10px; padding: 4px;
+  overflow: hidden;
 }
 .partner-row-logo img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 4px; }
+.partner-row-logo img[src*="raa-logo"] { transform: scale(1.6); }
 
 .partner-row-info { flex: 1; min-width: 0; }
 .partner-row-name { font-size: 14px; font-weight: 700; color: var(--dark-teal); }

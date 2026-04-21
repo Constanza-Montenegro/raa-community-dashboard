@@ -246,6 +246,29 @@
         <button class="btn-back" onclick="goHome()">&larr; Back to overview</button>
         <div class="section-intro"><h1 class="page-title">Community Snapshot</h1><p class="page-desc">Aggregated overview of the RAA Community's scale and composition.</p></div>
 
+        <!-- Hero Banner -->
+        <div class="cs-hero-banner">
+          <div class="cs-hero-stat">
+            <span class="cs-hero-num" id="cs-hero-initiatives">0</span>
+            <span class="cs-hero-label">Initiatives</span>
+          </div>
+          <div class="cs-hero-divider"></div>
+          <div class="cs-hero-stat">
+            <span class="cs-hero-num" id="cs-hero-countries">0</span>
+            <span class="cs-hero-label">Countries</span>
+          </div>
+          <div class="cs-hero-divider"></div>
+          <div class="cs-hero-stat">
+            <span class="cs-hero-num" id="cs-hero-hectares">0</span>
+            <span class="cs-hero-label">Hectares</span>
+          </div>
+          <div class="cs-hero-divider"></div>
+          <div class="cs-hero-stat">
+            <span class="cs-hero-num" id="cs-hero-people">0</span>
+            <span class="cs-hero-label">People Benefited</span>
+          </div>
+        </div>
+
         <!-- RAA Goals Progress -->
         <div class="cs-section-label">RAA Goals Progress</div>
         <div class="raa-goals-grid">
@@ -389,20 +412,41 @@
 
         <!-- 3. Community Profile -->
         <div class="cs-section-label">Community Profile</div>
-        <div class="cs-profile-grid">
-          <div class="snapshot-card cs-profile-wide"><h3>By Type of Actor</h3><div class="bar-chart" id="chart-sector"></div></div>
-          <div class="cs-profile-right">
-            <div class="snapshot-card cs-donut-card"><h3>By Scope</h3><div class="donut-wrap cs-donut-centered"><div class="donut cs-donut-lg" id="chart-scope"></div><div class="donut-legend" id="legend-scope"></div></div></div>
-            <div class="snapshot-card cs-donut-card"><h3>By Region</h3><div class="donut-wrap cs-donut-centered"><div class="donut cs-donut-lg" id="chart-region"></div><div class="donut-legend" id="legend-region"></div></div></div>
-            <div class="snapshot-card cs-btt-card">
-              <h3>Breakthrough Targets</h3>
-              <div class="cs-btt-num" id="btt-count">0</div>
-              <div class="cs-btt-label">initiatives engaged with L&S Breakthrough Targets</div>
+        <div class="cs-profile-grid-v2">
+          <div class="snapshot-card cs-actors-card">
+            <h3>By Type of Actor</h3>
+            <div class="bar-chart-v2" id="chart-sector"></div>
+          </div>
+          <div class="snapshot-card cs-scope-card-v2">
+            <h3>By Scope</h3>
+            <div class="cs-scope-wrap">
+              <div class="cs-scope-donut" id="chart-scope">
+                <div class="cs-scope-center">
+                  <span class="cs-scope-total" id="scope-total">0</span>
+                  <span class="cs-scope-total-label">Total</span>
+                </div>
+              </div>
+              <div class="donut-legend cs-scope-legend" id="legend-scope"></div>
+            </div>
+          </div>
+          <div class="snapshot-card cs-btt-card">
+            <h3>Breakthrough Targets</h3>
+            <div class="cs-btt-num" id="btt-count">0</div>
+            <div class="cs-btt-label">initiatives engaged with L&S Breakthrough Targets</div>
+          </div>
+          <div class="snapshot-card cs-region-card">
+            <h3>By Region</h3>
+            <div class="cs-region-wrap">
+              <svg id="cs-region-map" class="cs-region-map" viewBox="0 0 1000 500"></svg>
+              <div class="cs-region-legend" id="legend-region"></div>
             </div>
           </div>
         </div>
-        <div class="section-footer">
-          <span class="timestamp">Last updated: <strong id="snapshot-date"></strong></span>
+        <div class="section-footer cs-footer">
+          <span class="cs-timestamp">
+            <span class="cs-pulse-dot"></span>
+            Last updated: <strong id="snapshot-date"></strong>
+          </span>
           <span class="disclaimer">All data is self-reported by participating initiatives. The Dashboard is committed to progressively strengthening data consistency.</span>
         </div>
       </section>
