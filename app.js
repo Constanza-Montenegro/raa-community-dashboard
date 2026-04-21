@@ -869,8 +869,24 @@ function animateCounters() {
     requestAnimationFrame(update);
   }
 
+  const totalPeople = initiatives.reduce((s, i) => s + (i.peopleToBeBenefited || 0) + (i.peopleBenefited || 0), 0);
+
   countUp('cs-c-init', totalInit);
   countUp('cs-c-countries', totalCountries);
+  if (totalPeople > 0) {
+    if (totalPeople >= 1000000) {
+      countUp('cs-c-people', parseFloat((totalPeople/1000000).toFixed(1)));
+      const pSuff = document.querySelector('#cs-c-people + .cs-counter-suffix');
+      if (pSuff) pSuff.textContent = 'M+';
+    } else {
+      countUp('cs-c-people', totalPeople);
+      const pSuff = document.querySelector('#cs-c-people + .cs-counter-suffix');
+      if (pSuff) pSuff.textContent = '+';
+    }
+  } else {
+    const pEl = document.getElementById('cs-c-people');
+    if (pEl) pEl.textContent = '--';
+  }
   if (totalHa >= 1000000) {
     countUp('cs-c-hectares', parseFloat((totalHa/1000000).toFixed(1)));
     const suffEl = document.querySelector('#cs-c-hectares + .cs-counter-suffix');

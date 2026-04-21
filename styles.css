@@ -1443,12 +1443,24 @@ body {
 .cs-wheel-box { display: flex; align-items: center; justify-content: center; }
 .cs-wheel-img { width: 200px; height: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08)); }
 
-/* Stats 3x2 grid */
+/* Stats grid: 4 counters top, 3 goals bottom */
 .cs-stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
 }
+
+.cs-goals-row {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.cs-counter-sm.cs-counter--blue { background: linear-gradient(135deg, #3a6b8a, #587da0); border: none; }
+.cs-counter-sm.cs-counter--blue .cs-counter-num { color: white; }
+.cs-counter-sm.cs-counter--blue .cs-counter-suffix { color: rgba(255,255,255,0.5); }
+.cs-counter-sm.cs-counter--blue .cs-counter-label { color: rgba(255,255,255,0.7); }
 
 .cs-counter-sm {
   background: var(--bg-card); border: 1px solid var(--border);
@@ -1503,7 +1515,7 @@ body {
 
 .cs-chart-card {
   background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 18px;
+  border-radius: var(--radius); padding: 14px;
 }
 
 .cs-chart-card h3 { font-size: 13px; font-weight: 700; color: var(--dark-teal); margin-bottom: 12px; letter-spacing: -0.2px; }
