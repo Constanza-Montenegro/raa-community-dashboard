@@ -779,6 +779,40 @@ function renderRegionMap(data) {
   });
 }
 
+// Donut v3 with brighter colors and animation
+function renderDonutV3(chartId, legendId, data, totalId) {
+  const total = data.reduce((s, d) => s + d.value, 0);
+  if (total === 0) return;
+  let cum = 0;
+  const parts = [];
+  const legend = document.getElementById(legendId);
+  if (legend) legend.innerHTML = '';
+
+  data.forEach(d => {
+    const start = (cum / total) * 100;
+    cum += d.value;
+    const end = (cum / total) * 100;
+    parts.push(`${d.color} ${start}% ${end}%`);
+    const pct = Math.round((d.value / total) * 100);
+    if (legend) {
+      const item = document.createElement('div');
+      item.className = 'donut-legend-item';
+      item.innerHTML = `<span class="donut-legend-dot" style="background:${d.color}"></span>${d.label}: <strong>${pct}%</strong>`;
+      legend.appendChild(item);
+    }
+  });
+
+  const chartEl = document.getElementById(chartId);
+  if (chartEl) {
+    chartEl.style.background = `conic-gradient(${parts.join(', ')})`;
+    setTimeout(() => chartEl.classList.add('animated'), 300);
+  }
+  if (totalId) {
+    const totalEl = document.getElementById(totalId);
+    if (totalEl) totalEl.textContent = total;
+  }
+}
+
 function animateGoalBars() {
   // Land goal: placeholder 2.5M of 1.5B = 0.17%
   const landBar = document.getElementById('goal-land-bar');
@@ -951,16 +985,16 @@ async function initApp() {
 
   // Community Profile charts
   renderBarChartV2('chart-sector', snapshotData.bySector);
-  renderDonut('chart-scope', 'legend-scope', snapshotData.byScope);
-  renderRegionMap(snapshotData.byRegion);
+  renderDonutV3('chart-scope', 'legend-scope', snapshotData.byScope, 'scope-total');
+  renderDonutV3('chart-region', 'legend-region', snapshotData.byRegion, 'region-total');
 
   // BTT count
   const bttEl = document.getElementById('btt-count');
   if (bttEl) bttEl.textContent = initiatives.filter(i => i.breakthroughTarget).length;
 
-  // Animate indicator cards and bars (staggered)
-  document.querySelectorAll('.cs-ind-card').forEach((card, i) => {
-    card.style.transitionDelay = `${i * 0.1}s`;
+  // Animate indicator group cards (staggered)
+  document.querySelectorAll('.cs-ind-group-card').forEach((card, i) => {
+    card.style.transitionDelay = `${i * 0.15}s`;
     setTimeout(() => card.classList.add('animated'), 100);
   });
   document.querySelectorAll('.cs-ind-bar-fill').forEach(bar => {

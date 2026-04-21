@@ -243,9 +243,9 @@ const snapshotData = {
     { label: "Local Government", value: 12, pct: 10 }
   ],
   byScope: [
-    { label: "Regional", value: 45, color: "#74a869" },
-    { label: "National", value: 50, color: "#b7d1a4" },
-    { label: "Global", value: 30, color: "#2d6a4f" }
+    { label: "Regional", value: 45, color: "#48966a" },
+    { label: "National", value: 50, color: "#8bc4a0" },
+    { label: "Global", value: 30, color: "#002929" }
   ],
   byPriority: [
     { label: "Land Conservation", value: 52, pct: 42 },
@@ -258,10 +258,10 @@ const snapshotData = {
     { label: "Science & Tech", value: 35, pct: 28 }
   ],
   byRegion: [
-    { label: "Africa", value: 44, color: "#3d5a35" },
-    { label: "Americas", value: 30, color: "#6b8f5e" },
-    { label: "Asia", value: 25, color: "#8b6f47" },
-    { label: "Europe", value: 16, color: "#d4dfc8" },
+    { label: "Africa", value: 44, color: "#48966a" },
+    { label: "Americas", value: 30, color: "#c49a3c" },
+    { label: "Asia", value: 25, color: "#587da0" },
+    { label: "Europe", value: 16, color: "#002929" },
     { label: "Oceania", value: 10, color: "#d6cdb8" }
   ],
   byBreakthrough: [
