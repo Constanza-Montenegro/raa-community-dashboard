@@ -315,13 +315,69 @@
 
         </div>
 
-        <!-- Community Composition -->
-        <div class="cs-section-label">Community Composition</div>
+        <!-- 1. Action Areas -->
+        <div class="cs-section-label">Action Areas</div>
+        <div class="cs-rich-grid">
+          <div class="cs-rich-card" style="--card-gradient: linear-gradient(135deg, #2d6a4f, #48966a)">
+            <div class="cs-rich-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M12 22V10"/><path d="M12 10c-3-5-9-4-9 1s6 6 9 1z"/><path d="M12 10c3-5 9-4 9 1s-6 6-9 1z"/><path d="M12 15c-2-3-5-2-5 1s3 3 5 1z"/><path d="M12 15c2-3 5-2 5 1s-3 3-5 1z"/></svg>
+            </div>
+            <div class="cs-rich-num" id="area-land">0</div>
+            <div class="cs-rich-label">initiatives</div>
+            <div class="cs-rich-title">Land Conservation & Restoration</div>
+          </div>
+          <div class="cs-rich-card" style="--card-gradient: linear-gradient(135deg, #8b6f47, #c49a3c)">
+            <div class="cs-rich-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M12 2L4 7v6c0 5 4 10 8 11 4-1 8-6 8-11V7l-8-5z"/><path d="M9 12l2 2 4-4"/></svg>
+            </div>
+            <div class="cs-rich-num" id="area-agri">0</div>
+            <div class="cs-rich-label">initiatives</div>
+            <div class="cs-rich-title">Agriculture & Food Systems</div>
+          </div>
+          <div class="cs-rich-card" style="--card-gradient: linear-gradient(135deg, #3a6b8a, #587da0)">
+            <div class="cs-rich-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M12 2S6 10 6 14a6 6 0 0 0 12 0c0-4-6-12-6-12z"/><path d="M10 16a2 2 0 0 0 2 2"/></svg>
+            </div>
+            <div class="cs-rich-num" id="area-drought">0</div>
+            <div class="cs-rich-label">initiatives</div>
+            <div class="cs-rich-title">Drought & Water Resilience</div>
+          </div>
+        </div>
+
+        <!-- 2. Critical Enablers -->
+        <div class="cs-section-label">Critical Enablers</div>
+        <div class="cs-rich-grid">
+          <div class="cs-rich-card cs-rich-card--sm" style="--card-gradient: linear-gradient(135deg, #002929, #2A4644)">
+            <div class="cs-rich-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            </div>
+            <div class="cs-rich-num" id="enabler-gov">0</div>
+            <div class="cs-rich-label">initiatives</div>
+            <div class="cs-rich-title">Governance</div>
+          </div>
+          <div class="cs-rich-card cs-rich-card--sm" style="--card-gradient: linear-gradient(135deg, #1a4a6a, #2a7ab5)">
+            <div class="cs-rich-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+            </div>
+            <div class="cs-rich-num" id="enabler-sci">0</div>
+            <div class="cs-rich-label">initiatives</div>
+            <div class="cs-rich-title">Science, Technology & Innovation</div>
+          </div>
+          <div class="cs-rich-card cs-rich-card--sm" style="--card-gradient: linear-gradient(135deg, #6d5a2a, #a08450)">
+            <div class="cs-rich-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <div class="cs-rich-num" id="enabler-fin">0</div>
+            <div class="cs-rich-label">initiatives</div>
+            <div class="cs-rich-title">Finance</div>
+          </div>
+        </div>
+
+        <!-- 3. Community Profile -->
+        <div class="cs-section-label">Community Profile</div>
         <div class="snapshot-grid">
           <div class="snapshot-card"><h3>By Type of Actor</h3><div class="bar-chart" id="chart-sector"></div></div>
           <div class="snapshot-card"><h3>By Scope</h3><div class="donut-wrap"><div class="donut" id="chart-scope"></div><div class="donut-legend" id="legend-scope"></div></div></div>
-          <div class="snapshot-card"><h3>By Priority Area</h3><div class="bar-chart" id="chart-priority"></div></div>
-          <div class="snapshot-card"><h3>By Critical Enabler</h3><div class="bar-chart" id="chart-enabler"></div></div>
           <div class="snapshot-card"><h3>By Region</h3><div class="donut-wrap"><div class="donut" id="chart-region"></div><div class="donut-legend" id="legend-region"></div></div></div>
           <div class="snapshot-card"><h3>Breakthrough Targets</h3><div class="bar-chart" id="chart-breakthrough"></div></div>
         </div>
