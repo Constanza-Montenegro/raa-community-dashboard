@@ -958,9 +958,13 @@ async function initApp() {
   const bttEl = document.getElementById('btt-count');
   if (bttEl) bttEl.textContent = initiatives.filter(i => i.breakthroughTarget).length;
 
-  // Animate indicator bars
+  // Animate indicator cards and bars (staggered)
+  document.querySelectorAll('.cs-ind-card').forEach((card, i) => {
+    card.style.transitionDelay = `${i * 0.1}s`;
+    setTimeout(() => card.classList.add('animated'), 100);
+  });
   document.querySelectorAll('.cs-ind-bar-fill').forEach(bar => {
-    setTimeout(() => { bar.style.width = bar.dataset.width; }, 200);
+    setTimeout(() => { bar.style.width = bar.dataset.width; }, 400);
   });
 
   // Render partners list (alphabetical with letter index)
