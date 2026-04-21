@@ -838,13 +838,35 @@ async function initApp() {
   renderPlatforms('platforms-funding', platforms.funding, ecoColors.funding);
   renderPlatforms('platforms-knowledge', platforms.knowledge, ecoColors.knowledge);
 
-  // Render snapshot charts
+  // Action Areas counts
+  const areaLand = initiatives.filter(i => i.thematicPriorities.some(p => p.toLowerCase().includes('land'))).length;
+  const areaAgri = initiatives.filter(i => i.thematicPriorities.some(p => p.toLowerCase().includes('agriculture') || p.toLowerCase().includes('food'))).length;
+  const areaDrought = initiatives.filter(i => i.thematicPriorities.some(p => p.toLowerCase().includes('drought') || p.toLowerCase().includes('water'))).length;
+  const elLand = document.getElementById('area-land'); if (elLand) elLand.textContent = areaLand;
+  const elAgri = document.getElementById('area-agri'); if (elAgri) elAgri.textContent = areaAgri;
+  const elDrought = document.getElementById('area-drought'); if (elDrought) elDrought.textContent = areaDrought;
+
+  // Critical Enablers counts
+  const enGov = initiatives.filter(i => i.enablers.some(e => e.toLowerCase().includes('governance'))).length;
+  const enSci = initiatives.filter(i => i.enablers.some(e => e.toLowerCase().includes('science') || e.toLowerCase().includes('technology'))).length;
+  const enFin = initiatives.filter(i => i.enablers.some(e => e.toLowerCase().includes('finance'))).length;
+  const elGov = document.getElementById('enabler-gov'); if (elGov) elGov.textContent = enGov;
+  const elSci = document.getElementById('enabler-sci'); if (elSci) elSci.textContent = enSci;
+  const elFin = document.getElementById('enabler-fin'); if (elFin) elFin.textContent = enFin;
+
+  // Community Profile charts
   renderBarChart('chart-sector', snapshotData.bySector);
-  renderBarChart('chart-priority', snapshotData.byPriority);
-  renderBarChart('chart-enabler', snapshotData.byEnabler);
-  renderBarChart('chart-breakthrough', snapshotData.byBreakthrough);
   renderDonut('chart-scope', 'legend-scope', snapshotData.byScope);
   renderDonut('chart-region', 'legend-region', snapshotData.byRegion);
+
+  // BTT count
+  const bttEl = document.getElementById('btt-count');
+  if (bttEl) bttEl.textContent = initiatives.filter(i => i.breakthroughTarget).length;
+
+  // Animate wheel bars
+  document.querySelectorAll('.cs-bar-fill').forEach(bar => {
+    setTimeout(() => { bar.style.width = bar.dataset.width; }, 200);
+  });
 
   // Render partners list (alphabetical with letter index)
   const pGrid = document.getElementById('partners-grid');
