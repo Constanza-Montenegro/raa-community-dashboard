@@ -711,7 +711,15 @@ function renderDonut(chartId, legendId, data) {
   if (chartEl) chartEl.style.background = `conic-gradient(${parts.join(', ')})`;
 }
 
+function animateGoalBars() {
+  // Land goal: placeholder 2.5M of 1.5B = 0.17%
+  const landBar = document.getElementById('goal-land-bar');
+  if (landBar) setTimeout(() => { landBar.style.width = '0.17%'; }, 200);
+  // Other goals: data coming soon, keep at 0
+}
+
 function animateCounters() {
+  animateGoalBars();
   document.querySelectorAll('.counter-num').forEach(counter => {
     const target = parseFloat(counter.dataset.target);
     if (isNaN(target)) return;
