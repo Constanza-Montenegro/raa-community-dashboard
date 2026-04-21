@@ -1431,20 +1431,24 @@ body {
 
 /* ============ SNAPSHOT ============ */
 
-/* Top 3-column layout */
-.cs-top-3col {
+/* Top split: wheel left, 3x2 grid right */
+.cs-top-split {
   display: grid;
-  grid-template-columns: auto 1fr 1fr;
-  gap: 16px;
+  grid-template-columns: auto 1fr;
+  gap: 24px;
   align-items: center;
   margin-bottom: 22px;
 }
 
 .cs-wheel-box { display: flex; align-items: center; justify-content: center; }
-.cs-wheel-img { width: 180px; height: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08)); }
+.cs-wheel-img { width: 200px; height: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08)); }
 
-/* Counter cards compact */
-.cs-counters-stack { display: flex; flex-direction: column; gap: 8px; }
+/* Stats 3x2 grid */
+.cs-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
 
 .cs-counter-sm {
   background: var(--bg-card); border: 1px solid var(--border);
@@ -1470,6 +1474,7 @@ body {
 .cs-goal-mini {
   background: var(--bg-card); border: 1px solid var(--border);
   border-radius: var(--radius-sm); padding: 12px 16px;
+  border-top: 3px solid var(--goal-accent);
 }
 
 .cs-goal-mini-title { font-size: 12px; font-weight: 700; color: var(--dark-teal); }
