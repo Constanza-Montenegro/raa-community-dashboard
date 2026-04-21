@@ -1464,44 +1464,67 @@ body {
 }
 
 .raa-goal-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+  background: var(--goal-gradient);
   border-radius: var(--radius);
-  padding: 22px;
+  padding: 24px;
   display: flex;
   gap: 16px;
-  transition: all var(--t);
-  border-top: 3px solid var(--goal-color);
+  transition: all 0.3s ease;
+  color: white;
+  position: relative;
+  overflow: hidden;
 }
 
-.raa-goal-card:hover { box-shadow: var(--shadow-md); }
+.raa-goal-card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 140px; height: 140px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 50%;
+  transform: translate(30%, -30%);
+}
+
+.raa-goal-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 90px; height: 90px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 50%;
+  transform: translate(-30%, 30%);
+}
+
+.raa-goal-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.2); }
 
 .raa-goal-icon {
-  width: 56px; height: 56px;
+  width: 52px; height: 52px;
   border-radius: 14px;
-  background: var(--goal-color);
+  background: rgba(255,255,255,0.15);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  position: relative;
+  z-index: 1;
 }
 
-.raa-goal-body { flex: 1; min-width: 0; }
+.raa-goal-body { flex: 1; min-width: 0; position: relative; z-index: 1; }
 
 .raa-goal-title {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
-  color: var(--dark-teal);
+  color: white;
   margin-bottom: 4px;
 }
 
 .raa-goal-target {
   font-size: 11px;
-  color: var(--text-light);
-  margin-bottom: 12px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 14px;
 }
 
-.raa-goal-target strong { color: var(--text-secondary); }
+.raa-goal-target strong { color: rgba(255,255,255,0.9); }
 
 .raa-goal-progress-row {
   display: flex;
@@ -1511,38 +1534,38 @@ body {
 }
 
 .raa-goal-current {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--goal-color);
-  letter-spacing: -1px;
+  font-size: 28px;
+  font-weight: 900;
+  color: white;
+  letter-spacing: -1.5px;
   line-height: 1;
 }
 
 .raa-goal-pct {
   font-size: 11px;
   font-weight: 600;
-  color: var(--text-light);
+  color: rgba(255,255,255,0.5);
 }
 
 .raa-goal-bar {
   width: 100%;
   height: 6px;
-  background: rgba(0,0,0,0.06);
+  background: rgba(255,255,255,0.15);
   border-radius: 3px;
   overflow: hidden;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .raa-goal-bar-fill {
   height: 100%;
-  background: var(--goal-color);
+  background: rgba(255,255,255,0.7);
   border-radius: 3px;
   transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .raa-goal-desc {
   font-size: 11px;
-  color: var(--text-light);
+  color: rgba(255,255,255,0.5);
   line-height: 1.5;
 }
 
