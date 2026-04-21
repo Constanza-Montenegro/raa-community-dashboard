@@ -728,16 +728,15 @@ function renderBarChartV2(id, data) {
   const max = Math.max(...data.map(d => d.pct || d.value));
   data.forEach((d, i) => {
     const w = Math.round(((d.pct || d.value) / max) * 100);
-    const grad = actorGradients[d.label] || ['#48966a','#48966a'];
     const item = document.createElement('div');
     item.className = 'bar-item-v2';
-    item.style.transitionDelay = `${i * 0.1}s`;
+    item.style.transitionDelay = `${i * 0.12}s`;
     item.innerHTML = `
       <div class="bar-header-v2">
         <span class="bar-label-v2">${d.label}</span>
         <span class="bar-value-v2">${d.value}</span>
       </div>
-      <div class="bar-track-v2"><div class="bar-fill-v2" style="--bar-gradient:linear-gradient(90deg,${grad[0]},${grad[1]})" data-width="${w}%"></div></div>
+      <div class="bar-track-v2"><div class="bar-fill-v2" data-width="${w}%"></div></div>
     `;
     el.appendChild(item);
   });
@@ -814,10 +813,14 @@ function renderDonutV3(chartId, legendId, data, totalId) {
 }
 
 function animateGoalBars() {
-  // Land goal: placeholder 2.5M of 1.5B = 0.17%
+  // Animate goal cards appearing
+  document.querySelectorAll('.raa-goal-card').forEach((card, i) => {
+    card.style.transitionDelay = `${i * 0.15}s`;
+    setTimeout(() => card.classList.add('animated'), 100);
+  });
+  // Land goal bar
   const landBar = document.getElementById('goal-land-bar');
-  if (landBar) setTimeout(() => { landBar.style.width = '0.17%'; }, 200);
-  // Other goals: data coming soon, keep at 0
+  if (landBar) setTimeout(() => { landBar.style.width = '0.17%'; }, 500);
 }
 
 function animateCounters() {
