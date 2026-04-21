@@ -1431,20 +1431,50 @@ body {
 
 /* ============ SNAPSHOT ============ */
 
-/* Top layout: wheel + counters */
-.cs-top-layout {
+/* Top 3-column layout */
+.cs-top-3col {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 20px;
+  grid-template-columns: auto 1fr 1fr;
+  gap: 16px;
   align-items: center;
   margin-bottom: 22px;
 }
 
 .cs-wheel-box { display: flex; align-items: center; justify-content: center; }
-.cs-wheel-img { width: 240px; height: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08)); }
+.cs-wheel-img { width: 180px; height: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08)); }
 
-/* Counter cards */
-.cs-counters-stack { display: flex; flex-direction: column; gap: 10px; }
+/* Counter cards compact */
+.cs-counters-stack { display: flex; flex-direction: column; gap: 8px; }
+
+.cs-counter-sm {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px 16px; text-align: center;
+}
+
+.cs-counter-sm .cs-counter-num { font-size: 24px; font-weight: 800; letter-spacing: -1px; color: var(--dark-teal); line-height: 1; }
+.cs-counter-sm .cs-counter-suffix { font-size: 14px; font-weight: 700; color: var(--text-light); }
+.cs-counter-sm .cs-counter-label { display: block; font-size: 10px; font-weight: 500; color: var(--text-secondary); margin-top: 2px; }
+
+.cs-counter-sm.cs-counter--teal { background: linear-gradient(135deg, #002929, #1a4040); border: none; }
+.cs-counter-sm.cs-counter--gold { background: linear-gradient(160deg, #b8a06a, #a08450); border: none; }
+.cs-counter-sm.cs-counter--teal .cs-counter-num,
+.cs-counter-sm.cs-counter--gold .cs-counter-num { color: white; }
+.cs-counter-sm.cs-counter--teal .cs-counter-suffix,
+.cs-counter-sm.cs-counter--gold .cs-counter-suffix { color: rgba(255,255,255,0.5); }
+.cs-counter-sm.cs-counter--teal .cs-counter-label,
+.cs-counter-sm.cs-counter--gold .cs-counter-label { color: rgba(255,255,255,0.7); }
+
+/* Goals compact */
+.cs-goals-stack { display: flex; flex-direction: column; gap: 8px; }
+
+.cs-goal-mini {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px 16px;
+}
+
+.cs-goal-mini-title { font-size: 12px; font-weight: 700; color: var(--dark-teal); }
+.cs-goal-mini-target { font-size: 10px; color: var(--text-light); margin-bottom: 4px; }
+.cs-goal-mini-num { font-size: 18px; font-weight: 800; color: var(--dark-teal); letter-spacing: -0.5px; }
 
 .cs-counter {
   background: var(--bg-card); border: 1px solid var(--border);

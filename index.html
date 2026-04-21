@@ -246,15 +246,20 @@
         <button class="btn-back" onclick="goHome()">&larr; Back to overview</button>
         <div class="section-intro"><h1 class="page-title">Community Snapshot</h1><p class="page-desc">Aggregated overview of the RAA Community's scale and composition.</p></div>
 
-        <!-- Wheel + Counter Cards -->
-        <div class="cs-top-layout">
+        <!-- Wheel + Counters + RAA Goals -->
+        <div class="cs-top-3col">
           <div class="cs-wheel-box">
             <img src="raa-brand/raa wheel.png" alt="RAA Framework" class="cs-wheel-img">
           </div>
           <div class="cs-counters-stack">
-            <div class="cs-counter cs-counter--teal"><span class="cs-counter-num" id="cs-c-init">0</span><span class="cs-counter-suffix">+</span><span class="cs-counter-label">Total Initiatives</span></div>
-            <div class="cs-counter"><span class="cs-counter-num" id="cs-c-countries">0</span><span class="cs-counter-suffix">+</span><span class="cs-counter-label">Countries Represented</span></div>
-            <div class="cs-counter cs-counter--gold"><span class="cs-counter-num" id="cs-c-hectares">0</span><span class="cs-counter-suffix"></span><span class="cs-counter-label">Hectares</span></div>
+            <div class="cs-counter-sm cs-counter--teal"><span class="cs-counter-num" id="cs-c-init">0</span><span class="cs-counter-suffix">+</span><span class="cs-counter-label">Initiatives</span></div>
+            <div class="cs-counter-sm"><span class="cs-counter-num" id="cs-c-countries">0</span><span class="cs-counter-suffix">+</span><span class="cs-counter-label">Countries</span></div>
+            <div class="cs-counter-sm cs-counter--gold"><span class="cs-counter-num" id="cs-c-hectares">0</span><span class="cs-counter-suffix"></span><span class="cs-counter-label">Hectares</span></div>
+          </div>
+          <div class="cs-goals-stack">
+            <div class="cs-goal-mini" style="border-left:3px solid #48966a"><div class="cs-goal-mini-title">Land Conservation</div><div class="cs-goal-mini-target">Target: 1.5B ha</div><div class="cs-goal-mini-num" id="goal-land-current">--</div></div>
+            <div class="cs-goal-mini" style="border-left:3px solid #587da0"><div class="cs-goal-mini-title">Drought Resilience</div><div class="cs-goal-mini-target">Target: 30% lands</div><div class="cs-goal-mini-num">--</div></div>
+            <div class="cs-goal-mini" style="border-left:3px solid #c49a3c"><div class="cs-goal-mini-title">Finance Mobilization</div><div class="cs-goal-mini-target">Target: US$2.1T</div><div class="cs-goal-mini-num">--</div></div>
           </div>
         </div>
 
