@@ -243,9 +243,9 @@ const snapshotData = {
     { label: "Local Government", value: 12, pct: 10 }
   ],
   byScope: [
-    { label: "Regional", value: 45, color: "#48966a" },
-    { label: "National", value: 50, color: "#8bc4a0" },
-    { label: "Global", value: 30, color: "#002929" }
+    { label: "Regional", value: 45, color: "#002929" },
+    { label: "National", value: 50, color: "#48966a" },
+    { label: "Global", value: 30, color: "#8bc4a0" }
   ],
   byPriority: [
     { label: "Land Conservation", value: 52, pct: 42 },
@@ -262,7 +262,7 @@ const snapshotData = {
     { label: "Americas", value: 30, color: "#c49a3c" },
     { label: "Asia", value: 25, color: "#587da0" },
     { label: "Europe", value: 16, color: "#002929" },
-    { label: "Oceania", value: 10, color: "#d6cdb8" }
+    { label: "Oceania", value: 10, color: "#8bc4a0" }
   ],
   byBreakthrough: [
     { label: "Land Restoration", value: 65, pct: 52 },

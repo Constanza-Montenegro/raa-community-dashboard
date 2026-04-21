@@ -844,6 +844,11 @@ function animateCounters() {
   const scopeTotalEl = document.getElementById('scope-total');
   if (scopeTotalEl) scopeTotalEl.textContent = scopeTotal;
 
+  // Staggered card entrance animation
+  document.querySelectorAll('.cs-card-v3').forEach((card, i) => {
+    setTimeout(() => { card.classList.add('animated'); }, 100 + i * 120);
+  });
+
   // Staggered bar animation
   setTimeout(() => {
     document.querySelectorAll('.bar-item-v2').forEach(item => item.classList.add('animated'));
