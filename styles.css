@@ -1431,8 +1431,20 @@ body {
 
 /* ============ SNAPSHOT ============ */
 
+/* Top layout: wheel + counters */
+.cs-top-layout {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.cs-wheel-box { display: flex; align-items: center; justify-content: center; }
+.cs-wheel-img { width: 240px; height: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08)); }
+
 /* Counter cards */
-.cs-counters { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 22px; }
+.cs-counters-stack { display: flex; flex-direction: column; gap: 10px; }
 
 .cs-counter {
   background: var(--bg-card); border: 1px solid var(--border);

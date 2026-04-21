@@ -246,16 +246,16 @@
         <button class="btn-back" onclick="goHome()">&larr; Back to overview</button>
         <div class="section-intro"><h1 class="page-title">Community Snapshot</h1><p class="page-desc">Aggregated overview of the RAA Community's scale and composition.</p></div>
 
-        <!-- Counter Cards -->
-        <div class="cs-counters">
-          <div class="cs-counter cs-counter--teal"><span class="cs-counter-num" id="cs-c-init">0</span><span class="cs-counter-suffix">+</span><span class="cs-counter-label">Total Initiatives</span></div>
-          <div class="cs-counter"><span class="cs-counter-num" id="cs-c-countries">0</span><span class="cs-counter-suffix">+</span><span class="cs-counter-label">Countries Represented</span></div>
-          <div class="cs-counter cs-counter--gold"><span class="cs-counter-num" id="cs-c-hectares">0</span><span class="cs-counter-suffix"></span><span class="cs-counter-label">Hectares</span></div>
-        </div>
-
-        <!-- RAA Wheel -->
-        <div style="text-align:center; margin-bottom:22px;">
-          <img src="raa-brand/raa wheel.png" alt="RAA Framework" style="width:220px; height:auto; filter:drop-shadow(0 4px 12px rgba(0,0,0,0.08));">
+        <!-- Wheel + Counter Cards -->
+        <div class="cs-top-layout">
+          <div class="cs-wheel-box">
+            <img src="raa-brand/raa wheel.png" alt="RAA Framework" class="cs-wheel-img">
+          </div>
+          <div class="cs-counters-stack">
+            <div class="cs-counter cs-counter--teal"><span class="cs-counter-num" id="cs-c-init">0</span><span class="cs-counter-suffix">+</span><span class="cs-counter-label">Total Initiatives</span></div>
+            <div class="cs-counter"><span class="cs-counter-num" id="cs-c-countries">0</span><span class="cs-counter-suffix">+</span><span class="cs-counter-label">Countries Represented</span></div>
+            <div class="cs-counter cs-counter--gold"><span class="cs-counter-num" id="cs-c-hectares">0</span><span class="cs-counter-suffix"></span><span class="cs-counter-label">Hectares</span></div>
+          </div>
         </div>
 
         <!-- Main Grid: 3x2 -->
