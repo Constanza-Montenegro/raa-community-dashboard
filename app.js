@@ -2,6 +2,24 @@
 // RAA COMMUNITY DASHBOARD — APP LOGIC
 // ============================================================
 
+// ---- HELPERS ----
+function logoHtml(item, size) {
+  size = size || 40;
+  const fbSize = size;
+  const fallback = `<img src="raa-brand/raa-logo.png" alt="RAA" style="width:${fbSize}px;height:${fbSize}px;object-fit:contain;border-radius:6px;">`;
+  if (item.logo && (item.logo.startsWith('http') || item.logo.startsWith('logos/'))) {
+    return `<img src="${item.logo}" alt="" style="width:${size}px;height:${size}px;object-fit:contain;border-radius:6px;" onerror="this.outerHTML=this.getAttribute('data-fallback')" data-fallback='${fallback.replace(/'/g, "&#39;")}'>`;
+  }
+  return fallback;
+}
+
+function formatNumber(n) {
+  if (n >= 1e9) return (n / 1e9).toFixed(1).replace(/\.0$/, '') + 'B';
+  if (n >= 1e6) return (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+  if (n >= 1e3) return (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K';
+  return n.toLocaleString();
+}
+
 // ---- NAVIGATION: LANDING vs DETAIL ----
 const navLinks = document.querySelectorAll('.nav-link');
 const sections = document.querySelectorAll('.page-section');
@@ -55,7 +73,7 @@ document.getElementById('logo-home').addEventListener('click', e => {
   goHome();
 });
 
-// Overview CTA buttons — only these navigate to detail pages
+// Overview CTA buttons
 document.querySelectorAll('.ov-cta').forEach(btn => {
   btn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -64,13 +82,12 @@ document.querySelectorAll('.ov-cta').forEach(btn => {
   });
 });
 
-// Eco overview cards — navigate to ecosystem with correct tab
+// Eco overview cards
 document.querySelectorAll('.eco-overview-card[data-eco]').forEach(card => {
   card.addEventListener('click', (e) => {
     e.stopPropagation();
-    const ecoId = card.dataset.eco;
     goToSection('land-ecosystem');
-    setTimeout(() => switchEcoCategory(ecoId), 50);
+    setTimeout(() => switchEcoCategory(card.dataset.eco), 50);
   });
 });
 
@@ -80,7 +97,6 @@ document.querySelectorAll('.sidebar-btn').forEach(btn => {
     const ecoId = btn.dataset.ecoNav;
     goToSection('land-ecosystem');
     setTimeout(() => switchEcoCategory(ecoId), 50);
-    // Highlight sidebar btn
     document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
   });
@@ -101,7 +117,7 @@ function pinIcon(scope) {
 function popupHtml(init) {
   const sc = init.scope.toLowerCase();
   const bt = init.breakthroughTarget
-    ? `<div class="popup-tag">\u2705 ${init.breakthroughTarget}</div><br>` : '';
+    ? `<div class="popup-tag">${init.breakthroughTarget}</div><br>` : '';
   return `<div class="popup-content">
     <h3>${init.name}</h3>
     <div class="country">${init.flag} ${init.country}</div>
@@ -113,6 +129,7 @@ function popupHtml(init) {
 
 function addMarkers(map, usePanel) {
   initiatives.forEach(init => {
+    if (!init.lat && !init.lng) return;
     const marker = L.marker([init.lat, init.lng], { icon: pinIcon(init.scope) })
       .addTo(map);
     if (usePanel) {
@@ -123,7 +140,6 @@ function addMarkers(map, usePanel) {
   });
 }
 
-// Overview map (landing)
 function initOverviewMap() {
   mapOverview = L.map('map-overview', { center: [20, 0], zoom: 1.5, minZoom: 1, maxZoom: 6, scrollWheelZoom: true, zoomControl: false, dragging: true, maxBounds: [[-85, -180],[85, 180]], maxBoundsViscosity: 1.0 });
   L.control.zoom({ position: 'bottomleft' }).addTo(mapOverview);
@@ -131,7 +147,6 @@ function initOverviewMap() {
   addMarkers(mapOverview, false);
 }
 
-// Detail map
 function initDetailMap() {
   mapDetail = L.map('map-detail', { center: [20, 15], zoom: 2.5, minZoom: 2, maxZoom: 8, scrollWheelZoom: true, zoomControl: false, maxBounds: [[-85, -180],[85, 180]], maxBoundsViscosity: 1.0 });
   L.control.zoom({ position: 'bottomleft' }).addTo(mapDetail);
@@ -139,22 +154,14 @@ function initDetailMap() {
   addMarkers(mapDetail, true);
 }
 
-initOverviewMap();
-
 // ---- GLOBAL PRESENCE STATS ----
 function updateGPStats() {
   const total = initiatives.length;
   const countries = new Set(initiatives.map(i => i.country)).size;
   const regions = new Set(initiatives.flatMap(i => i.geographicScope)).size;
-  const global = initiatives.filter(i => i.scope === 'Global').length;
-  const regional = initiatives.filter(i => i.scope === 'Regional').length;
-  const national = initiatives.filter(i => i.scope === 'National').length;
   animateDgStat('gp-initiatives', total);
   animateDgStat('gp-countries', countries);
   animateDgStat('gp-regions', regions);
-  animateDgStat('gp-global', global);
-  animateDgStat('gp-regional', regional);
-  animateDgStat('gp-national', national);
 }
 
 // ---- SIDE PANEL (Global Presence) ----
@@ -170,7 +177,7 @@ function renderPanelList() {
     const item = document.createElement('div');
     item.className = 'gp-panel-list-item';
     item.innerHTML = `
-      <div class="list-logo">${init.logo}</div>
+      <div class="list-logo">${logoHtml(init, 28)}</div>
       <div class="list-info">
         <div class="list-name">${init.name}</div>
         <div class="list-meta">${init.flag} ${init.country}</div>
@@ -199,11 +206,9 @@ function showSidePanel(init) {
     <div class="panel-country">${init.flag} ${init.country}</div>
     <span class="panel-scope ${sc}">${init.scope}</span>
     <p class="panel-desc">${init.shortDescription}</p>
-    <div class="panel-section-label">Thematic Priorities</div>
-    <div class="panel-tags">${init.thematicPriorities.map(t => `<span class="panel-tag">${t}</span>`).join('')}</div>
-    <div class="panel-section-label">Actor Type</div>
-    <div class="panel-tags"><span class="panel-tag">${init.actorType}</span></div>
-    ${init.breakthroughTarget ? `<div class="panel-section-label">Breakthrough Target</div><div class="panel-tags"><span class="panel-tag">\u2705 ${init.breakthroughTarget}</span></div>` : ''}
+    ${init.thematicPriorities.length ? `<div class="panel-section-label">Thematic Priorities</div><div class="panel-tags">${init.thematicPriorities.map(t => `<span class="panel-tag">${t}</span>`).join('')}</div>` : ''}
+    ${init.actorType ? `<div class="panel-section-label">Actor Type</div><div class="panel-tags"><span class="panel-tag">${init.actorType}</span></div>` : ''}
+    ${init.breakthroughTarget ? `<div class="panel-section-label">Breakthrough Target</div><div class="panel-tags"><span class="panel-tag">${init.breakthroughTarget}</span></div>` : ''}
     <button class="btn-panel-profile" onclick="showProfile('${init.name.replace(/'/g, "\\'")}', true)">View Full Profile</button>
   `;
   listView.style.display = 'none';
@@ -216,12 +221,10 @@ function showPanelList() {
   document.querySelectorAll('.gp-panel-list-item').forEach(i => i.classList.remove('active'));
 }
 
-// Back button in panel
 document.addEventListener('click', e => {
   if (e.target.id === 'gp-panel-back') showPanelList();
 });
 
-// Scope filter buttons
 document.querySelectorAll('.gp-filter-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     gpScopeFilter = btn.dataset.scope;
@@ -246,7 +249,6 @@ function animateDgStat(id, target) {
   requestAnimationFrame(update);
 }
 
-// Prevent map clicks from navigating to detail section
 document.getElementById('map-overview').addEventListener('click', e => e.stopPropagation());
 
 // ---- ANIMATE NUMBERS ON SCROLL ----
@@ -254,10 +256,12 @@ function animateNums(selector) {
   document.querySelectorAll(selector).forEach(el => {
     if (el.dataset.animated) return;
     const text = el.textContent;
-    const num = parseFloat(text);
+    // Strip commas before parsing, detect M/K/+ suffix
+    const cleaned = text.replace(/,/g, '');
+    const num = parseFloat(cleaned);
     if (isNaN(num)) return;
     const isDecimal = num % 1 !== 0;
-    const suffix = text.replace(/[\d.]/g, '');
+    const suffix = cleaned.replace(/[\d.]/g, '');
     const steps = 30;
     const inc = num / steps;
     let cur = 0, step = 0;
@@ -266,18 +270,12 @@ function animateNums(selector) {
     const timer = setInterval(() => {
       step++; cur += inc;
       if (step >= steps) { cur = num; clearInterval(timer); }
-      el.textContent = (isDecimal ? cur.toFixed(1) : Math.round(cur)) + suffix;
+      const display = isDecimal ? cur.toFixed(1) : Math.round(cur).toLocaleString();
+      el.textContent = display + suffix;
     }, 30);
   });
 }
 
-// Hero stats — animate on load
-const heroStats = document.querySelector('.landing-hero-stats');
-if (heroStats) {
-  setTimeout(() => animateNums('.hero-stat-num'), 300);
-}
-
-// Snapshot cards — animate when visible
 const snapshotGrid = document.querySelector('.snapshot-ov-grid');
 if (snapshotGrid) {
   const snapObserver = new IntersectionObserver((entries) => {
@@ -287,33 +285,6 @@ if (snapshotGrid) {
   }, { threshold: 0.3 });
   snapObserver.observe(snapshotGrid);
 }
-
-// ---- LANDING: OVERVIEW INITIATIVES ----
-const overviewGrid = document.getElementById('overview-initiatives');
-initiatives.slice(0, 4).forEach(init => {
-  const sc = init.scope.toLowerCase();
-  const card = document.createElement('div');
-  card.className = 'ov-init-card';
-  card.innerHTML = `
-    <div class="ov-init-name">${init.name}</div>
-    <div class="ov-init-meta">${init.flag} ${init.country} &middot; ${init.actorType}</div>
-    <span class="ov-init-scope ${sc}">${init.scope}</span>
-  `;
-  card.addEventListener('click', (e) => {
-    e.stopPropagation();
-    showProfile(init.name, true);
-  });
-  overviewGrid.appendChild(card);
-});
-
-// ---- LANDING: OVERVIEW PARTNERS ----
-const overviewPartners = document.getElementById('overview-partners');
-partners.slice(0, 8).forEach(p => {
-  const el = document.createElement('div');
-  el.className = 'ov-partner';
-  el.innerHTML = `<span class="ov-partner-logo">${p.logo}</span> ${p.name}`;
-  overviewPartners.appendChild(el);
-});
 
 // ---- SECTION 2: INITIATIVES DIRECTORY ----
 let activeFilters = {};
@@ -330,9 +301,7 @@ function renderInitiatives() {
   grid.innerHTML = '';
 
   const filtered = initiatives.filter(init => {
-    // Search filter
     if (idSearchQuery && !init.name.toLowerCase().includes(idSearchQuery.toLowerCase())) return false;
-    // Dropdown filters
     for (const [key, values] of Object.entries(activeFilters)) {
       if (values.length === 0) continue;
       if (key === 'scope' && !values.includes(init.scope)) return false;
@@ -345,7 +314,6 @@ function renderInitiatives() {
     return true;
   });
 
-  // Results count
   if (countEl) {
     const hasFilters = idSearchQuery || Object.values(activeFilters).some(v => v.length > 0);
     countEl.textContent = hasFilters
@@ -361,9 +329,8 @@ function renderInitiatives() {
   filtered.forEach(init => {
     const sc = init.scope.toLowerCase();
     const stamps = [];
-    if (init.activePartner) stamps.push('<span class="stamp partner">RAA Active Partner</span>');
-    if (init.breakthroughTarget) stamps.push(`<span class="stamp breakthrough">\u2705 ${init.breakthroughTarget}</span>`);
-
+    if (init.activePartner) stamps.push('<span class="stamp partner"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>RAA Active Partner</span>');
+    if (init.breakthroughTarget) stamps.push(`<span class="stamp breakthrough"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>${init.breakthroughTarget}</span>`);
     const priorities = init.thematicPriorities.map(t => `<span class="card-priority-tag">${t}</span>`).join('');
 
     const card = document.createElement('div');
@@ -371,13 +338,15 @@ function renderInitiatives() {
     card.style.cursor = 'pointer';
     card.innerHTML = `
       <div class="card-header">
-        <span class="card-name">${init.name}</span>
-        <span class="card-type">${init.actorType}</span>
+        <div class="card-logo">${logoHtml(init, 56)}</div>
+        <div class="card-header-text">
+          <span class="card-name">${init.name}</span>
+        </div>
       </div>
-      <div class="card-country"><span class="flag">${init.flag}</span> ${init.country}</div>
-      <span class="card-scope ${sc}">${init.scope}</span>
+      <div class="card-country"><span class="flag">${init.flag}</span> ${init.country} <span class="card-scope-text ${sc}"><svg width="11" height="14" viewBox="0 0 28 36" fill="currentColor" style="vertical-align:-2px;margin-right:4px;"><path d="M14 0C6.3 0 0 6.3 0 14c0 10.5 14 22 14 22s14-11.5 14-22C28 6.3 21.7 0 14 0z"/><circle cx="14" cy="13" r="5" fill="white" opacity="0.9"/></svg>${init.scope}</span></div>
       <div class="card-stamps">${stamps.join('')}</div>
-      <div class="card-priorities">${priorities}</div>
+      ${priorities ? `<div class="card-priorities">${priorities}</div>` : ''}
+      <div class="card-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
     `;
     card.addEventListener('click', () => showProfile(init.name));
     grid.appendChild(card);
@@ -423,12 +392,24 @@ document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
       return;
     }
 
+    if (filterKey === 'breakthrough') {
+      if (activeFilters.breakthrough && activeFilters.breakthrough.length) {
+        activeFilters.breakthrough = [];
+        btn.classList.remove('active');
+      } else {
+        activeFilters.breakthrough = initiatives.map(i => i.breakthroughTarget).filter(Boolean);
+        btn.classList.add('active');
+      }
+      dropdown.classList.remove('open');
+      renderInitiatives();
+      return;
+    }
+
     if (dropdown.classList.contains('open') && dropdown.dataset.filter === filterKey) {
       dropdown.classList.remove('open');
       return;
     }
 
-    // Position dropdown under the clicked button
     const btnRect = btn.offsetLeft;
     dropdown.style.left = btnRect + 'px';
 
@@ -461,43 +442,131 @@ document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
   });
 });
 
-renderInitiatives();
-
-// ---- PROFILE MODAL ----
+// ---- PROFILE MODAL (MODERN REDESIGN) ----
 function showProfile(name, showDirectoryBtn) {
   const init = initiatives.find(i => i.name === name);
   if (!init) return;
 
-  const stamps = [];
-  if (init.activePartner) stamps.push('<span class="stamp partner">RAA Active Partner</span>');
-  if (init.breakthroughTarget) stamps.push(`<span class="stamp breakthrough">\u2705 ${init.breakthroughTarget}</span>`);
-
   const directoryBtn = showDirectoryBtn
-    ? `<div style="text-align:right;"><button class="btn-go-directory" onclick="closeModal('profile-modal');goToSection('initiatives-directory');">Go to Directory &rarr;</button></div>`
+    ? `<div style="text-align:right;margin-top:-8px;padding:8px 0;"><button class="btn-go-directory" onclick="closeModal('profile-modal');goToSection('initiatives-directory');">Go to Directory &rarr;</button></div>`
     : '';
 
+  // Stamps
+  let stamps = '';
+  if (init.activePartner) stamps += `<div class="pro-stamp partner"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span>RAA Active Partner</span></div>`;
+  if (init.breakthroughTarget) stamps += `<div class="pro-stamp breakthrough"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span>${init.breakthroughTarget}</span></div>`;
+
+  // Header with logo
+  const headerBlock = `<div class="pro-header"><div class="pro-header-logo">${logoHtml(init, 96)}</div></div>`;
+
+  // CTAs
+  let ctas = '';
+  if (init.website) ctas += `<a href="${init.website}" target="_blank" class="profile-cta-btn org"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Visit Organization</a>`;
+  if (init.initiativeLink) ctas += `<a href="${init.initiativeLink}" target="_blank" class="profile-cta-btn initiative"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Explore Initiative</a>`;
+  if (init.annualReport && init.canDisclose34) ctas += `<a href="${init.annualReport}" target="_blank" class="profile-cta-btn report"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Annual Report</a>`;
+  if (init.video) ctas += `<a href="${init.video}" target="_blank" class="profile-cta-btn video"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>Watch Video</a>`;
+
+  // Impact numbers (respect disclosure flags)
+  let impacts = '';
+  function addImpact(value, label, color) {
+    if (!value || value === 0) return;
+    impacts += `<div class="pro-impact" style="--impact-color:${color}"><div class="pro-impact-num">${formatNumber(value)}</div><div class="pro-impact-label">${label}</div></div>`;
+  }
+  if (init.canDisclose31) {
+    const totalHa = (init.haToBeRestored || 0) + (init.haToBeConserved || 0) + (init.haUnderRestoration || 0) + (init.haConserved || 0) + (init.inlandWatersRestoration || 0);
+    addImpact(totalHa, 'Hectares', '#48966a');
+    addImpact(init.peopleToBeBenefited || init.peopleBenefited, init.peopleToBeBenefited ? 'People to Benefit' : 'People Benefited', '#587da0');
+  }
+  if (init.canDisclose33) {
+    const totalFinance = (init.financialToMobilize || 0) + (init.financialMobilized || 0);
+    addImpact(totalFinance, 'USD Committed', '#c49a3c');
+  }
+
+  // Description (collapsible if long)
+  let descHtml = '';
+  if (init.shortDescription) {
+    const isLong = init.shortDescription.length > 300;
+    if (isLong) {
+      descHtml = `<div class="pro-desc collapsed" onclick="this.classList.toggle('collapsed')"><p>${init.shortDescription}</p><span class="pro-desc-toggle">Read more</span></div>`;
+    } else {
+      descHtml = `<div class="pro-desc"><p>${init.shortDescription}</p></div>`;
+    }
+  }
+
+  // Primary tags
+  let primary = '';
+  function addPrimaryTags(label, arr) {
+    if (!arr || !arr.length) return;
+    primary += `<div class="pro-tag-group"><span class="pro-tag-label">${label}</span><div class="pro-tags-wrap">${arr.map(t => `<span class="pro-tag">${t}</span>`).join('')}</div></div>`;
+  }
+  function addPrimaryField(label, value) {
+    if (!value) return;
+    primary += `<div class="pro-tag-group"><span class="pro-tag-label">${label}</span><div class="pro-tags-wrap"><span class="pro-tag">${value}</span></div></div>`;
+  }
+
+  addPrimaryField('Type of Actor', init.actorType);
+  addPrimaryTags('Thematic Priorities', init.thematicPriorities);
+  addPrimaryTags('Enablers', init.enablers);
+  if (init.canDisclose31) addPrimaryTags('Priority Ecosystem', init.priorityEcosystem);
+
+  // Detail numbers (breakdown)
+  let details = '';
+  function addDetail(label, value, prefix, suffix) {
+    if (!value || value === 0) return;
+    details += `<div class="pro-detail-num"><span class="pro-detail-label">${label}</span><span class="pro-detail-value">${prefix || ''}${formatNumber(value)}${suffix || ''}</span></div>`;
+  }
+  // 3.1 & 3.2: Land, water, people
+  if (init.canDisclose31) {
+    addDetail('Ha Under Restoration', init.haUnderRestoration, '', ' ha');
+    addDetail('Ha Conserved', init.haConserved, '', ' ha');
+    addDetail('Inland Waters', init.inlandWatersRestoration, '', ' ha');
+    addDetail('Ha to Restore', init.haToBeRestored, '', ' ha');
+    addDetail('Ha to Conserve', init.haToBeConserved, '', ' ha');
+    addDetail('People Benefited', init.peopleBenefited, '', '');
+    addDetail('People to Benefit', init.peopleToBeBenefited, '', '');
+    if (init.howPeopleBenefited) details += `<div class="pro-detail-num full"><span class="pro-detail-label">How</span><span class="pro-detail-value">${init.howPeopleBenefited}</span></div>`;
+  }
+  // 3.3: Finance
+  if (init.canDisclose33) {
+    addDetail('Finance Mobilized', init.financialMobilized, 'USD ', '');
+    addDetail('Finance to Mobilize', init.financialToMobilize, 'USD ', '');
+  }
+  // 3.4: Other indicators
+  if (init.canDisclose34) {
+    if (init.additionalIndicators) details += `<div class="pro-detail-num full"><span class="pro-detail-label">Additional Indicators</span><span class="pro-detail-value">${init.additionalIndicators}</span></div>`;
+  }
+
+  // Secondary compact info
+  let secondary = '';
+  function addSecondary(label, arr) {
+    if (!arr || !arr.length) return;
+    secondary += `<div class="pro-sec-item"><span class="pro-sec-label">${label}</span><span class="pro-sec-value">${arr.join(' · ')}</span></div>`;
+  }
+  addSecondary('Geographic Scope', init.geographicScope);
+  addSecondary('Rio Synergies', init.rioSynergies);
+  if (init.canDisclose31) addSecondary('Beneficiaries', init.beneficiaries);
+  if (init.otherPartners) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Other Partners</span><span class="pro-sec-value">${init.otherPartners}</span></div>`;
+  if (init.canDisclose33) {
+    if (init.otherResourcesMobilized) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Resources Mobilized</span><span class="pro-sec-value">${init.otherResourcesMobilized}</span></div>`;
+    if (init.otherResourcesToMobilize) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Resources to Mobilize</span><span class="pro-sec-value">${init.otherResourcesToMobilize}</span></div>`;
+  }
+
   document.getElementById('modal-body').innerHTML = `
-    <div class="profile-header">
-      <div class="profile-logo">${init.logo}</div>
-      <div class="profile-title-block">
-        <h2>${init.name}</h2>
-        <div class="profile-subtitle">${init.partnerName} &middot; ${init.flag} ${init.country}</div>
-        <div style="margin-top:6px;">${stamps.join(' ')}</div>
+    ${headerBlock}
+    <div class="pro-body">
+      <div class="pro-title-row">
+        <h2 class="pro-name">${init.name}</h2>
+        <div class="pro-subtitle">${init.partnerName}${init.country ? ' &middot; ' + init.flag + ' ' + init.country : ''}</div>
       </div>
+      ${stamps ? `<div class="pro-stamps">${stamps}</div>` : ''}
+      ${ctas ? `<div class="pro-ctas">${ctas}</div>` : ''}
+      ${descHtml}
+      ${impacts ? `<div class="pro-impacts">${impacts}</div>` : ''}
+      ${primary ? `<div class="pro-primary">${primary}</div>` : ''}
+      ${details ? `<div class="pro-details-grid">${details}</div>` : ''}
+      ${secondary ? `<div class="pro-secondary">${secondary}</div>` : ''}
+      ${directoryBtn}
     </div>
-    <p class="profile-desc">${init.shortDescription}</p>
-    <div class="profile-grid">
-      <div><div class="profile-field-label">Geographic Scope</div><div class="profile-tags">${init.geographicScope.map(g => `<span class="profile-tag">${g}</span>`).join('')}</div></div>
-      <div><div class="profile-field-label">Scope</div><div class="profile-field-value">${init.scope}</div></div>
-      <div><div class="profile-field-label">RAA Thematic Priorities</div><div class="profile-tags">${init.thematicPriorities.map(t => `<span class="profile-tag">${t}</span>`).join('')}</div></div>
-      <div><div class="profile-field-label">Critical RAA Enablers</div><div class="profile-tags">${init.enablers.map(e => `<span class="profile-tag alt">${e}</span>`).join('')}</div></div>
-      <div><div class="profile-field-label">Type of Actor</div><div class="profile-field-value">${init.actorType}</div></div>
-      <div><div class="profile-field-label">Priority Ecosystem</div><div class="profile-tags">${init.priorityEcosystem.map(e => `<span class="profile-tag">${e}</span>`).join('')}</div></div>
-      <div><div class="profile-field-label">Rio Synergies</div><div class="profile-tags">${init.rioSynergies.map(r => `<span class="profile-tag alt">${r}</span>`).join('')}</div></div>
-      <div><div class="profile-field-label">Main Beneficiaries</div><div class="profile-tags">${init.beneficiaries.map(b => `<span class="profile-tag">${b}</span>`).join('')}</div></div>
-      ${init.breakthroughTarget ? `<div><div class="profile-field-label">Breakthrough Target</div><div class="profile-field-value">\u2705 ${init.breakthroughTarget}</div></div>` : ''}
-    </div>
-    ${directoryBtn}
   `;
   document.getElementById('profile-modal').classList.add('open');
 }
@@ -535,10 +604,8 @@ document.querySelectorAll('.eco-category-card').forEach(card => {
   card.addEventListener('click', () => switchEcoCategory(card.dataset.eco));
 });
 
-// Initialize first category
 switchEcoCategory('data-metrics');
 
-// Keep old tab logic for sidebar navigation
 document.querySelectorAll('.eco-tab').forEach(tab => {
   tab.addEventListener('click', () => {
     document.querySelectorAll('.eco-tab').forEach(t => t.classList.remove('active'));
@@ -592,18 +659,16 @@ function renderPlatforms(containerId, data, color) {
   });
 }
 
-renderPlatforms('platforms-data', platforms.data, ecoColors.data);
-renderPlatforms('platforms-funding', platforms.funding, ecoColors.funding);
-renderPlatforms('platforms-knowledge', platforms.knowledge, ecoColors.knowledge);
-
-// Ecosystem stats
 function updateEcoStats() {
   const total = platforms.data.length + platforms.funding.length + platforms.knowledge.length;
   animateDgStat('eco-total', total);
   animateDgStat('eco-categories', 3);
-  document.getElementById('eco-count-data').textContent = platforms.data.length;
-  document.getElementById('eco-count-funding').textContent = platforms.funding.length;
-  document.getElementById('eco-count-knowledge').textContent = platforms.knowledge.length;
+  const ecData = document.getElementById('eco-count-data');
+  const ecFunding = document.getElementById('eco-count-funding');
+  const ecKnowledge = document.getElementById('eco-count-knowledge');
+  if (ecData) ecData.textContent = platforms.data.length;
+  if (ecFunding) ecFunding.textContent = platforms.funding.length;
+  if (ecKnowledge) ecKnowledge.textContent = platforms.knowledge.length;
 }
 
 // ---- SECTION 4: COMMUNITY SNAPSHOT ----
@@ -611,9 +676,11 @@ document.getElementById('snapshot-date').textContent = new Date().toLocaleDateSt
 
 function renderBarChart(id, data) {
   const el = document.getElementById(id);
-  const max = Math.max(...data.map(d => d.pct));
+  if (!el) return;
+  el.innerHTML = '';
+  const max = Math.max(...data.map(d => d.pct || d.value));
   data.forEach(d => {
-    const w = Math.round((d.pct / max) * 100);
+    const w = Math.round(((d.pct || d.value) / max) * 100);
     const item = document.createElement('div');
     item.className = 'bar-item';
     item.innerHTML = `<span class="bar-label">${d.label}</span><div class="bar-track"><div class="bar-fill" style="width:0%" data-width="${w}%"></div></div><span class="bar-value">${d.value}</span>`;
@@ -621,16 +688,14 @@ function renderBarChart(id, data) {
   });
 }
 
-renderBarChart('chart-sector', snapshotData.bySector);
-renderBarChart('chart-priority', snapshotData.byPriority);
-renderBarChart('chart-enabler', snapshotData.byEnabler);
-renderBarChart('chart-breakthrough', snapshotData.byBreakthrough);
-
 function renderDonut(chartId, legendId, data) {
   const total = data.reduce((s, d) => s + d.value, 0);
+  if (total === 0) return;
   let cum = 0;
   const parts = [];
   const legend = document.getElementById(legendId);
+  if (!legend) return;
+  legend.innerHTML = '';
   data.forEach(d => {
     const start = (cum / total) * 100;
     cum += d.value;
@@ -642,15 +707,14 @@ function renderDonut(chartId, legendId, data) {
     item.innerHTML = `<span class="donut-legend-dot" style="background:${d.color}"></span>${d.label}: ${pct}%`;
     legend.appendChild(item);
   });
-  document.getElementById(chartId).style.background = `conic-gradient(${parts.join(', ')})`;
+  const chartEl = document.getElementById(chartId);
+  if (chartEl) chartEl.style.background = `conic-gradient(${parts.join(', ')})`;
 }
-
-renderDonut('chart-scope', 'legend-scope', snapshotData.byScope);
-renderDonut('chart-region', 'legend-region', snapshotData.byRegion);
 
 function animateCounters() {
   document.querySelectorAll('.counter-num').forEach(counter => {
     const target = parseFloat(counter.dataset.target);
+    if (isNaN(target)) return;
     const isDecimal = target % 1 !== 0;
     const steps = 30;
     const inc = target / steps;
@@ -666,17 +730,176 @@ function animateCounters() {
   });
 }
 
-// ---- SECTION 5: PARTNERS ----
-const pGrid = document.getElementById('partners-grid');
-partners.forEach(p => {
-  const card = document.createElement('div');
-  card.className = 'partner-card';
-  card.innerHTML = `
-    <div class="partner-logo">${p.logo}</div>
-    <div>
-      <div class="partner-name">${p.name}</div>
-      ${p.website ? `<a href="${p.website}" target="_blank" class="partner-link">Visit website</a>` : ''}
-    </div>
-  `;
-  pGrid.appendChild(card);
-});
+// ============================================================
+// INIT APP — waits for data to load, then renders everything
+// ============================================================
+async function initApp() {
+  await loadData();
+
+  // Update hero stats from real data
+  const totalInit = initiatives.length;
+  const totalCountries = new Set(initiatives.map(i => i.country)).size;
+  const totalHa = initiatives.reduce((sum, i) => sum + (i.haToBeRestored || 0) + (i.haToBeConserved || 0) + (i.haUnderRestoration || 0) + (i.haConserved || 0) + (i.inlandWatersRestoration || 0), 0);
+
+  document.querySelectorAll('.hero-stat-num').forEach(el => {
+    const label = el.nextElementSibling?.textContent?.trim();
+    if (label === 'Initiatives') { el.dataset.count = totalInit; el.dataset.suffix = ''; }
+    if (label === 'Countries') { el.dataset.count = totalCountries; el.dataset.suffix = ''; }
+    if (label === 'Hectares') {
+      if (totalHa >= 1e6) { el.dataset.count = (totalHa / 1e6).toFixed(1); el.dataset.suffix = 'M'; el.dataset.decimal = '1'; }
+      else { el.dataset.count = totalHa; el.dataset.suffix = ''; }
+    }
+  });
+
+  // Update snapshot counters
+  const counterCards = document.querySelectorAll('.counter-card');
+  counterCards.forEach(card => {
+    const num = card.querySelector('.counter-num');
+    const suffix = card.querySelector('.counter-suffix');
+    const label = card.querySelector('.counter-label')?.textContent?.trim();
+    if (label?.includes('Initiatives')) { num.dataset.target = totalInit; suffix.textContent = ''; }
+    if (label?.includes('Countries')) { num.dataset.target = totalCountries; suffix.textContent = ''; }
+    if (label?.includes('Hectares')) {
+      if (totalHa >= 1e6) { num.dataset.target = (totalHa / 1e6).toFixed(1); suffix.textContent = 'M+'; }
+      else { num.dataset.target = totalHa; suffix.textContent = ''; }
+    }
+  });
+
+  // Update snapshot overview cards
+  const snapNums = document.querySelectorAll('.snap-num');
+  snapNums.forEach(el => {
+    const label = el.nextElementSibling?.textContent?.trim() || el.parentElement?.querySelector('.snap-label')?.textContent?.trim();
+    if (label?.includes('Initiatives')) el.textContent = totalInit;
+    if (label?.includes('Countries')) el.textContent = totalCountries;
+    if (label?.includes('Hectares')) el.textContent = totalHa >= 1e6 ? (totalHa / 1e6).toFixed(1) + 'M+' : totalHa.toLocaleString();
+    if (label?.includes('Actor')) el.textContent = new Set(initiatives.map(i => i.actorType)).size;
+  });
+
+  // Initialize maps
+  initOverviewMap();
+
+  // Render overview initiatives — rotating carousel, minimal cards (logo + name + country + scope)
+  const overviewGrid = document.getElementById('overview-initiatives');
+  overviewGrid.innerHTML = '';
+  const initTrack = document.createElement('div');
+  initTrack.className = 'ov-init-track';
+  const initList = [...initiatives, ...initiatives];
+  initList.forEach(init => {
+    const sc = init.scope.toLowerCase();
+    const card = document.createElement('div');
+    card.className = 'initiative-card ov-mini';
+    card.style.cursor = 'pointer';
+    card.innerHTML = `
+      <div class="card-header">
+        <div class="card-logo">${logoHtml(init, 56)}</div>
+        <div class="card-header-text">
+          <span class="card-name">${init.name}</span>
+        </div>
+      </div>
+      <div class="card-country"><span class="flag">${init.flag}</span> ${init.country} <span class="card-scope-text ${sc}"><svg width="11" height="14" viewBox="0 0 28 36" fill="currentColor" style="vertical-align:-2px;margin-right:4px;"><path d="M14 0C6.3 0 0 6.3 0 14c0 10.5 14 22 14 22s14-11.5 14-22C28 6.3 21.7 0 14 0z"/><circle cx="14" cy="13" r="5" fill="white" opacity="0.9"/></svg>${init.scope}</span></div>
+    `;
+    card.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showProfile(init.name, true);
+    });
+    initTrack.appendChild(card);
+  });
+  overviewGrid.appendChild(initTrack);
+
+  // Render overview partners — logos only, marquee style (only partners with real logos)
+  const overviewPartners = document.getElementById('overview-partners');
+  overviewPartners.innerHTML = '';
+  const partnersWithLogo = partners.filter(p => p.logo && p.logo.startsWith('logos/'));
+  const partnerList = [...partnersWithLogo, ...partnersWithLogo];
+  const track = document.createElement('div');
+  track.className = 'ov-partners-track';
+  partnerList.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'ov-partner-item';
+    el.title = p.name;
+    el.innerHTML = logoHtml(p, 70);
+    track.appendChild(el);
+  });
+  overviewPartners.appendChild(track);
+
+  // Render initiatives directory
+  renderInitiatives();
+
+  // Render platforms
+  renderPlatforms('platforms-data', platforms.data, ecoColors.data);
+  renderPlatforms('platforms-funding', platforms.funding, ecoColors.funding);
+  renderPlatforms('platforms-knowledge', platforms.knowledge, ecoColors.knowledge);
+
+  // Render snapshot charts
+  renderBarChart('chart-sector', snapshotData.bySector);
+  renderBarChart('chart-priority', snapshotData.byPriority);
+  renderBarChart('chart-enabler', snapshotData.byEnabler);
+  renderBarChart('chart-breakthrough', snapshotData.byBreakthrough);
+  renderDonut('chart-scope', 'legend-scope', snapshotData.byScope);
+  renderDonut('chart-region', 'legend-region', snapshotData.byRegion);
+
+  // Render partners list (alphabetical with letter index)
+  const pGrid = document.getElementById('partners-grid');
+  const alphaNav = document.getElementById('partners-alpha');
+  pGrid.innerHTML = '';
+  alphaNav.innerHTML = '';
+
+  // Sort partners alphabetically
+  const sortedPartners = [...partners].sort((a, b) => a.name.localeCompare(b.name));
+
+  // Find which letters have partners
+  const usedLetters = new Set(sortedPartners.map(p => p.name[0].toUpperCase()));
+
+  // Build alphabet nav
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(letter => {
+    const btn = document.createElement('a');
+    btn.className = 'alpha-letter' + (usedLetters.has(letter) ? ' active' : '');
+    btn.textContent = letter;
+    btn.href = '#';
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.getElementById('partner-letter-' + letter);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    alphaNav.appendChild(btn);
+  });
+
+  // Build partner list grouped by letter in 2-col grid
+  let currentLetter = '';
+  let currentGroup = null;
+  sortedPartners.forEach(p => {
+    const letter = p.name[0].toUpperCase();
+    if (letter !== currentLetter) {
+      currentLetter = letter;
+      const heading = document.createElement('div');
+      heading.className = 'partner-letter-heading';
+      heading.id = 'partner-letter-' + letter;
+      heading.textContent = letter;
+      pGrid.appendChild(heading);
+      currentGroup = document.createElement('div');
+      currentGroup.className = 'partner-letter-group';
+      pGrid.appendChild(currentGroup);
+    }
+    const card = document.createElement('div');
+    card.className = 'partner-row';
+    card.innerHTML = `
+      <div class="partner-row-logo">${logoHtml(p, 56)}</div>
+      <div class="partner-row-info">
+        <div class="partner-row-name">${p.name}</div>
+        ${p.location ? `<div class="partner-row-location">${p.location}</div>` : ''}
+      </div>
+      ${p.website ? `<a href="${p.website}" target="_blank" class="partner-row-link"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Visit Website</a>` : ''}
+    `;
+    currentGroup.appendChild(card);
+  });
+
+  // Hide loading overlay
+  const overlay = document.getElementById('loading-overlay');
+  if (overlay) overlay.style.display = 'none';
+
+  // Animate hero count-up
+  animateCountUp();
+}
+
+// Start the app
+initApp();
