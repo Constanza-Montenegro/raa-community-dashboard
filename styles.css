@@ -1486,12 +1486,15 @@ body {
 .cs-goal-mini {
   background: var(--bg-card); border: 1px solid var(--border);
   border-radius: var(--radius-sm); padding: 12px 16px;
-  border-top: 3px solid var(--goal-accent);
+  border-left: 3px solid var(--goal-accent);
+  transition: all 0.3s ease;
 }
+
+.cs-goal-mini:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
 
 .cs-goal-mini-title { font-size: 12px; font-weight: 700; color: var(--dark-teal); }
 .cs-goal-mini-target { font-size: 10px; color: var(--text-light); margin-bottom: 4px; }
-.cs-goal-mini-num { font-size: 18px; font-weight: 800; color: var(--dark-teal); letter-spacing: -0.5px; }
+.cs-goal-mini-num { font-size: 20px; font-weight: 800; color: var(--goal-accent); letter-spacing: -0.5px; }
 
 .cs-counter {
   background: var(--bg-card); border: 1px solid var(--border);
@@ -2322,7 +2325,7 @@ body {
 .bar-item { display: flex; align-items: center; gap: 8px; }
 .bar-label { font-size: 11px; color: var(--text); width: 100px; flex-shrink: 0; text-align: right; font-weight: 500; }
 .bar-track { flex: 1; height: 18px; background: var(--bg); border-radius: 9px; overflow: hidden; }
-.bar-fill { height: 100%; border-radius: 9px; background: linear-gradient(90deg, var(--dark-teal), var(--green)); transition: width 1s ease; min-width: 2px; }
+.bar-fill { height: 100%; border-radius: 9px; background: linear-gradient(90deg, #2d6a4f, #48966a, #6bb88a); transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1); min-width: 2px; }
 .bar-value { font-size: 11px; font-weight: 700; color: var(--dark-teal); width: 30px; }
 
 .donut-wrap { display: flex; align-items: center; gap: 14px; }

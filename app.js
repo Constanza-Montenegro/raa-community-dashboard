@@ -852,7 +852,7 @@ function animateCounters() {
   document.querySelectorAll('.bar-fill').forEach(bar => { bar.style.width = '0%'; });
 
   // Counter cards count-up
-  function countUp(id, target, suffix) {
+  function countUp(id, target) {
     const el = document.getElementById(id);
     if (!el) return;
     const duration = 900;
@@ -862,40 +862,36 @@ function animateCounters() {
       const progress = Math.min((now - start) / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
       const current = eased * target;
-      el.textContent = isDecimal ? current.toFixed(1) : Math.floor(current);
+      el.textContent = isDecimal ? current.toFixed(1) : Math.floor(current).toLocaleString();
       if (progress < 1) requestAnimationFrame(update);
-      else el.textContent = isDecimal ? target.toFixed(1) : target;
+      else el.textContent = isDecimal ? target.toFixed(1) : target.toLocaleString();
     }
     requestAnimationFrame(update);
+  }
+
+  function formatBigNum(n) {
+    if (n >= 1000000000) return (n/1000000000).toFixed(1) + 'B';
+    if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
+    return n.toLocaleString();
   }
 
   const totalPeople = initiatives.reduce((s, i) => s + (i.peopleToBeBenefited || 0) + (i.peopleBenefited || 0), 0);
 
   countUp('cs-c-init', totalInit);
   countUp('cs-c-countries', totalCountries);
-  if (totalPeople > 0) {
-    if (totalPeople >= 1000000) {
-      countUp('cs-c-people', parseFloat((totalPeople/1000000).toFixed(1)));
-      const pSuff = document.querySelector('#cs-c-people + .cs-counter-suffix');
-      if (pSuff) pSuff.textContent = 'M+';
-    } else {
-      countUp('cs-c-people', totalPeople);
-      const pSuff = document.querySelector('#cs-c-people + .cs-counter-suffix');
-      if (pSuff) pSuff.textContent = '+';
-    }
-  } else {
-    const pEl = document.getElementById('cs-c-people');
-    if (pEl) pEl.textContent = '--';
-  }
-  if (totalHa >= 1000000) {
-    countUp('cs-c-hectares', parseFloat((totalHa/1000000).toFixed(1)));
-    const suffEl = document.querySelector('#cs-c-hectares + .cs-counter-suffix');
-    if (suffEl) suffEl.textContent = 'M+';
-  } else {
-    countUp('cs-c-hectares', totalHa);
-    const suffEl = document.querySelector('#cs-c-hectares + .cs-counter-suffix');
-    if (suffEl) suffEl.textContent = '+';
-  }
+  // Hectares
+  const haEl = document.getElementById('cs-c-hectares');
+  const haSuff = document.querySelector('#cs-c-hectares + .cs-counter-suffix');
+  if (haEl) { haEl.textContent = formatBigNum(totalHa); if (haSuff) haSuff.textContent = ''; }
+
+  // People
+  const pEl = document.getElementById('cs-c-people');
+  const pSuff = document.querySelector('#cs-c-people + .cs-counter-suffix');
+  if (pEl) { pEl.textContent = totalPeople > 0 ? formatBigNum(totalPeople) : '--'; if (pSuff) pSuff.textContent = ''; }
+
+  // Land goal current
+  const goalLandEl = document.getElementById('goal-land-current');
+  if (goalLandEl) goalLandEl.textContent = totalHa > 0 ? formatBigNum(totalHa) : '--';
 
   // Bar fills animate with stagger
   setTimeout(() => {
