@@ -893,6 +893,14 @@ function animateCounters() {
   const goalLandEl = document.getElementById('goal-land-current');
   if (goalLandEl) goalLandEl.textContent = totalHa > 0 ? formatBigNum(totalHa) : '--';
 
+  // Finance goal current
+  const totalFinance = initiatives.reduce((s, i) => {
+    if (!i.canDisclose33) return s;
+    return s + (i.financialToMobilize || 0) + (i.financialMobilized || 0);
+  }, 0);
+  const goalFinEl = document.getElementById('goal-finance-current');
+  if (goalFinEl) goalFinEl.textContent = totalFinance > 0 ? 'US$' + formatBigNum(totalFinance) : '--';
+
   // Bar fills animate with stagger
   setTimeout(() => {
     document.querySelectorAll('.bar-fill').forEach((bar, i) => {
