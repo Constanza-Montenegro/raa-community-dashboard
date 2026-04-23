@@ -1493,8 +1493,28 @@ body {
 .cs-goal-mini:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
 
 .cs-goal-mini-title { font-size: 12px; font-weight: 700; color: var(--dark-teal); }
-.cs-goal-mini-target { font-size: 10px; color: var(--text-light); margin-bottom: 4px; }
-.cs-goal-mini-num { font-size: 20px; font-weight: 800; color: var(--goal-accent); letter-spacing: -0.5px; }
+.cs-goal-mini-target { font-size: 10px; color: var(--text-light); margin-bottom: 6px; }
+
+.cs-goal-mini-row {
+  display: flex;
+  gap: 12px;
+}
+
+.cs-goal-mini-col {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.cs-goal-mini-num { font-size: 16px; font-weight: 800; color: var(--goal-accent); letter-spacing: -0.5px; line-height: 1.2; }
+
+.cs-goal-mini-period {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-light);
+}
 
 .cs-counter {
   background: var(--bg-card); border: 1px solid var(--border);

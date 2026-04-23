@@ -889,17 +889,21 @@ function animateCounters() {
   const pSuff = document.querySelector('#cs-c-people + .cs-counter-suffix');
   if (pEl) { pEl.textContent = totalPeople > 0 ? formatBigNum(totalPeople) : '--'; if (pSuff) pSuff.textContent = ''; }
 
-  // Land goal current
-  const goalLandEl = document.getElementById('goal-land-current');
-  if (goalLandEl) goalLandEl.textContent = totalHa > 0 ? formatBigNum(totalHa) : '--';
+  // Land goals — achieved vs projected
+  const landAchieved = initiatives.reduce((s, i) => s + (i.haUnderRestoration || 0) + (i.haConserved || 0), 0);
+  const landProjected = initiatives.reduce((s, i) => s + (i.haToBeRestored || 0) + (i.haToBeConserved || 0), 0);
+  const goalLandA = document.getElementById('goal-land-achieved');
+  const goalLandP = document.getElementById('goal-land-projected');
+  if (goalLandA) goalLandA.textContent = landAchieved > 0 ? formatBigNum(landAchieved) : '--';
+  if (goalLandP) goalLandP.textContent = landProjected > 0 ? formatBigNum(landProjected) : '--';
 
-  // Finance goal current
-  const totalFinance = initiatives.reduce((s, i) => {
-    if (!i.canDisclose33) return s;
-    return s + (i.financialToMobilize || 0) + (i.financialMobilized || 0);
-  }, 0);
-  const goalFinEl = document.getElementById('goal-finance-current');
-  if (goalFinEl) goalFinEl.textContent = totalFinance > 0 ? 'US$' + formatBigNum(totalFinance) : '--';
+  // Finance goals — achieved vs projected
+  const finAchieved = initiatives.reduce((s, i) => !i.canDisclose33 ? s : s + (i.financialMobilized || 0), 0);
+  const finProjected = initiatives.reduce((s, i) => !i.canDisclose33 ? s : s + (i.financialToMobilize || 0), 0);
+  const goalFinA = document.getElementById('goal-finance-achieved');
+  const goalFinP = document.getElementById('goal-finance-projected');
+  if (goalFinA) goalFinA.textContent = finAchieved > 0 ? 'US$' + formatBigNum(finAchieved) : '--';
+  if (goalFinP) goalFinP.textContent = finProjected > 0 ? 'US$' + formatBigNum(finProjected) : '--';
 
   // Bar fills animate with stagger
   setTimeout(() => {
