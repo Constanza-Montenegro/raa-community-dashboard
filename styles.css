@@ -1517,10 +1517,10 @@ body {
 }
 
 .cs-info-row {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 6px;
-  position: relative;
+  position: absolute;
+  top: -12px;
+  right: -4px;
+  z-index: 2;
 }
 
 .cs-info-btn {
