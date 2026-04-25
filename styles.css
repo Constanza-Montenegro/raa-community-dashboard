@@ -1518,8 +1518,8 @@ body {
 
 .cs-info-row {
   position: absolute;
-  top: -12px;
-  right: -4px;
+  top: -11px;
+  right: -11px;
   z-index: 2;
 }
 

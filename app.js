@@ -1074,6 +1074,26 @@ async function initApp() {
   renderDonut('chart-scope', 'legend-scope', snapshotData.byScope);
   renderDonut('chart-region', 'legend-region', snapshotData.byRegion);
 
+  // Beneficiaries chart (dynamic from data)
+  const benefCounts = {};
+  initiatives.forEach(i => {
+    if (i.beneficiaries) i.beneficiaries.forEach(b => { benefCounts[b] = (benefCounts[b] || 0) + 1; });
+  });
+  const benefData = Object.entries(benefCounts)
+    .map(([label, value]) => ({ label, value, pct: value }))
+    .sort((a, b) => b.value - a.value);
+  if (benefData.length) renderBarChart('chart-beneficiary', benefData);
+
+  // Rio Synergies chart (dynamic from data)
+  const rioCounts = {};
+  initiatives.forEach(i => {
+    if (i.rioSynergies) i.rioSynergies.forEach(r => { rioCounts[r] = (rioCounts[r] || 0) + 1; });
+  });
+  const rioData = Object.entries(rioCounts)
+    .map(([label, value]) => ({ label, value, pct: value }))
+    .sort((a, b) => b.value - a.value);
+  if (rioData.length) renderBarChart('chart-rio', rioData);
+
   // BTT count
   const bttEl = document.getElementById('btt-count');
   if (bttEl) bttEl.textContent = initiatives.filter(i => i.breakthroughTarget).length;
