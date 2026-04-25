@@ -1516,6 +1516,45 @@ body {
   color: var(--text-light);
 }
 
+.cs-info-btn {
+  position: absolute;
+  top: -10px; right: 0;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-light);
+  font-size: 10px;
+  font-weight: 700;
+  font-style: italic;
+  font-family: Georgia, serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--t);
+  z-index: 2;
+}
+
+.cs-info-btn:hover { border-color: var(--green); color: var(--green); }
+
+.cs-info-tooltip {
+  display: none;
+  position: absolute;
+  top: -10px; right: 24px;
+  background: var(--dark-teal);
+  color: white;
+  font-size: 11px;
+  line-height: 1.5;
+  padding: 10px 14px;
+  border-radius: 8px;
+  width: 260px;
+  box-shadow: var(--shadow-lg);
+  z-index: 3;
+}
+
+.cs-info-tooltip.open { display: block; }
+
 .cs-counter {
   background: var(--bg-card); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 26px 20px; text-align: center;

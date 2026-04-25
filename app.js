@@ -912,6 +912,14 @@ function animateCounters() {
     });
   }, 300);
 
+  // Info tooltip toggle
+  const infoBtn = document.getElementById('cs-info-toggle');
+  const infoTip = document.getElementById('cs-info-tooltip');
+  if (infoBtn && infoTip) {
+    infoBtn.onclick = (e) => { e.stopPropagation(); infoTip.classList.toggle('open'); };
+    document.addEventListener('click', () => infoTip.classList.remove('open'));
+  }
+
   // BTT count
   const bttEl = document.getElementById('btt-count');
   if (bttEl) bttEl.textContent = initiatives.filter(i => i.breakthroughTarget).length;
