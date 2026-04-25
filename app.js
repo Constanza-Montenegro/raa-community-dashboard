@@ -5,12 +5,11 @@
 // ---- HELPERS ----
 function logoHtml(item, size) {
   size = size || 40;
-  const fbSize = size;
-  const fallback = `<img src="raa-brand/raa-logo.png" alt="RAA" style="width:${fbSize}px;height:${fbSize}px;object-fit:contain;border-radius:6px;">`;
+  const empty = '';
   if (item.logo && (item.logo.startsWith('http') || item.logo.startsWith('logos/'))) {
-    return `<img src="${item.logo}" alt="" style="width:${size}px;height:${size}px;object-fit:contain;border-radius:6px;" onerror="this.outerHTML=this.getAttribute('data-fallback')" data-fallback='${fallback.replace(/'/g, "&#39;")}'>`;
+    return `<img src="${item.logo}" alt="" style="width:${size}px;height:${size}px;object-fit:contain;border-radius:6px;" onerror="this.style.display='none'">`;
   }
-  return fallback;
+  return empty;
 }
 
 function formatNumber(n) {
@@ -877,33 +876,60 @@ function animateCounters() {
 
   const totalPeople = initiatives.reduce((s, i) => s + (i.peopleToBeBenefited || 0) + (i.peopleBenefited || 0), 0);
 
+  // Animated count-up for big numbers
+  function countUpBig(id, target, prefix) {
+    const el = document.getElementById(id);
+    if (!el || target <= 0) { if (el) el.textContent = '--'; return; }
+    const suff = el.nextElementSibling;
+    if (suff && suff.classList.contains('cs-counter-suffix')) suff.textContent = '';
+    const duration = 1200;
+    const start = performance.now();
+    function update(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = eased * target;
+      el.textContent = (prefix || '') + formatBigNum(Math.floor(current));
+      if (progress < 1) requestAnimationFrame(update);
+      else el.textContent = (prefix || '') + formatBigNum(target);
+    }
+    requestAnimationFrame(update);
+  }
+
   countUp('cs-c-init', totalInit);
   countUp('cs-c-countries', totalCountries);
-  // Hectares
-  const haEl = document.getElementById('cs-c-hectares');
-  const haSuff = document.querySelector('#cs-c-hectares + .cs-counter-suffix');
-  if (haEl) { haEl.textContent = formatBigNum(totalHa); if (haSuff) haSuff.textContent = ''; }
-
-  // People
-  const pEl = document.getElementById('cs-c-people');
-  const pSuff = document.querySelector('#cs-c-people + .cs-counter-suffix');
-  if (pEl) { pEl.textContent = totalPeople > 0 ? formatBigNum(totalPeople) : '--'; if (pSuff) pSuff.textContent = ''; }
+  countUpBig('cs-c-hectares', totalHa);
+  countUpBig('cs-c-people', totalPeople);
 
   // Land goals — achieved vs projected
   const landAchieved = initiatives.reduce((s, i) => s + (i.haUnderRestoration || 0) + (i.haConserved || 0), 0);
   const landProjected = initiatives.reduce((s, i) => s + (i.haToBeRestored || 0) + (i.haToBeConserved || 0), 0);
   const goalLandA = document.getElementById('goal-land-achieved');
   const goalLandP = document.getElementById('goal-land-projected');
-  if (goalLandA) goalLandA.textContent = landAchieved > 0 ? formatBigNum(landAchieved) : '--';
-  if (goalLandP) goalLandP.textContent = landProjected > 0 ? formatBigNum(landProjected) : '--';
+  // Animate goal numbers
+  function animateGoalNum(id, value, prefix) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (!value || value <= 0) { el.textContent = '--'; return; }
+    const duration = 1200;
+    const start = performance.now();
+    function update(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = (prefix || '') + formatBigNum(Math.floor(eased * value));
+      if (progress < 1) requestAnimationFrame(update);
+      else el.textContent = (prefix || '') + formatBigNum(value);
+    }
+    requestAnimationFrame(update);
+  }
+
+  animateGoalNum('goal-land-achieved', landAchieved);
+  animateGoalNum('goal-land-projected', landProjected);
 
   // Finance goals — achieved vs projected
   const finAchieved = initiatives.reduce((s, i) => !i.canDisclose33 ? s : s + (i.financialMobilized || 0), 0);
   const finProjected = initiatives.reduce((s, i) => !i.canDisclose33 ? s : s + (i.financialToMobilize || 0), 0);
-  const goalFinA = document.getElementById('goal-finance-achieved');
-  const goalFinP = document.getElementById('goal-finance-projected');
-  if (goalFinA) goalFinA.textContent = finAchieved > 0 ? 'US$' + formatBigNum(finAchieved) : '--';
-  if (goalFinP) goalFinP.textContent = finProjected > 0 ? 'US$' + formatBigNum(finProjected) : '--';
+  animateGoalNum('goal-finance-achieved', finAchieved, 'US$');
+  animateGoalNum('goal-finance-projected', finProjected, 'US$');
 
   // Bar fills animate with stagger
   setTimeout(() => {
@@ -1142,13 +1168,15 @@ async function initApp() {
 
   // Snapshot overview cards
   const snapInit = document.getElementById('snap-initiatives');
-  const snapCountries = document.getElementById('snap-countries');
   const snapHectares = document.getElementById('snap-hectares');
-  const snapActors = document.getElementById('snap-actors');
+  const snapFinance = document.getElementById('snap-finance');
+  const snapPeople = document.getElementById('snap-people');
+  const dynPeople = initiatives.reduce((s, i) => s + (i.peopleToBeBenefited || 0) + (i.peopleBenefited || 0), 0);
+  const dynFinance = initiatives.reduce((s, i) => !i.canDisclose33 ? s : s + (i.financialMobilized || 0) + (i.financialToMobilize || 0), 0);
   if (snapInit) snapInit.textContent = dynInit + '+';
-  if (snapCountries) snapCountries.textContent = dynCountries + '+';
   if (snapHectares) snapHectares.textContent = formatHa(dynHa) + '+';
-  if (snapActors) snapActors.textContent = dynActors;
+  if (snapFinance) snapFinance.textContent = dynFinance > 0 ? 'US$' + formatHa(dynFinance) : '--';
+  if (snapPeople) snapPeople.textContent = dynPeople > 0 ? formatHa(dynPeople) + '+' : '--';
 
   // Animate hero count-up (for overview hero)
   // Re-animate the hero numbers with count-up effect

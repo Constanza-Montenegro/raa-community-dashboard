@@ -1516,9 +1516,15 @@ body {
   color: var(--text-light);
 }
 
+.cs-info-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 6px;
+  position: relative;
+}
+
 .cs-info-btn {
-  position: absolute;
-  top: -12px; right: -4px;
+  position: relative;
   width: 22px; height: 22px;
   border-radius: 50%;
   border: 1px solid var(--border);
@@ -1541,7 +1547,7 @@ body {
 .cs-info-tooltip {
   display: none;
   position: absolute;
-  top: -12px; right: 28px;
+  top: 0; right: 30px;
   background: var(--dark-teal);
   color: white;
   font-size: 11px;
@@ -2553,6 +2559,8 @@ body {
   padding: 8px;
   overflow: hidden;
 }
+
+.pro-header-logo:empty { display: none; }
 .pro-header-logo img { max-width: 100%; max-height: 100%; object-fit: contain; width: auto; height: auto; }
 .pro-header-logo img[src*="raa-logo"] { transform: scale(1.8); }
 .pro-header-logo .logo-fallback {
