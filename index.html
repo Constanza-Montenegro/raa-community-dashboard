@@ -184,7 +184,7 @@
             <button class="filter-btn" data-filter="priority">Priority Area <span class="arrow">&#9662;</span></button>
             <button class="filter-btn" data-filter="enabler">Enabler <span class="arrow">&#9662;</span></button>
             <button class="filter-btn" data-filter="actor">Actor Type <span class="arrow">&#9662;</span></button>
-            <button class="filter-btn highlight btt" data-filter="breakthrough"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:middle;margin-right:4px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Land &amp; Soil Breakthrough Target</button>
+            <button class="filter-btn highlight btt" data-filter="breakthrough"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:middle;margin-right:4px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Land &amp; Soil Breakthroughs</button>
             <button class="filter-btn highlight" data-filter="activePartner"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:middle;margin-right:4px;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>RAA Active Partners</button>
             <button class="filter-btn filter-clear" id="clear-all-filters">Clear all</button>
             <div class="filter-dropdown" id="filter-dropdown"></div>
@@ -244,7 +244,54 @@
       <!-- ===== DETAIL: Community Snapshot ===== -->
       <section id="community-snapshot" class="page-section">
         <button class="btn-back" onclick="goHome()">&larr; Back to overview</button>
-        <div class="section-intro"><h1 class="page-title">Community Snapshot</h1><p class="page-desc">Aggregated overview of the RAA Community's scale and composition.</p></div>
+        <div class="section-intro section-intro--with-action">
+          <div class="section-intro-text">
+            <h1 class="page-title">Community Snapshot</h1>
+            <p class="page-desc">Aggregated overview of the RAA Community's scale and composition.</p>
+          </div>
+          <button class="btn-about" id="cs-about-toggle" aria-expanded="false" aria-controls="cs-about-panel">
+            <span class="btn-about-icon" aria-hidden="true">i</span>
+            <span>About this snapshot</span>
+          </button>
+        </div>
+
+        <div class="cs-about-panel" id="cs-about-panel" hidden>
+          <div class="cs-about-grid">
+            <div class="cs-about-block">
+              <h4>Data collection</h4>
+              <p>All data is self-reported by initiatives via a standardized Google Form, linked from the &ldquo;Join with my initiative&rdquo; button. Submissions enter the central registry and undergo a curation process before being released to the dashboard.</p>
+            </div>
+            <div class="cs-about-block">
+              <h4>Achieved vs Projected</h4>
+              <p><strong>Achieved</strong> values reflect outcomes already delivered by initiatives between <strong>2015 and 2025</strong>. <strong>Projected</strong> values represent the commitments and goals set by initiatives for the <strong>2026&ndash;2030</strong> period.</p>
+            </div>
+            <div class="cs-about-block">
+              <h4>Indicators tracked</h4>
+              <p><strong>Quantitative</strong> (split into Achieved &amp; Projected): hectares under restoration and conservation, inland waters under restoration and conservation, people benefited, and financial resources mobilized.</p>
+              <p style="margin-top:8px;"><strong>Categorical</strong>: type of actor, geographic scope, region, priority area, priority ecosystem, beneficiary, critical enabler, Rio Convention synergies, and alignment with Land &amp; Soil Breakthroughs.</p>
+            </div>
+            <div class="cs-about-block">
+              <h4>Update frequency</h4>
+              <p>New submissions are not published instantly. Each entry passes through a curation review and, once approved, is released to the dashboard. From that point onwards, updates are reflected within minutes.</p>
+            </div>
+            <div class="cs-about-block">
+              <h4>Scope &amp; limitations</h4>
+              <p>The snapshot aggregates only initiatives that have joined the RAA Community. No ranking, scoring, or independent verification is applied to the reported figures.</p>
+            </div>
+            <div class="cs-about-block">
+              <h4>Land &amp; Soil Breakthroughs</h4>
+              <p>Initiatives flagged as engaged with Land &amp; Soil Breakthroughs are those formally aligned with this partnership at the time of reporting.</p>
+            </div>
+            <div class="cs-about-block">
+              <h4>Financial figures</h4>
+              <p>All financial commitments and mobilizations are aggregated in this snapshot regardless of public disclosure preferences. The disclosure flag set by each initiative governs visibility on individual profile cards only, not the community-level totals shown here.</p>
+            </div>
+            <div class="cs-about-block">
+              <h4>Multi-value categories</h4>
+              <p>Initiatives may select multiple values per category (priority areas, beneficiaries, enablers, etc.). Bar charts count each occurrence, so totals across a category can exceed the number of initiatives.</p>
+            </div>
+          </div>
+        </div>
 
         <!-- Wheel + Stats Grid -->
         <div class="cs-top-split">
@@ -256,14 +303,20 @@
               <button class="cs-info-btn" id="cs-info-toggle">i</button>
               <div class="cs-info-tooltip" id="cs-info-tooltip"><strong>Achieved:</strong> Results reported from 2015 to 2025.<br><strong>Projected:</strong> Goals set by initiatives for 2026 to 2030.</div>
             </div>
+            <div class="cs-stats-label">At a glance</div>
             <div class="cs-counter-sm cs-counter--teal"><span class="cs-counter-num" id="cs-c-init">0</span><span class="cs-counter-suffix">+</span><span class="cs-counter-label">Initiatives</span></div>
-            <div class="cs-counter-sm"><span class="cs-counter-num" id="cs-c-countries">0</span><span class="cs-counter-suffix">+</span><span class="cs-counter-label">Countries</span></div>
-            <div class="cs-counter-sm cs-counter--gold"><span class="cs-counter-num" id="cs-c-hectares">0</span><span class="cs-counter-suffix"></span><span class="cs-counter-label">Hectares</span></div>
-            <div class="cs-counter-sm cs-counter--blue"><span class="cs-counter-num" id="cs-c-people">0</span><span class="cs-counter-suffix"></span><span class="cs-counter-label">People Benefited</span></div>
+            <div class="cs-counter-sm cs-counter--gold"><span class="cs-counter-num" id="cs-c-countries">0</span><span class="cs-counter-suffix">+</span><span class="cs-counter-label">Countries</span></div>
+            <div class="cs-counter-sm cs-counter--blue cs-counter--split">
+              <div class="cs-counter-split-row">
+                <div class="cs-counter-split-col"><span class="cs-counter-num-sm" id="cs-c-people-a">0</span><span class="cs-counter-period">Achieved</span></div>
+                <div class="cs-counter-split-col"><span class="cs-counter-num-sm" id="cs-c-people-p">0</span><span class="cs-counter-period">Projected</span></div>
+              </div>
+              <span class="cs-counter-label">People Benefited</span>
+            </div>
+            <div class="cs-stats-label cs-stats-label--goals">RAA Strategic Goals</div>
             <div class="cs-goals-row">
               <div class="cs-goal-mini" style="--goal-accent:#48966a">
                 <div class="cs-goal-mini-title">Land Conservation</div>
-                <div class="cs-goal-mini-target">Target: 1.5B ha</div>
                 <div class="cs-goal-mini-row">
                   <div class="cs-goal-mini-col"><span class="cs-goal-mini-num" id="goal-land-achieved">--</span><span class="cs-goal-mini-period">Achieved</span></div>
                   <div class="cs-goal-mini-col"><span class="cs-goal-mini-num" id="goal-land-projected">--</span><span class="cs-goal-mini-period">Projected</span></div>
@@ -271,7 +324,6 @@
               </div>
               <div class="cs-goal-mini" style="--goal-accent:#587da0">
                 <div class="cs-goal-mini-title">Drought Resilience</div>
-                <div class="cs-goal-mini-target">Target: 30% lands</div>
                 <div class="cs-goal-mini-row">
                   <div class="cs-goal-mini-col"><span class="cs-goal-mini-num" id="goal-drought-achieved">--</span><span class="cs-goal-mini-period">Achieved</span></div>
                   <div class="cs-goal-mini-col"><span class="cs-goal-mini-num" id="goal-drought-projected">--</span><span class="cs-goal-mini-period">Projected</span></div>
@@ -279,12 +331,16 @@
               </div>
               <div class="cs-goal-mini" style="--goal-accent:#c49a3c">
                 <div class="cs-goal-mini-title">Finance Mobilization</div>
-                <div class="cs-goal-mini-target">Target: US$2.1T</div>
                 <div class="cs-goal-mini-row">
                   <div class="cs-goal-mini-col"><span class="cs-goal-mini-num" id="goal-finance-achieved">--</span><span class="cs-goal-mini-period">Achieved</span></div>
                   <div class="cs-goal-mini-col"><span class="cs-goal-mini-num" id="goal-finance-projected">--</span><span class="cs-goal-mini-period">Projected</span></div>
                 </div>
               </div>
+            </div>
+            <div class="cs-goal-descs-row">
+              <div class="cs-goal-desc" style="--goal-accent:#48966a">Conserve and restore 1.5 billion ha of degraded land, including 250 million ha of degraded agricultural land.</div>
+              <div class="cs-goal-desc" style="--goal-accent:#587da0">Boost drought and water resilience, protecting 30% of lands and inland waters.</div>
+              <div class="cs-goal-desc" style="--goal-accent:#c49a3c">Mobilize US$2.1 trillion in global investments towards these goals.</div>
             </div>
           </div>
         </div>
@@ -292,13 +348,16 @@
         <!-- Main Grid: 3x2 -->
         <div class="cs-grid">
           <div class="cs-chart-card"><h3>By Type of Actor</h3><div class="bar-chart" id="chart-sector"></div></div>
-          <div class="cs-chart-card"><h3>By Scope</h3><div class="donut-wrap"><div class="donut" id="chart-scope"></div><div class="donut-legend" id="legend-scope"></div></div></div>
+          <div class="cs-chart-card cs-chart-card--combined">
+            <div class="cs-chart-card-half"><h3>By Scope</h3><div class="donut-wrap"><div class="donut" id="chart-scope"></div><div class="donut-legend" id="legend-scope"></div></div></div>
+            <div class="cs-chart-card-half"><h3>By Region</h3><div class="donut-wrap"><div class="donut" id="chart-region"></div><div class="donut-legend" id="legend-region"></div></div></div>
+          </div>
           <div class="cs-chart-card"><h3>By Priority Area</h3><div class="bar-chart" id="chart-priority"></div></div>
+          <div class="cs-chart-card cs-chart-card--wide-tall"><h3>By Beneficiary</h3><div class="bar-chart" id="chart-beneficiary"></div></div>
           <div class="cs-chart-card"><h3>By Critical Enabler</h3><div class="bar-chart" id="chart-enabler"></div></div>
-          <div class="cs-chart-card"><h3>By Region</h3><div class="donut-wrap"><div class="donut" id="chart-region"></div><div class="donut-legend" id="legend-region"></div></div></div>
-          <div class="cs-chart-card"><h3>By Beneficiary</h3><div class="bar-chart" id="chart-beneficiary"></div></div>
-          <div class="cs-chart-card"><h3>By Rio Synergies</h3><div class="bar-chart" id="chart-rio"></div></div>
-          <div class="cs-chart-card cs-chart-card--dark"><h3>Breakthrough Targets</h3><div class="cs-btt-num" id="btt-count">0</div><div class="cs-btt-label">initiatives engaged with L&S BTT</div></div>
+          <div class="cs-chart-card cs-chart-card--wide cs-chart-card--tall"><h3>By Priority Ecosystem</h3><div class="bar-chart" id="chart-ecosystem"></div></div>
+          <div class="cs-chart-card cs-chart-card--gold"><h3>By Rio Synergies</h3><div class="bar-chart" id="chart-rio"></div></div>
+          <div class="cs-chart-card cs-chart-card--accent"><h3>Land &amp; Soil Breakthroughs</h3><div class="cs-btt-num" id="btt-count">0</div><div class="cs-btt-label">initiatives engaged with Land &amp; Soil Breakthroughs</div></div>
         </div>
 
         <div class="section-footer cs-footer">
