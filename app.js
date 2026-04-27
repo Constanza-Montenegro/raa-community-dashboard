@@ -207,7 +207,7 @@ function showSidePanel(init) {
     <p class="panel-desc">${init.shortDescription}</p>
     ${init.thematicPriorities.length ? `<div class="panel-section-label">Thematic Priorities</div><div class="panel-tags">${init.thematicPriorities.map(t => `<span class="panel-tag">${t}</span>`).join('')}</div>` : ''}
     ${init.actorType ? `<div class="panel-section-label">Actor Type</div><div class="panel-tags"><span class="panel-tag">${init.actorType}</span></div>` : ''}
-    ${init.breakthroughTarget ? `<div class="panel-section-label">Breakthrough Target</div><div class="panel-tags"><span class="panel-tag">${init.breakthroughTarget}</span></div>` : ''}
+    ${init.breakthroughTarget ? `<div class="panel-section-label">Land &amp; Soil Breakthroughs</div><div class="panel-tags"><span class="panel-tag">${init.breakthroughTarget}</span></div>` : ''}
     <button class="btn-panel-profile" onclick="showProfile('${init.name.replace(/'/g, "\\'")}', true)">View Full Profile</button>
   `;
   listView.style.display = 'none';
@@ -671,7 +671,6 @@ function updateEcoStats() {
 }
 
 // ---- SECTION 4: COMMUNITY SNAPSHOT ----
-document.getElementById('snapshot-date').textContent = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
 function renderBarChart(id, data) {
   const el = document.getElementById(id);
@@ -874,7 +873,10 @@ function animateCounters() {
     return n.toLocaleString();
   }
 
-  const totalPeople = initiatives.reduce((s, i) => s + (i.peopleToBeBenefited || 0) + (i.peopleBenefited || 0), 0);
+  const haAchieved = initiatives.reduce((s, i) => s + (i.haUnderRestoration || 0) + (i.haConserved || 0), 0);
+  const haProjected = initiatives.reduce((s, i) => s + (i.haToBeRestored || 0) + (i.haToBeConserved || 0), 0);
+  const peopleAchieved = initiatives.reduce((s, i) => s + (i.peopleBenefited || 0), 0);
+  const peopleProjected = initiatives.reduce((s, i) => s + (i.peopleToBeBenefited || 0), 0);
 
   // Animated count-up for big numbers
   function countUpBig(id, target, prefix) {
@@ -897,8 +899,10 @@ function animateCounters() {
 
   countUp('cs-c-init', totalInit);
   countUp('cs-c-countries', totalCountries);
-  countUpBig('cs-c-hectares', totalHa);
-  countUpBig('cs-c-people', totalPeople);
+  countUpBig('cs-c-hectares-a', haAchieved);
+  countUpBig('cs-c-hectares-p', haProjected);
+  countUpBig('cs-c-people-a', peopleAchieved);
+  countUpBig('cs-c-people-p', peopleProjected);
 
   // Land goals — achieved vs projected
   const landAchieved = initiatives.reduce((s, i) => s + (i.haUnderRestoration || 0) + (i.haConserved || 0), 0);
@@ -906,7 +910,7 @@ function animateCounters() {
   const goalLandA = document.getElementById('goal-land-achieved');
   const goalLandP = document.getElementById('goal-land-projected');
   // Animate goal numbers
-  function animateGoalNum(id, value, prefix) {
+  function animateGoalNum(id, value, prefix, suffix) {
     const el = document.getElementById(id);
     if (!el) return;
     if (!value || value <= 0) { el.textContent = '--'; return; }
@@ -915,19 +919,26 @@ function animateCounters() {
     function update(now) {
       const progress = Math.min((now - start) / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
-      el.textContent = (prefix || '') + formatBigNum(Math.floor(eased * value));
+      el.textContent = (prefix || '') + formatBigNum(Math.floor(eased * value)) + (suffix || '');
       if (progress < 1) requestAnimationFrame(update);
-      else el.textContent = (prefix || '') + formatBigNum(value);
+      else el.textContent = (prefix || '') + formatBigNum(value) + (suffix || '');
     }
     requestAnimationFrame(update);
   }
 
-  animateGoalNum('goal-land-achieved', landAchieved);
-  animateGoalNum('goal-land-projected', landProjected);
+  animateGoalNum('goal-land-achieved', landAchieved, '', ' ha');
+  animateGoalNum('goal-land-projected', landProjected, '', ' ha');
 
-  // Finance goals — achieved vs projected
-  const finAchieved = initiatives.reduce((s, i) => !i.canDisclose33 ? s : s + (i.financialMobilized || 0), 0);
-  const finProjected = initiatives.reduce((s, i) => !i.canDisclose33 ? s : s + (i.financialToMobilize || 0), 0);
+  // Drought Resilience goals — fed by inland waters conserved
+  const droughtAchieved = initiatives.reduce((s, i) => s + (i.inlandWatersConserved || 0), 0);
+  const droughtProjected = initiatives.reduce((s, i) => s + (i.inlandWatersToBeConserved || 0), 0);
+  animateGoalNum('goal-drought-achieved', droughtAchieved, '', ' ha');
+  animateGoalNum('goal-drought-projected', droughtProjected, '', ' ha');
+
+  // Finance goals — achieved vs projected (aggregates all initiatives;
+  // disclosure flag only affects visibility on individual profile cards, not snapshot totals)
+  const finAchieved = initiatives.reduce((s, i) => s + (i.financialMobilized || 0), 0);
+  const finProjected = initiatives.reduce((s, i) => s + (i.financialToMobilize || 0), 0);
   animateGoalNum('goal-finance-achieved', finAchieved, 'US$');
   animateGoalNum('goal-finance-projected', finProjected, 'US$');
 
@@ -946,6 +957,22 @@ function animateCounters() {
     document.addEventListener('click', () => infoTip.classList.remove('open'));
   }
 
+  // About this snapshot toggle
+  const aboutBtn = document.getElementById('cs-about-toggle');
+  const aboutPanel = document.getElementById('cs-about-panel');
+  if (aboutBtn && aboutPanel) {
+    aboutBtn.onclick = () => {
+      const open = aboutPanel.hasAttribute('hidden') === false;
+      if (open) {
+        aboutPanel.setAttribute('hidden', '');
+        aboutBtn.setAttribute('aria-expanded', 'false');
+      } else {
+        aboutPanel.removeAttribute('hidden');
+        aboutBtn.setAttribute('aria-expanded', 'true');
+      }
+    };
+  }
+
   // BTT count
   const bttEl = document.getElementById('btt-count');
   if (bttEl) bttEl.textContent = initiatives.filter(i => i.breakthroughTarget).length;
@@ -956,6 +983,12 @@ function animateCounters() {
 // ============================================================
 async function initApp() {
   await loadData();
+
+  const snapDateEl = document.getElementById('snapshot-date');
+  if (snapDateEl) {
+    const d = window.dataLastModified || new Date();
+    snapDateEl.textContent = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
 
   // Update hero stats from real data
   const totalInit = initiatives.length;
@@ -1093,6 +1126,11 @@ async function initApp() {
     .map(([label, value]) => ({ label, value, pct: value }))
     .sort((a, b) => b.value - a.value);
   if (rioData.length) renderBarChart('chart-rio', rioData);
+
+  // Priority Ecosystem chart
+  if (snapshotData.byEcosystem && snapshotData.byEcosystem.length) {
+    renderBarChart('chart-ecosystem', snapshotData.byEcosystem);
+  }
 
   // BTT count
   const bttEl = document.getElementById('btt-count');

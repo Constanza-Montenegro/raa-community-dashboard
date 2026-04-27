@@ -351,7 +351,7 @@ function transformInitiativeRow(row) {
     enablers: parseMultiValue(row['Enabler']).map(e => e.replace(/^Science & Technology$/i, 'Science, Technology & Innovation')),
     actorType: (row['Type of organization'] || '').trim().replace(/^Multilateral Org$/i, 'Multilateral Organization'),
     priorityEcosystem: parseMultiValue(row['Priority Ecosystem']),
-    breakthroughTarget: (row['Current BTT partner?'] || '').trim().toLowerCase() === 'yes' ? 'L&S Breakthrough Target' : '',
+    breakthroughTarget: (row['Current BTT partner?'] || '').trim().toLowerCase() === 'yes' ? 'Land & Soil Breakthroughs' : '',
     rioSynergies: parseMultiValue(row['Rio Synergies']),
     beneficiaries: parseMultiValue(row['Beneficiaries']),
     otherPartners: row['Other partners'] || '',
@@ -447,7 +447,9 @@ function computeSnapshotData(inits) {
     .map(([label, value]) => ({ label, value, pct: Math.round((value / total) * 100) }))
     .sort((a, b) => b.value - a.value);
 
-  return { bySector, byScope, byPriority, byEnabler, byRegion, byBreakthrough };
+  const byEcosystem = countBy(inits.flatMap(i => i.priorityEcosystem));
+
+  return { bySector, byScope, byPriority, byEnabler, byRegion, byBreakthrough, byEcosystem };
 }
 
 // ---- PLATFORMS (hardcoded — no CSV yet) ----
@@ -476,10 +478,17 @@ async function loadData() {
   const overlay = document.getElementById('loading-overlay');
 
   try {
-    const [initCSV, partnerCSV] = await Promise.all([
-      fetch(CSV_URLS.initiatives).then(r => { if (!r.ok) throw new Error('Failed to load initiatives'); return r.text(); }),
-      fetch(CSV_URLS.partners).then(r => { if (!r.ok) throw new Error('Failed to load partners'); return r.text(); })
+    const [initRes, partnerRes] = await Promise.all([
+      fetch(CSV_URLS.initiatives).then(r => { if (!r.ok) throw new Error('Failed to load initiatives'); return r; }),
+      fetch(CSV_URLS.partners).then(r => { if (!r.ok) throw new Error('Failed to load partners'); return r; })
     ]);
+
+    const initLastMod = initRes.headers.get('Last-Modified');
+    const partnerLastMod = partnerRes.headers.get('Last-Modified');
+    const candidates = [initLastMod, partnerLastMod].map(s => s ? new Date(s) : null).filter(d => d && !isNaN(d));
+    window.dataLastModified = candidates.length ? new Date(Math.max(...candidates.map(d => d.getTime()))) : new Date();
+
+    const [initCSV, partnerCSV] = await Promise.all([initRes.text(), partnerRes.text()]);
 
     const initRows = parseCSV(initCSV);
     const partnerRows = parseCSV(partnerCSV);
