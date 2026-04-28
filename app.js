@@ -681,7 +681,8 @@ function renderBarChart(id, data) {
     const w = Math.round(((d.pct || d.value) / max) * 100);
     const item = document.createElement('div');
     item.className = 'bar-item';
-    item.innerHTML = `<span class="bar-label">${d.label}</span><div class="bar-track"><div class="bar-fill" style="width:0%" data-width="${w}%"></div></div><span class="bar-value">${d.value}</span>`;
+    const displayPct = d.pct !== undefined ? d.pct : Math.round((d.value / max) * 100);
+    item.innerHTML = `<span class="bar-label">${d.label}</span><div class="bar-track"><div class="bar-fill" style="width:0%" data-width="${w}%"></div></div><span class="bar-value">${displayPct}%</span>`;
     el.appendChild(item);
   });
 }
@@ -949,13 +950,15 @@ function animateCounters() {
     });
   }, 300);
 
-  // Info tooltip toggle
-  const infoBtn = document.getElementById('cs-info-toggle');
-  const infoTip = document.getElementById('cs-info-tooltip');
-  if (infoBtn && infoTip) {
-    infoBtn.onclick = (e) => { e.stopPropagation(); infoTip.classList.toggle('open'); };
-    document.addEventListener('click', () => infoTip.classList.remove('open'));
-  }
+  // Info tooltip toggle (generic — wires up all cs-info-btn pairs)
+  [['cs-info-toggle', 'cs-info-tooltip'], ['rio-info-toggle', 'rio-info-tooltip'], ['enabler-info-toggle', 'enabler-info-tooltip'], ['btt-info-toggle', 'btt-info-tooltip']].forEach(([btnId, tipId]) => {
+    const btn = document.getElementById(btnId);
+    const tip = document.getElementById(tipId);
+    if (btn && tip) {
+      btn.onclick = (e) => { e.stopPropagation(); tip.classList.toggle('open'); };
+      document.addEventListener('click', () => tip.classList.remove('open'));
+    }
+  });
 
   // About this snapshot toggle
   const aboutBtn = document.getElementById('cs-about-toggle');
@@ -990,18 +993,27 @@ async function initApp() {
     snapDateEl.textContent = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
   }
 
-  // Update hero stats from real data
+  // ── Single source of truth for all displayed metrics ──
+  // Always use Achieved values only, consistent with Community Snapshot
   const totalInit = initiatives.length;
   const totalCountries = new Set(initiatives.map(i => i.country)).size;
-  const totalHa = initiatives.reduce((sum, i) => sum + (i.haToBeRestored || 0) + (i.haToBeConserved || 0) + (i.haUnderRestoration || 0) + (i.haConserved || 0) + (i.inlandWatersRestoration || 0), 0);
+  const metricHa       = initiatives.reduce((s, i) => s + (i.haUnderRestoration || 0) + (i.haConserved || 0), 0);
+  const metricPeople   = initiatives.reduce((s, i) => s + (i.peopleBenefited || 0), 0);
+  const metricFinance  = initiatives.reduce((s, i) => s + (i.financialMobilized || 0), 0);
+
+  function fmtHero(n) {
+    if (n >= 1e9) return { val: (n/1e9).toFixed(1), suffix: 'B', decimal: 1 };
+    if (n >= 1e6) return { val: (n/1e6).toFixed(1), suffix: 'M', decimal: 1 };
+    return { val: n, suffix: '', decimal: 0 };
+  }
 
   document.querySelectorAll('.hero-stat-num').forEach(el => {
     const label = el.nextElementSibling?.textContent?.trim();
     if (label === 'Initiatives') { el.dataset.count = totalInit; el.dataset.suffix = ''; }
     if (label === 'Countries') { el.dataset.count = totalCountries; el.dataset.suffix = ''; }
     if (label === 'Hectares') {
-      if (totalHa >= 1e6) { el.dataset.count = (totalHa / 1e6).toFixed(1); el.dataset.suffix = 'M'; el.dataset.decimal = '1'; }
-      else { el.dataset.count = totalHa; el.dataset.suffix = ''; }
+      const f = fmtHero(metricHa);
+      el.dataset.count = f.val; el.dataset.suffix = f.suffix; el.dataset.decimal = f.decimal;
     }
   });
 
@@ -1014,8 +1026,8 @@ async function initApp() {
     if (label?.includes('Initiatives')) { num.dataset.target = totalInit; suffix.textContent = ''; }
     if (label?.includes('Countries')) { num.dataset.target = totalCountries; suffix.textContent = ''; }
     if (label?.includes('Hectares')) {
-      if (totalHa >= 1e6) { num.dataset.target = (totalHa / 1e6).toFixed(1); suffix.textContent = 'M+'; }
-      else { num.dataset.target = totalHa; suffix.textContent = ''; }
+      const f = fmtHero(metricHa);
+      num.dataset.target = f.val; suffix.textContent = f.suffix + '+';
     }
   });
 
@@ -1025,7 +1037,7 @@ async function initApp() {
     const label = el.nextElementSibling?.textContent?.trim() || el.parentElement?.querySelector('.snap-label')?.textContent?.trim();
     if (label?.includes('Initiatives')) el.textContent = totalInit;
     if (label?.includes('Countries')) el.textContent = totalCountries;
-    if (label?.includes('Hectares')) el.textContent = totalHa >= 1e6 ? (totalHa / 1e6).toFixed(1) + 'M+' : totalHa.toLocaleString();
+    if (label?.includes('Hectares')) { const f = fmtHero(metricHa); el.textContent = f.val + f.suffix + '+'; }
     if (label?.includes('Actor')) el.textContent = new Set(initiatives.map(i => i.actorType)).size;
   });
 
@@ -1113,7 +1125,7 @@ async function initApp() {
     if (i.beneficiaries) i.beneficiaries.forEach(b => { benefCounts[b] = (benefCounts[b] || 0) + 1; });
   });
   const benefData = Object.entries(benefCounts)
-    .map(([label, value]) => ({ label, value, pct: value }))
+    .map(([label, value]) => ({ label, value, pct: Math.round((value / initiatives.length) * 100) }))
     .sort((a, b) => b.value - a.value);
   if (benefData.length) renderBarChart('chart-beneficiary', benefData);
 
@@ -1123,7 +1135,7 @@ async function initApp() {
     if (i.rioSynergies) i.rioSynergies.forEach(r => { rioCounts[r] = (rioCounts[r] || 0) + 1; });
   });
   const rioData = Object.entries(rioCounts)
-    .map(([label, value]) => ({ label, value, pct: value }))
+    .map(([label, value]) => ({ label, value, pct: Math.round((value / initiatives.length) * 100) }))
     .sort((a, b) => b.value - a.value);
   if (rioData.length) renderBarChart('chart-rio', rioData);
 
@@ -1207,7 +1219,7 @@ async function initApp() {
   // Populate dynamic numbers everywhere
   const dynInit = initiatives.length;
   const dynCountries = new Set(initiatives.map(i => i.country)).size;
-  const dynHa = initiatives.reduce((s, i) => s + (i.haToBeRestored || 0) + (i.haToBeConserved || 0) + (i.haUnderRestoration || 0) + (i.haConserved || 0), 0);
+  const dynHa = metricHa;
   const dynActors = new Set(initiatives.map(i => i.actorType)).size;
 
   function formatHa(ha) {
@@ -1229,8 +1241,8 @@ async function initApp() {
   const snapHectares = document.getElementById('snap-hectares');
   const snapFinance = document.getElementById('snap-finance');
   const snapPeople = document.getElementById('snap-people');
-  const dynPeople = initiatives.reduce((s, i) => s + (i.peopleToBeBenefited || 0) + (i.peopleBenefited || 0), 0);
-  const dynFinance = initiatives.reduce((s, i) => !i.canDisclose33 ? s : s + (i.financialMobilized || 0) + (i.financialToMobilize || 0), 0);
+  const dynPeople = metricPeople;
+  const dynFinance = metricFinance;
   if (snapInit) snapInit.textContent = dynInit + '+';
   if (snapHectares) snapHectares.textContent = formatHa(dynHa) + '+';
   if (snapFinance) snapFinance.textContent = dynFinance > 0 ? 'US$' + formatHa(dynFinance) : '--';
