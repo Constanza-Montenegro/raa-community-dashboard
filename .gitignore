@@ -7,3 +7,7 @@ Thumbs.db
 *.swp
 .vscode/
 .idea/
+
+# Auto-generated utility files
+screenshots/
+take_screenshots.py

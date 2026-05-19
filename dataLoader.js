@@ -304,18 +304,50 @@ function parseNumber(val) {
   return isNaN(n) ? 0 : n;
 }
 
+function ensureHttps(url) {
+  if (!url) return '';
+  const trimmed = url.trim();
+  if (!trimmed) return '';
+  // Extract embedded http(s) URL if field has text before/after it
+  const embedded = trimmed.match(/https?:\/\/\S+/);
+  if (embedded) return embedded[0].replace(/[.,;)'"]+$/, '');
+  // Skip placeholders and non-URLs
+  if (/^(TBC|TBD|N\/A|NA|TBA)$/i.test(trimmed)) return '';
+  if (!trimmed.includes('.') || trimmed.includes(' ')) return '';
+  // Bare domain — prepend https://
+  return 'https://' + trimmed;
+}
+
 // ---- LOCAL LOGO LOOKUP ----
 // Register local logo files here. Key = Partner ID, Value = file path.
 // Update this map when adding new logos to the logos/ folder.
 const LOCAL_LOGOS = {
+  'P001': 'logos/logo-P001.png',
   'P002': 'logos/logo-P002.png',
   'P003': 'logos/logo-P003.png',
   'P005': 'logos/logo-P005.png',
   'P008': 'logos/logo-P008.png',
+  'P009': 'logos/logo-P009.png',
   'P012': 'logos/logo-P012.png',
+  'P014': 'logos/logo-P014.png',
+  'P018': 'logos/logo-P018.png',
+  'P021': 'logos/logo-P021.png',
   'P026': 'logos/logo-P026.png',
   'P027': 'logos/logo-P027.png',
-  'P037': 'logos/logo-P037.png'
+  'P035': 'logos/logo-P035.png',
+  'P037': 'logos/logo-P037.png',
+  'P039': 'logos/logo-P039.png',
+  'P042-045': 'logos/P042-045.png',
+  'P042-049': 'logos/P042-049.png',
+  'P043': 'logos/logo-P043.png',
+  'P045': 'logos/logo-P045.png',
+  'P047': 'logos/logo-P047.png'
+};
+
+// ---- VIDEO LINKS ----
+// Register video URLs here. Key = Partner ID (e.g. 'P006'), Value = YouTube/Vimeo URL.
+const VIDEO_LINKS = {
+  'P006': 'https://www.youtube.com/watch?v=amn4Sy346-o'
 };
 
 // ---- TRANSFORM CSV ROWS ----
@@ -336,9 +368,10 @@ function transformInitiativeRow(row) {
     id: row['Initiative ID'] || '',
     name: (row['Initiative name'] || '').trim(),
     partnerName: (row['Organization Name'] || '').trim(),
-    logo: LOCAL_LOGOS[row['Initiative ID']?.split('-')[0]] || driveToImgUrl((row['Logo (link)'] || '').split(',')[0].trim()),
-    website: row['Link to website'] || '',
-    initiativeLink: row['Link to initiative'] || '',
+    logo: LOCAL_LOGOS[row['Initiative ID']] || LOCAL_LOGOS[row['Initiative ID']?.split('-')[0]] || driveToImgUrl((row['Logo (link)'] || '').split(',')[0].trim()),
+    website: ensureHttps(row['Link to website']),
+    initiativeLink: ensureHttps(row['Link to initiative']),
+    video: VIDEO_LINKS[row['Initiative ID']?.split('-')[0]] || '',
     country: geo.country,
     flag: geo.flag,
     lat: lat,
@@ -353,7 +386,10 @@ function transformInitiativeRow(row) {
     actorType: (row['Type of organization'] || '').trim().replace(/^Multilateral Org$/i, 'Multilateral Organization'),
     priorityEcosystem: parseMultiValue(row['Priority Ecosystem']),
     breakthroughTarget: (row['Current BTT partner?'] || '').trim().toLowerCase() === 'yes' ? 'Land & Soil Breakthroughs' : '',
-    rioSynergies: parseMultiValue(row['Rio Synergies']),
+    rioSynergies: parseMultiValue(row['Rio Synergies']).filter(v =>
+      ['SDG', 'UNFCCC', 'CBD', 'UNCCD'].some(k => v.toUpperCase().includes(k))
+    ),
+    otherMultilateralAgreements: row['*Other Multilateral Agreement or relevant process, stated below'] || '',
     beneficiaries: parseMultiValue(row['Beneficiaries']),
     otherPartners: row['Other partners'] || '',
     // Numeric data
@@ -361,18 +397,22 @@ function transformInitiativeRow(row) {
     haToBeConserved: parseNumber(row['Ha to be conserved']),
     haUnderRestoration: parseNumber(row['Ha under restoration']),
     haConserved: parseNumber(row['Ha conserved']),
-    inlandWatersToBeRestored: parseNumber(row['Inland waters to be under restoration']),
+    inlandWatersToBeRestored: parseNumber(row['Inland waters to be  under restoration']),
     inlandWatersToBeConserved: parseNumber(row['Inland waters to be conserved']),
     inlandWatersRestoration: parseNumber(row['Inland waters under restoration']),
     inlandWatersConserved: parseNumber(row['Inland waters conserved']),
     peopleToBeBenefited: parseNumber(row['People to be benefited']),
     peopleBenefited: parseNumber(row['People already benefited']),
     howPeopleBenefited: row['*how people are being benefited'] || '',
+    howPeopleWillBeBenefited: row['*how people will be benefited'] || '',
     financialToMobilize: parseNumber(row['Financial resources to be mobilized']),
     financialMobilized: parseNumber(row['Financial resources mobilized']),
     otherResourcesToMobilize: row['Other resources to be mobilized'] || '',
     otherResourcesMobilized: row['Other resources mobilized'] || '',
+    reportedElsewhere: row['Reported somewhere else?'] || '',
+    otherReportingPlatform: row['*Other reporting platform'] || '',
     additionalIndicators: row['Additional indicators'] || '',
+    toolsForLandData: row['Tools for land-related data'] || '',
     annualReport: row['Link to annual report'] || '',
     visualRepresentation: driveToImgUrl((row['Visual Representation (link)'] || '').split(',')[0].trim()),
     status: row['Status'] || '',
@@ -384,11 +424,13 @@ function transformInitiativeRow(row) {
 }
 
 function transformPartnerRow(row) {
+  const rawId = (row['Partner ID'] || '').trim();
+  const baseId = rawId.split('-')[0];
   return {
-    id: row['Partner ID'] || '',
+    id: rawId,
     name: (row['Partner Name'] || '').trim(),
-    logo: LOCAL_LOGOS[row['Partner ID']] || driveToImgUrl((row['Logo '] || row['Logo'] || '').split(',')[0].trim()),
-    website: row['Website'] || '',
+    logo: LOCAL_LOGOS[baseId] || LOCAL_LOGOS[rawId] || driveToImgUrl((row['Logo '] || row['Logo'] || '').split(',')[0].trim()),
+    website: ensureHttps(row['Website']),
     location: row['Location'] || ''
   };
 }
@@ -491,15 +533,26 @@ async function loadData() {
 
     const [initCSV, partnerCSV] = await Promise.all([initRes.text(), partnerRes.text()]);
 
-    const initRows = parseCSV(initCSV);
-    const partnerRows = parseCSV(partnerCSV);
+    function stripEmptyLeadingRows(csv) {
+      return csv.split('\n').filter((line, i, arr) => {
+        if (i === 0 && line.replace(/,/g, '').trim() === '') return false;
+        return true;
+      }).join('\n');
+    }
+
+    const initRows = parseCSV(stripEmptyLeadingRows(initCSV));
+    const partnerRows = parseCSV(stripEmptyLeadingRows(partnerCSV));
 
     window.initiatives = initRows.map(transformInitiativeRow).filter(i => i.name);
     window.partners = partnerRows
       .map(transformPartnerRow)
-      .filter(p => {
-        // Only include partners that have at least one initiative
-        return p.name && window.initiatives.some(i => i.id.startsWith(p.id));
+      .filter(p => p.name && window.initiatives.some(i => i.id === p.id || i.id.startsWith(p.id + '-')))
+      .map(p => {
+        if (!p.logo) {
+          const match = window.initiatives.find(i => i.id === p.id || i.id.startsWith(p.id + '-'));
+          if (match && match.logo) p.logo = match.logo;
+        }
+        return p;
       });
     window.platforms = platforms;
     window.filterOptions = computeFilterOptions(window.initiatives);

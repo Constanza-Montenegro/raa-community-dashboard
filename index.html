@@ -31,9 +31,9 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         Join with my initiative
       </button>
-      <button class="header-action-btn secondary" onclick="document.getElementById('invite-modal').classList.add('open')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        Invite other initiatives
+      <button class="header-action-btn" onclick="document.getElementById('join-platform-modal').classList.add('open')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        Join with my platform
       </button>
     </div>
   </header>
@@ -137,7 +137,16 @@
       <section id="global-presence" class="page-section">
         <button class="btn-back" onclick="goHome()">&larr; Back to overview</button>
         <div class="section-top-row">
-          <div class="section-intro"><h1 class="page-title">Global Presence</h1><p class="page-desc">Geographic overview of the RAA Community's initiatives across regions and countries.</p></div>
+          <div class="section-intro section-intro--with-action">
+            <div class="section-intro-text">
+              <h1 class="page-title">Global Presence</h1>
+              <p class="page-desc">Geographic overview of the RAA Community's initiatives across regions and countries.</p>
+            </div>
+            <button class="btn-about" id="gp-about-toggle" aria-expanded="false" aria-controls="gp-about-panel">
+              <span class="btn-about-icon" aria-hidden="true">i</span>
+              <span>About this map</span>
+            </button>
+          </div>
           <div class="dg-stats">
             <div class="dg-stat"><span class="dg-stat-num" id="gp-initiatives">0</span><span class="dg-stat-label">Initiatives</span></div>
             <div class="dg-stat-divider"></div>
@@ -146,6 +155,40 @@
             <div class="dg-stat"><span class="dg-stat-num" id="gp-regions">0</span><span class="dg-stat-label">Regions</span></div>
           </div>
         </div>
+        <div class="cs-about-panel" id="gp-about-panel" hidden>
+          <div class="cs-about-title-row">
+            <span class="cs-about-title-line"></span>
+            <span class="cs-about-title-text">Methodology Notes</span>
+            <span class="cs-about-title-line"></span>
+          </div>
+          <div class="cs-about-grid">
+            <div class="cs-about-block">
+              <div class="cs-about-block-header">
+                <h4>Pin location</h4>
+              </div>
+              <p>Each pin is placed at the location of the <strong>leading organisation</strong> behind the initiative, not necessarily where the initiative operates. For initiatives with a regional or global scope, the pin may represent the organisation's headquarters or primary country of registration.</p>
+            </div>
+            <div class="cs-about-block">
+              <div class="cs-about-block-header">
+                <h4><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#002929;margin-right:6px;vertical-align:middle"></span>Global</h4>
+              </div>
+              <p>The initiative operates or has impact across multiple continents, or explicitly targets worldwide reach. Global initiatives are not restricted to a specific region or country.</p>
+            </div>
+            <div class="cs-about-block">
+              <div class="cs-about-block-header">
+                <h4><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#48966a;margin-right:6px;vertical-align:middle"></span>Regional</h4>
+              </div>
+              <p>The initiative focuses on a defined multi-country region — such as Sub-Saharan Africa, Latin America, or the IGAD region — without covering the entire globe.</p>
+            </div>
+            <div class="cs-about-block">
+              <div class="cs-about-block-header">
+                <h4><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#b4bab6;margin-right:6px;vertical-align:middle"></span>National</h4>
+              </div>
+              <p>The initiative's primary geographic scope is within a single country, even if it receives international funding or support.</p>
+            </div>
+          </div>
+        </div>
+
         <div class="map-legend-bar">
           <span class="legend-label">Scope:</span>
           <span class="legend-badge" style="--badge-color:#002929">Global</span>
@@ -173,7 +216,46 @@
       <!-- ===== DETAIL: Initiatives Directory ===== -->
       <section id="initiatives-directory" class="page-section">
         <button class="btn-back" onclick="goHome()">&larr; Back to overview</button>
-        <div class="section-intro"><h1 class="page-title">Initiatives Directory</h1><p class="page-desc">Structured profiles of initiatives within the RAA Community.</p></div>
+        <div class="section-intro section-intro--with-action">
+          <div class="section-intro-text">
+            <h1 class="page-title">Initiatives Directory</h1>
+            <p class="page-desc">Structured profiles of initiatives within the RAA Community.</p>
+          </div>
+          <button class="btn-about" id="id-about-toggle" aria-expanded="false" aria-controls="id-about-panel">
+            <span class="btn-about-icon" aria-hidden="true">i</span>
+            <span>About this directory</span>
+          </button>
+        </div>
+
+        <div class="cs-about-panel" id="id-about-panel" hidden>
+          <div class="cs-about-title-row">
+            <span class="cs-about-title-line"></span>
+            <span class="cs-about-title-text">Methodology Notes</span>
+            <span class="cs-about-title-line"></span>
+          </div>
+          <div class="cs-about-grid">
+            <div class="cs-about-block">
+              <div class="cs-about-block-header">
+                <h4>Initiative name vs Partner name</h4>
+              </div>
+              <p><strong>Initiative name</strong> refers to the specific programme, project, or activity registered in the RAA Community — it is the primary identifier used throughout the directory.</p>
+              <p><strong>Partner name</strong> refers to the organisation leading or hosting that initiative. One organisation may run multiple initiatives; conversely, a single initiative may be co-led by a consortium of partners.</p>
+            </div>
+            <div class="cs-about-block">
+              <div class="cs-about-block-header">
+                <h4>Data collection</h4>
+              </div>
+              <p>All data is self-reported by initiatives via a standardized Google Form, linked from the &ldquo;Join with my initiative&rdquo; button. Submissions enter the central registry and undergo a curation process before being released to the dashboard.</p>
+            </div>
+            <div class="cs-about-block">
+              <div class="cs-about-block-header">
+                <h4>Active Partner status</h4>
+              </div>
+              <p>Initiatives flagged as <strong>RAA Active Partners</strong> have engaged formally with the RAA Community beyond registration — through participation in working groups, events, or official partnership agreements.</p>
+            </div>
+          </div>
+        </div>
+
         <div class="id-toolbar">
           <div class="id-search">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -181,7 +263,7 @@
           </div>
           <div class="filters-bar">
             <button class="filter-btn" data-filter="scope">Scope <span class="arrow">&#9662;</span></button>
-            <button class="filter-btn" data-filter="priority">Priority Area <span class="arrow">&#9662;</span></button>
+            <button class="filter-btn" data-filter="priority">Action Area <span class="arrow">&#9662;</span></button>
             <button class="filter-btn" data-filter="enabler">Enabler <span class="arrow">&#9662;</span></button>
             <button class="filter-btn" data-filter="actor">Actor Type <span class="arrow">&#9662;</span></button>
             <button class="filter-btn highlight btt" data-filter="breakthrough"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:middle;margin-right:4px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Land &amp; Soil Breakthroughs</button>
@@ -192,6 +274,9 @@
         </div>
         <div class="id-results-count" id="id-results-count"></div>
         <div class="initiatives-grid" id="initiatives-grid"></div>
+        <div class="section-footer id-footer">
+          <span class="disclaimer">Some initiatives may display incomplete information or no logo — this reflects data that has not yet been submitted or that the initiative has chosen not to disclose publicly. If you would like your initiative to show more information on the dashboard, <a href="mailto:land@ambitionloop.earth">contact us</a>.</span>
+        </div>
       </section>
 
       <!-- ===== DETAIL: Land & Soil Ecosystem ===== -->
@@ -279,7 +364,7 @@
                 <h4>Indicators tracked</h4>
               </div>
               <p><strong>Quantitative</strong> (split into Achieved &amp; Projected): hectares under restoration and conservation, inland waters under restoration and conservation, people benefited, and financial resources mobilized.</p>
-              <p><strong>Categorical</strong>: type of actor, geographic scope, region, priority area, priority ecosystem, beneficiary, critical enabler, Rio Convention synergies, and alignment with Land &amp; Soil Breakthroughs.</p>
+              <p><strong>Categorical</strong>: type of actor, geographic scope, region, action area, priority ecosystem, beneficiary, critical enabler, Rio Convention synergies, and alignment with Land &amp; Soil Breakthroughs.</p>
             </div>
             <div class="cs-about-block">
               <div class="cs-about-block-header">
@@ -309,7 +394,7 @@
               <div class="cs-about-block-header">
                 <h4>Multi-value categories</h4>
               </div>
-              <p>Initiatives may select multiple values per category (priority areas, beneficiaries, enablers, etc.). Bar charts count each occurrence, so totals across a category can exceed the number of initiatives.</p>
+              <p>Initiatives may select multiple values per category (action areas, beneficiaries, enablers, etc.). Bar charts count each occurrence, so totals across a category can exceed the number of initiatives.</p>
             </div>
             <div class="cs-about-block">
               <div class="cs-about-block-header">
@@ -388,7 +473,7 @@
             <div class="cs-chart-card-half"><h3>By Scope</h3><div class="donut-wrap"><div class="donut" id="chart-scope"></div><div class="donut-legend" id="legend-scope"></div></div></div>
             <div class="cs-chart-card-half"><h3>By Region</h3><div class="donut-wrap"><div class="donut" id="chart-region"></div><div class="donut-legend" id="legend-region"></div></div></div>
           </div>
-          <div class="cs-chart-card"><h3>By Priority Area</h3><div class="bar-chart" id="chart-priority"></div></div>
+          <div class="cs-chart-card"><h3>By Action Area</h3><div class="bar-chart" id="chart-priority"></div></div>
           <div class="cs-chart-card cs-chart-card--wide-tall"><h3>By Beneficiary</h3><div class="bar-chart" id="chart-beneficiary"></div></div>
           <div class="cs-chart-card">
             <div class="cs-chart-header">
@@ -416,7 +501,7 @@
               <h3>Land &amp; Soil Breakthroughs</h3>
               <div class="cs-info-row" style="position:relative">
                 <button class="cs-info-btn cs-info-btn--sm" id="btt-info-toggle">i</button>
-                <div class="cs-info-tooltip cs-info-tooltip--left" id="btt-info-tooltip">A <strong>Breakthrough</strong> is a shared, time-bound goal that drives a decisive system shift — from fragmented efforts to coordinated, large-scale action.<br><br>Rather than creating new initiatives, Breakthroughs provide a <strong>unifying framework</strong> that connects existing efforts, aligns actors around science-based targets, and makes collective progress visible.<br><br>The <strong>Land &amp; Soil Breakthrough Targets</strong> are developed under the RAA in connection with the UNCCD space, inspired by the Sharm El-Sheikh Adaptation Agenda.</div>
+                <div class="cs-info-tooltip" id="btt-info-tooltip">A <strong>Breakthrough</strong> is a shared, time-bound goal that drives a decisive system shift — from fragmented efforts to coordinated, large-scale action.<br><br>Rather than creating new initiatives, Breakthroughs provide a <strong>unifying framework</strong> that connects existing efforts, aligns actors around science-based targets, and makes collective progress visible.<br><br>The <strong>Land &amp; Soil Breakthrough Targets</strong> are developed under the RAA in connection with the UNCCD space, inspired by the Sharm El-Sheikh Adaptation Agenda.</div>
               </div>
             </div>
             <div class="cs-btt-num" id="btt-count">0</div>
@@ -454,9 +539,9 @@
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           Join with my initiative
         </button>
-        <button class="get-involved-btn secondary" onclick="document.getElementById('invite-modal').classList.add('open')">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          Invite other initiatives
+        <button class="get-involved-btn secondary" onclick="document.getElementById('join-platform-modal').classList.add('open')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          Join with my platform
         </button>
       </div>
     </div>
@@ -487,6 +572,17 @@
       <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px;">
         <a href="https://www.canva.com/design/DAHBHyd48SI/1RxYXZlxYgcjm2H46qhyow/view?utm_content=DAHBHyd48SI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h183a478f56#1" target="_blank" class="btn-secondary">Review Alignment Criteria</a>
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSebRBtAKXOfwMMmu9m2l3ZOG-iP8IFXuBxyOVhLhWPBG39O7g/viewform?usp=dialog" target="_blank" class="btn-primary">Go to Form</a>
+      </div>
+    </div>
+  </div>
+  <div class="modal-overlay" id="join-platform-modal">
+    <div class="modal-content sm">
+      <button class="modal-close" onclick="closeModal('join-platform-modal')">&times;</button>
+      <h2>Join with my Platform</h2>
+      <p class="modal-desc">Interested in adding your platform to the RAA Community? Before filling out the form, please review the alignment criteria to ensure your platform is aligned with the Riyadh Action Agenda.</p>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px;">
+        <a href="https://www.canva.com/design/DAHBHyd48SI/1RxYXZlxYgcjm2H46qhyow/view?utm_content=DAHBHyd48SI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h183a478f56#1" target="_blank" class="btn-secondary">Review Alignment Criteria</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScfwoiVOsjpNIyH7KMD5qL-GPjSQ71sXB_K4HwATaKyyz8EzA/viewform?usp=dialog" target="_blank" class="btn-primary">Go to Form</a>
       </div>
     </div>
   </div>

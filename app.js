@@ -16,7 +16,7 @@ function formatNumber(n) {
   if (n >= 1e9) return (n / 1e9).toFixed(1).replace(/\.0$/, '') + 'B';
   if (n >= 1e6) return (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
   if (n >= 1e3) return (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K';
-  return n.toLocaleString();
+  return String(n);
 }
 
 // ---- NAVIGATION: LANDING vs DETAIL ----
@@ -205,7 +205,7 @@ function showSidePanel(init) {
     <div class="panel-country">${init.flag} ${init.country}</div>
     <span class="panel-scope ${sc}">${init.scope}</span>
     <p class="panel-desc">${init.shortDescription}</p>
-    ${init.thematicPriorities.length ? `<div class="panel-section-label">Thematic Priorities</div><div class="panel-tags">${init.thematicPriorities.map(t => `<span class="panel-tag">${t}</span>`).join('')}</div>` : ''}
+    ${init.thematicPriorities.length ? `<div class="panel-section-label">Action Areas</div><div class="panel-tags">${init.thematicPriorities.map(t => `<span class="panel-tag">${t}</span>`).join('')}</div>` : ''}
     ${init.actorType ? `<div class="panel-section-label">Actor Type</div><div class="panel-tags"><span class="panel-tag">${init.actorType}</span></div>` : ''}
     ${init.breakthroughTarget ? `<div class="panel-section-label">Land &amp; Soil Breakthroughs</div><div class="panel-tags"><span class="panel-tag">${init.breakthroughTarget}</span></div>` : ''}
     <button class="btn-panel-profile" onclick="showProfile('${init.name.replace(/'/g, "\\'")}', true)">View Full Profile</button>
@@ -300,7 +300,24 @@ function renderInitiatives() {
   grid.innerHTML = '';
 
   const filtered = initiatives.filter(init => {
-    if (idSearchQuery && !init.name.toLowerCase().includes(idSearchQuery.toLowerCase())) return false;
+    if (idSearchQuery) {
+      const q = idSearchQuery.toLowerCase();
+      const searchableText = [
+        init.name,
+        init.partnerName,
+        init.shortDescription,
+        init.country,
+        init.actorType,
+        (init.thematicPriorities || []).join(' '),
+        (init.enablers || []).join(' '),
+        (init.beneficiaries || []).join(' '),
+        (init.priorityEcosystem || []).join(' '),
+        init.breakthroughTarget,
+        (init.rioSynergies || []).join(' '),
+        init.indicators
+      ].join(' ').toLowerCase();
+      if (!searchableText.includes(q)) return false;
+    }
     for (const [key, values] of Object.entries(activeFilters)) {
       if (values.length === 0) continue;
       if (key === 'scope' && !values.includes(init.scope)) return false;
@@ -504,7 +521,7 @@ function showProfile(name, showDirectoryBtn) {
   }
 
   addPrimaryField('Type of Actor', init.actorType);
-  addPrimaryTags('Thematic Priorities', init.thematicPriorities);
+  addPrimaryTags('Action Areas', init.thematicPriorities);
   addPrimaryTags('Enablers', init.enablers);
   if (init.canDisclose31) addPrimaryTags('Priority Ecosystem', init.priorityEcosystem);
 
@@ -523,7 +540,8 @@ function showProfile(name, showDirectoryBtn) {
     addDetail('Ha to Conserve', init.haToBeConserved, '', ' ha');
     addDetail('People Benefited', init.peopleBenefited, '', '');
     addDetail('People to Benefit', init.peopleToBeBenefited, '', '');
-    if (init.howPeopleBenefited) details += `<div class="pro-detail-num full"><span class="pro-detail-label">How</span><span class="pro-detail-value">${init.howPeopleBenefited}</span></div>`;
+    if (init.howPeopleBenefited) details += `<div class="pro-detail-num full"><span class="pro-detail-label">How people are being benefited</span><span class="pro-detail-value">${init.howPeopleBenefited}</span></div>`;
+    if (init.howPeopleWillBeBenefited) details += `<div class="pro-detail-num full"><span class="pro-detail-label">How people will be benefited</span><span class="pro-detail-value">${init.howPeopleWillBeBenefited}</span></div>`;
   }
   // 3.3: Finance
   if (init.canDisclose33) {
@@ -533,6 +551,7 @@ function showProfile(name, showDirectoryBtn) {
   // 3.4: Other indicators
   if (init.canDisclose34) {
     if (init.additionalIndicators) details += `<div class="pro-detail-num full"><span class="pro-detail-label">Additional Indicators</span><span class="pro-detail-value">${init.additionalIndicators}</span></div>`;
+    if (init.toolsForLandData) details += `<div class="pro-detail-num full"><span class="pro-detail-label">Tools for land-related data</span><span class="pro-detail-value">${init.toolsForLandData}</span></div>`;
   }
 
   // Secondary compact info
@@ -542,9 +561,13 @@ function showProfile(name, showDirectoryBtn) {
     secondary += `<div class="pro-sec-item"><span class="pro-sec-label">${label}</span><span class="pro-sec-value">${arr.join(' · ')}</span></div>`;
   }
   addSecondary('Geographic Scope', init.geographicScope);
+  if (init.specificGeography) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Specific Geography</span><span class="pro-sec-value">${init.specificGeography}</span></div>`;
   addSecondary('Rio Synergies', init.rioSynergies);
+  if (init.otherMultilateralAgreements) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Engagement in other multilateral agreements</span><span class="pro-sec-value">${init.otherMultilateralAgreements}</span></div>`;
   if (init.canDisclose31) addSecondary('Beneficiaries', init.beneficiaries);
   if (init.otherPartners) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Other Partners</span><span class="pro-sec-value">${init.otherPartners}</span></div>`;
+  if (init.reportedElsewhere) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Reported somewhere else</span><span class="pro-sec-value">${init.reportedElsewhere}</span></div>`;
+  if (init.otherReportingPlatform) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Other reporting platform</span><span class="pro-sec-value">${init.otherReportingPlatform}</span></div>`;
   if (init.canDisclose33) {
     if (init.otherResourcesMobilized) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Resources Mobilized</span><span class="pro-sec-value">${init.otherResourcesMobilized}</span></div>`;
     if (init.otherResourcesToMobilize) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Resources to Mobilize</span><span class="pro-sec-value">${init.otherResourcesToMobilize}</span></div>`;
@@ -869,9 +892,10 @@ function animateCounters() {
   }
 
   function formatBigNum(n) {
-    if (n >= 1000000000) return (n/1000000000).toFixed(1) + 'B';
-    if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
-    return n.toLocaleString();
+    if (n >= 1000000000) return (n/1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
+    if (n >= 1000000) return (n/1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    if (n >= 1000) return (n/1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    return String(n);
   }
 
   const haAchieved = initiatives.reduce((s, i) => s + (i.haUnderRestoration || 0) + (i.haConserved || 0), 0);
@@ -1075,7 +1099,7 @@ async function initApp() {
   // Render overview partners — logos only, marquee style (only partners with real logos)
   const overviewPartners = document.getElementById('overview-partners');
   overviewPartners.innerHTML = '';
-  const partnersWithLogo = partners.filter(p => p.logo && p.logo.startsWith('logos/'));
+  const partnersWithLogo = window.partners.filter(p => p.logo && p.logo.startsWith('logos/'));
   const partnerList = [...partnersWithLogo, ...partnersWithLogo];
   const track = document.createElement('div');
   track.className = 'ov-partners-track';
@@ -1164,7 +1188,7 @@ async function initApp() {
   alphaNav.innerHTML = '';
 
   // Sort partners alphabetically
-  const sortedPartners = [...partners].sort((a, b) => a.name.localeCompare(b.name));
+  const sortedPartners = [...window.partners].sort((a, b) => a.name.localeCompare(b.name));
 
   // Find which letters have partners
   const usedLetters = new Set(sortedPartners.map(p => p.name[0].toUpperCase()));
@@ -1212,6 +1236,38 @@ async function initApp() {
     currentGroup.appendChild(card);
   });
 
+  // Wire up "About this map" toggle (Global Presence)
+  const gpAboutBtn = document.getElementById('gp-about-toggle');
+  const gpAboutPanel = document.getElementById('gp-about-panel');
+  if (gpAboutBtn && gpAboutPanel) {
+    gpAboutBtn.addEventListener('click', () => {
+      const open = !gpAboutPanel.hasAttribute('hidden');
+      if (open) {
+        gpAboutPanel.setAttribute('hidden', '');
+        gpAboutBtn.setAttribute('aria-expanded', 'false');
+      } else {
+        gpAboutPanel.removeAttribute('hidden');
+        gpAboutBtn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  }
+
+  // Wire up "About this directory" toggle
+  const idAboutBtn = document.getElementById('id-about-toggle');
+  const idAboutPanel = document.getElementById('id-about-panel');
+  if (idAboutBtn && idAboutPanel) {
+    idAboutBtn.addEventListener('click', () => {
+      const open = !idAboutPanel.hasAttribute('hidden');
+      if (open) {
+        idAboutPanel.setAttribute('hidden', '');
+        idAboutBtn.setAttribute('aria-expanded', 'false');
+      } else {
+        idAboutPanel.removeAttribute('hidden');
+        idAboutBtn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  }
+
   // Hide loading overlay
   const overlay = document.getElementById('loading-overlay');
   if (overlay) overlay.style.display = 'none';
@@ -1223,8 +1279,10 @@ async function initApp() {
   const dynActors = new Set(initiatives.map(i => i.actorType)).size;
 
   function formatHa(ha) {
-    if (ha >= 1000000) return (ha/1000000).toFixed(1) + 'M';
-    if (ha > 0) return ha.toLocaleString();
+    if (ha >= 1000000000) return (ha/1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
+    if (ha >= 1000000) return (ha/1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    if (ha >= 1000) return (ha/1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    if (ha > 0) return String(ha);
     return '--';
   }
 
