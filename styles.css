@@ -46,8 +46,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 28px;
-  height: 72px;
+  padding: 0 16px;
+  height: 64px;
   background: var(--dark-teal);
   position: sticky;
   top: 0;
@@ -83,7 +83,7 @@ body {
   text-decoration: none;
 }
 
-.logo-img { height: 44px; width: auto; }
+.logo-img { height: 36px; width: auto; }
 .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
 .logo-title { font-family: 'Aktiv Grotesk', 'Inter', sans-serif; font-weight: 800; font-size: 16px; color: var(--white); letter-spacing: 0.3px; text-transform: uppercase; }
 .logo-subtitle { font-size: 10px; font-weight: 600; color: var(--green); letter-spacing: 2px; }
@@ -95,7 +95,7 @@ body {
   color: rgba(255,255,255,0.85);
   font-size: 14px;
   font-weight: 500;
-  padding: 6px 12px;
+  padding: 5px 10px;
   border-radius: 6px;
   transition: all var(--t);
 }
@@ -104,18 +104,19 @@ body {
 .nav-link.active { color: white; background: rgba(255,255,255,0.12); font-weight: 600; }
 
 /* Header action buttons */
-.header-actions { display: flex; gap: 8px; }
+.header-actions { display: flex; gap: 6px; }
 .header-action-btn {
-  display: flex; align-items: center; gap: 6px;
-  padding: 7px 14px;
+  display: flex; align-items: center; gap: 5px;
+  padding: 6px 10px;
   border-radius: 6px;
   border: 1px solid rgba(255,255,255,0.25);
   background: rgba(255,255,255,0.08);
   color: rgba(255,255,255,0.85);
-  font-size: 12.5px; font-weight: 500;
+  font-size: 13px; font-weight: 500;
   cursor: pointer;
   transition: all var(--t);
   font-family: inherit;
+  white-space: nowrap;
 }
 .header-action-btn:hover { background: rgba(255,255,255,0.15); color: white; }
 .header-action-btn.secondary { border-color: rgba(255,255,255,0.15); background: transparent; }
@@ -1056,7 +1057,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 7px 14px;
+  padding: 10px 18px;
   border: 1px solid var(--border);
   border-radius: 20px;
   background: var(--bg-card);
@@ -1073,7 +1074,7 @@ body {
   outline: none;
   background: none;
   font-family: inherit;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text);
   width: 220px;
 }
@@ -1081,7 +1082,7 @@ body {
 .id-search input::placeholder { color: var(--text-light); }
 
 .id-results-count {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text-light);
   margin-bottom: 10px;
 }
@@ -1089,8 +1090,8 @@ body {
 .filters-bar { display: flex; gap: 6px; flex-wrap: wrap; position: relative; }
 
 .filter-btn {
-  padding: 7px 14px; border: 1px solid var(--border); border-radius: 20px;
-  font-family: inherit; font-size: 12px; font-weight: 500;
+  padding: 10px 18px; border: 1px solid var(--border); border-radius: 20px;
+  font-family: inherit; font-size: 14px; font-weight: 500;
   color: var(--text-secondary); background: var(--bg-card);
   cursor: pointer; transition: all var(--t);
   position: relative;
@@ -1692,7 +1693,7 @@ body {
   z-index: 3;
 }
 
-.cs-info-tooltip.open { display: block; }
+.cs-info-tooltip.open { display: block; z-index: 100; }
 
 .cs-counter {
   background: var(--bg-card); border: 1px solid var(--border);
@@ -1717,7 +1718,9 @@ body {
 .cs-chart-card {
   background: var(--bg-card); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 14px;
+  position: relative; z-index: 1;
 }
+.cs-chart-card:has(.cs-info-tooltip.open) { z-index: 200; }
 
 .cs-chart-card h3 { font-size: 13px; font-weight: 700; color: var(--dark-teal); margin-bottom: 12px; letter-spacing: -0.2px; }
 .cs-chart-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
@@ -2573,6 +2576,8 @@ body {
 
 .timestamp { font-size: 11px; color: var(--text-light); }
 .disclaimer { font-size: 13px; color: var(--text-light); font-style: italic; line-height: 1.4; }
+.disclaimer a { color: var(--green); text-decoration: underline; }
+.disclaimer a:hover { color: var(--dark-teal); }
 
 /* ============ PARTNERS ============ */
 .partners-layout {
