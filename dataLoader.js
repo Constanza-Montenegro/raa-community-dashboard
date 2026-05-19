@@ -4,14 +4,13 @@
 // ============================================================
 
 const _isLocal = ['localhost', '127.0.0.1', ''].includes(window.location.hostname);
+const _GAS = 'https://script.google.com/macros/s/AKfycbzFPjwE3hJkjsN4itF_x3CdUB5Sy06erb9aMyE4-8os8Dvbh6idd_atyrZaHjYwSLV2Pw/exec';
 
 const CSV_URLS = {
-  // DEV: authenticated Google Sheets URL (only works when logged into Google — localhost only)
-  // PROD: published CSV from PUB_INITIATIVES sheet (public — Vercel)
   initiatives: _isLocal
-    ? 'https://docs.google.com/spreadsheets/d/1K2oV35MOnzpybC4TUIczIM1dhIe1ZmbbUqCZkalDfGY/gviz/tq?tqx=out:csv&gid=1596209151'
-    : 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQlIibkF8f4RLbw9NORy-j35rxEiIAoavgTQmJj6NfrKMGPmYFBg9RwGmPsKR_-iSwp_z2wryC-7Yhm/pub?gid=1114261612&single=true&output=csv',
-  partners: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQlIibkF8f4RLbw9NORy-j35rxEiIAoavgTQmJj6NfrKMGPmYFBg9RwGmPsKR_-iSwp_z2wryC-7Yhm/pub?gid=1612482091&single=true&output=csv'
+    ? _GAS + '?sheet=5.%20DEV_INITIATIVES'
+    : _GAS + '?sheet=6.%20PUB_INITIATIVES',
+  partners: _GAS + '?sheet=3.%20PARTNERS'
 };
 
 // ---- CSV PARSER ----
