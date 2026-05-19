@@ -3,8 +3,14 @@
 // Fetches live data from published Google Sheets CSVs
 // ============================================================
 
+const _isLocal = ['localhost', '127.0.0.1', ''].includes(window.location.hostname);
+
 const CSV_URLS = {
-  initiatives: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQlIibkF8f4RLbw9NORy-j35rxEiIAoavgTQmJj6NfrKMGPmYFBg9RwGmPsKR_-iSwp_z2wryC-7Yhm/pub?gid=1596209151&single=true&output=csv',
+  // DEV: authenticated Google Sheets URL (only works when logged into Google — localhost only)
+  // PROD: published CSV from PUB_INITIATIVES sheet (public — Vercel)
+  initiatives: _isLocal
+    ? 'https://docs.google.com/spreadsheets/d/1K2oV35MOnzpybC4TUIczIM1dhIe1ZmbbUqCZkalDfGY/gviz/tq?tqx=out:csv&gid=1596209151'
+    : 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQlIibkF8f4RLbw9NORy-j35rxEiIAoavgTQmJj6NfrKMGPmYFBg9RwGmPsKR_-iSwp_z2wryC-7Yhm/pub?gid=1114261612&single=true&output=csv',
   partners: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQlIibkF8f4RLbw9NORy-j35rxEiIAoavgTQmJj6NfrKMGPmYFBg9RwGmPsKR_-iSwp_z2wryC-7Yhm/pub?gid=1612482091&single=true&output=csv'
 };
 
