@@ -336,6 +336,7 @@ const LOCAL_LOGOS = {
   'P012': 'logos/logo-P012.png',
   'P014': 'logos/logo-P014.png',
   'P018': 'logos/logo-P018.png',
+  'P020': 'logos/logo-P020.png',
   'P021': 'logos/logo-P021.png',
   'P026': 'logos/logo-P026.png',
   'P027': 'logos/logo-P027.png',
