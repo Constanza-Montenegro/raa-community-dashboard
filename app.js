@@ -1100,7 +1100,9 @@ async function initApp() {
   const overviewPartners = document.getElementById('overview-partners');
   overviewPartners.innerHTML = '';
   const partnersWithLogo = window.partners.filter(p => p.logo && p.logo.startsWith('logos/'));
-  const partnerList = [...partnersWithLogo, ...partnersWithLogo];
+  const seenLogos = new Set();
+  const uniquePartners = partnersWithLogo.filter(p => { if (seenLogos.has(p.logo)) return false; seenLogos.add(p.logo); return true; });
+  const partnerList = [...uniquePartners, ...uniquePartners];
   const track = document.createElement('div');
   track.className = 'ov-partners-track';
   partnerList.forEach(p => {
