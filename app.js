@@ -1073,7 +1073,7 @@ async function initApp() {
   overviewGrid.innerHTML = '';
   const initTrack = document.createElement('div');
   initTrack.className = 'ov-init-track';
-  const initList = [...initiatives, ...initiatives];
+  const initList = [...initiatives, ...initiatives, ...initiatives, ...initiatives];
   initList.forEach(init => {
     const sc = init.scope.toLowerCase();
     const card = document.createElement('div');

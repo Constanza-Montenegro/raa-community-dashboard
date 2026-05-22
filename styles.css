@@ -420,7 +420,7 @@ body {
 .overview-cards { overflow: hidden; position: relative; }
 .ov-init-track {
   display: flex; gap: 14px; align-items: stretch;
-  animation: marquee-init 165s linear infinite;
+  animation: marquee-init 400s linear infinite;
   width: max-content;
 }
 .ov-init-track:hover { animation-play-state: paused; }
