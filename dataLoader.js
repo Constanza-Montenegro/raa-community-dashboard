@@ -268,8 +268,20 @@ function extractCountry(location) {
   return parts[parts.length - 1].trim();
 }
 
+const COUNTRY_ALIASES = {
+  'UK': 'United Kingdom',
+  'U.K.': 'United Kingdom',
+  'Great Britain': 'United Kingdom',
+  'USA': 'United States',
+  'U.S.A.': 'United States',
+  'U.S.': 'United States',
+  'Mexico City / Mexico': 'Mexico',
+  'UAE': 'United Arab Emirates',
+  'U.A.E.': 'United Arab Emirates',
+};
+
 function lookupCountry(countryName) {
-  const clean = countryName.trim();
+  const clean = (COUNTRY_ALIASES[countryName.trim()] || countryName.trim());
   const geo = COUNTRY_GEO[clean];
   if (geo) return { lat: geo.lat, lng: geo.lng, flag: flagEmoji(geo.code), country: clean };
   // Try case-insensitive
