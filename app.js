@@ -473,7 +473,8 @@ function showProfile(name, showDirectoryBtn) {
   if (init.breakthroughTarget) stamps += `<div class="pro-stamp breakthrough"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span>${init.breakthroughTarget}</span></div>`;
 
   // Header with logo
-  const headerBlock = `<div class="pro-header"><div class="pro-header-logo">${logoHtml(init, 96)}</div></div>`;
+  const secondLogoHtml = init.logo2 ? `<div class="pro-header-secondary-logo"><span class="pro-header-partnership-label">In partnership with</span><img src="${init.logo2}" alt="" style="height:48px;max-width:140px;object-fit:contain;" onerror="this.parentElement.style.display='none'"></div>` : '';
+  const headerBlock = `<div class="pro-header"><div class="pro-header-logo">${logoHtml(init, 96)}</div>${secondLogoHtml}</div>`;
 
   // CTAs
   let ctas = '';

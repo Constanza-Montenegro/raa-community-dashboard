@@ -365,6 +365,12 @@ const LOCAL_LOGOS = {
   'P047': 'logos/logo-P047.png'
 };
 
+// ---- SECONDARY LOGOS ----
+// Add entries here when an initiative has a second logo to display on their profile card.
+const SECONDARY_LOGOS = {
+  'P005': 'logos/logo-P005b.jpg'
+};
+
 // ---- VIDEO LINKS ----
 // Register video URLs here. Key = Partner ID (e.g. 'P006'), Value = YouTube/Vimeo URL.
 const VIDEO_LINKS = {
@@ -390,6 +396,7 @@ function transformInitiativeRow(row) {
     name: (row['Initiative name'] || '').trim(),
     partnerName: (row['Organization Name'] || '').trim(),
     logo: LOCAL_LOGOS[row['Initiative ID']] || LOCAL_LOGOS[row['Initiative ID']?.split('-')[0]] || driveToImgUrl((row['Logo (link)'] || '').split(',')[0].trim()),
+    logo2: SECONDARY_LOGOS[row['Initiative ID']] || SECONDARY_LOGOS[row['Initiative ID']?.split('-')[0]] || '',
     website: ensureHttps(row['Link to website']),
     initiativeLink: ensureHttps(row['Link to initiative']),
     video: VIDEO_LINKS[row['Initiative ID']?.split('-')[0]] || '',

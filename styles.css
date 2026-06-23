@@ -2739,6 +2739,17 @@ body {
   background: #f0f0ee; border-radius: 10px;
 }
 
+.pro-header-secondary-logo {
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: center;
+  margin-left: 20px; padding-left: 20px;
+  border-left: 1px solid #e0e0dc;
+  gap: 6px;
+}
+.pro-header-partnership-label {
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.08em; color: #888; white-space: nowrap;
+}
+
 /* Body */
 .pro-body { padding: 16px 0 0; }
 
