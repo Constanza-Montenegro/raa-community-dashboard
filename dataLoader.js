@@ -4,13 +4,14 @@
 // ============================================================
 
 const _isLocal = ['localhost', '127.0.0.1', ''].includes(window.location.hostname);
-const _GAS = 'https://script.google.com/macros/s/AKfycbzFPjwE3hJkjsN4itF_x3CdUB5Sy06erb9aMyE4-8os8Dvbh6idd_atyrZaHjYwSLV2Pw/exec';
+const _SHEET_ID = '1K2oV35MOnzpybC4TUIczIM1dhIe1ZmbbUqCZkalDfGY';
+const _BASE = `https://docs.google.com/spreadsheets/d/${_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=`;
 
 const CSV_URLS = {
   initiatives: _isLocal
-    ? _GAS + '?sheet=5.%20DEV_INITIATIVES'
-    : _GAS + '?sheet=6.%20PUB_INITIATIVES',
-  partners: _GAS + '?sheet=3.%20PARTNERS'
+    ? _BASE + '5.%20DEV_INITIATIVES'
+    : _BASE + '6.%20PUB_INITIATIVES',
+  partners: _BASE + '3.%20PARTNERS'
 };
 
 // ---- CSV PARSER ----
