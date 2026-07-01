@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Land & Soil Community Dashboard</title>
+  <title>Land & Soil Community Platform</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Barlow+Condensed:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@
         <img src="raa-brand/UNCCD logo.png" alt="UNCCD Logo" style="width:72px;height:72px;object-fit:contain;filter:invert(1) sepia(1) saturate(2) hue-rotate(80deg) brightness(0.4);">
         <img src="raa-brand/RAA cirlced logo.png" alt="RAA Logo" style="width:64px;height:64px;object-fit:contain;filter:brightness(0);">
       </div>
-      <h2 style="margin:0;font-family:'Inter',sans-serif;font-size:22px;font-weight:700;color:#263524;">Land & Soil Community Dashboard</h2>
+      <h2 style="margin:0;font-family:'Inter',sans-serif;font-size:22px;font-weight:700;color:#263524;">Land & Soil Community Platform</h2>
       <p style="margin:0;font-family:'Inter',sans-serif;font-size:14px;color:#6b7a6b;">Enter the access password to continue</p>
       <input type="password" id="gate-input" placeholder="Password" autofocus onkeydown="if(event.key==='Enter')checkPassword()"
         style="width:100%;padding:12px 16px;border-radius:8px;border:1.5px solid #c8d0c8;background:#ffffff;font-size:15px;font-family:'Inter',sans-serif;color:#263524;outline:none;box-sizing:border-box;margin-top:4px;">
@@ -35,7 +35,7 @@
       <img src="raa-brand/UNCCD logo.png" alt="UNCCD" class="logo-img">
       <div class="logo-text">
         <span class="logo-title">Land & Soil Community</span>
-        <span class="logo-subtitle">DASHBOARD</span>
+        <span class="logo-subtitle">PLATFORM</span>
       </div>
     </a>
     <nav class="header-nav">
@@ -65,7 +65,7 @@
         <!-- Hero Card -->
         <div class="hero-card">
           <div class="hero-card-text">
-            <h1>Land & Soil Community Dashboard</h1>
+            <h1>Land & Soil Community Platform</h1>
             <p>Explore the global community advancing land restoration and drought resilience.</p>
           </div>
           <div class="hero-card-stats">
@@ -261,7 +261,7 @@
               <div class="cs-about-block-header">
                 <h4>Data collection</h4>
               </div>
-              <p>All data is self-reported by initiatives via a standardized Google Form, linked from the &ldquo;Join with my initiative&rdquo; button. Submissions enter the central registry and undergo a curation process before being released to the dashboard.</p>
+              <p>All data is self-reported by initiatives via a standardized Google Form, linked from the &ldquo;Join with my initiative&rdquo; button. Submissions enter the central registry and undergo a curation process before being released to the platform.</p>
             </div>
             <div class="cs-about-block">
               <div class="cs-about-block-header">
@@ -291,7 +291,7 @@
         <div class="id-results-count" id="id-results-count"></div>
         <div class="initiatives-grid" id="initiatives-grid"></div>
         <div class="section-footer id-footer">
-          <span class="disclaimer">Some initiatives may display incomplete information or no logo — this reflects data that has not yet been submitted or that the initiative has chosen not to disclose publicly. If you would like your initiative to show more information on the dashboard, <a href="mailto:land@ambitionloop.earth">contact us</a>.</span>
+          <span class="disclaimer">Some initiatives may display incomplete information or no logo — this reflects data that has not yet been submitted or that the initiative has chosen not to disclose publicly. If you would like your initiative to show more information on the platform, <a href="mailto:land@ambitionloop.earth">contact us</a>.</span>
         </div>
       </section>
 
@@ -371,7 +371,7 @@
               <div class="cs-about-block-header">
                 <h4>Data collection</h4>
               </div>
-              <p>All data is self-reported by initiatives via a standardized Google Form, linked from the &ldquo;Join with my initiative&rdquo; button. Submissions enter the central registry and undergo a curation process before being released to the dashboard.</p>
+              <p>All data is self-reported by initiatives via a standardized Google Form, linked from the &ldquo;Join with my initiative&rdquo; button. Submissions enter the central registry and undergo a curation process before being released to the platform.</p>
             </div>
             <div class="cs-about-block">
               <div class="cs-about-block-header">
@@ -390,7 +390,7 @@
               <div class="cs-about-block-header">
                 <h4>Update frequency</h4>
               </div>
-              <p>New submissions are not published instantly. Each entry passes through a curation review and, once approved, is released to the dashboard. From that point onwards, updates are reflected within minutes.</p>
+              <p>New submissions are not published instantly. Each entry passes through a curation review and, once approved, is released to the platform. From that point onwards, updates are reflected within minutes.</p>
             </div>
             <div class="cs-about-block">
               <div class="cs-about-block-header">
@@ -531,7 +531,7 @@
 
         <div class="section-footer cs-footer">
           <span class="cs-timestamp"><span class="cs-pulse-dot"></span>Last updated: <strong id="snapshot-date"></strong></span>
-          <span class="disclaimer">All data is self-reported by participating initiatives. The Dashboard is committed to progressively strengthening data consistency.</span>
+          <span class="disclaimer">All data is self-reported by participating initiatives. The Platform is committed to progressively strengthening data consistency.</span>
         </div>
       </section>
 
@@ -657,14 +657,14 @@
     <div class="modal-content sm">
       <button class="modal-close" onclick="closeModal('privacy-modal')">&times;</button>
       <h2>Privacy Policy &amp; Data Collection</h2>
-      <p class="modal-desc">All data displayed in this dashboard is self-reported by participating initiatives through a structured survey process. The Land & Soil Community Dashboard is committed to transparency, data accuracy, and progressively strengthening data consistency. No personal data is collected or stored through this platform. For questions, contact <a href="mailto:land@ambitionloop.earth">land@ambitionloop.earth</a>.</p>
+      <p class="modal-desc">All data displayed in this platform is self-reported by participating initiatives through a structured survey process. The Land & Soil Community Platform is committed to transparency, data accuracy, and progressively strengthening data consistency. No personal data is collected or stored through this platform. For questions, contact <a href="mailto:land@ambitionloop.earth">land@ambitionloop.earth</a>.</p>
     </div>
   </div>
 
   <!-- Loading overlay -->
   <div id="loading-overlay" style="position:fixed;inset:0;background:var(--bg, #f5f5f3);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
     <div style="width:36px;height:36px;border:3px solid #e4e2dd;border-top-color:#48966a;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
-    <p style="font-family:Inter,sans-serif;font-size:13px;color:#5a5a5a;">Loading dashboard data...</p>
+    <p style="font-family:Inter,sans-serif;font-size:13px;color:#5a5a5a;">Loading platform data...</p>
     <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
   </div>
 
