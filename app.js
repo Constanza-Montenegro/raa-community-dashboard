@@ -345,7 +345,6 @@ function renderInitiatives() {
   filtered.forEach(init => {
     const sc = init.scope.toLowerCase();
     const stamps = [];
-    if (init.activePartner) stamps.push('<span class="stamp partner"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>RAA Active Partner</span>');
     if (init.breakthroughTarget) stamps.push(`<span class="stamp breakthrough"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>${init.breakthroughTarget}</span>`);
     const priorities = init.thematicPriorities.map(t => `<span class="card-priority-tag">${t}</span>`).join('');
 
@@ -469,7 +468,6 @@ function showProfile(name, showDirectoryBtn) {
 
   // Stamps
   let stamps = '';
-  if (init.activePartner) stamps += `<div class="pro-stamp partner"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span>RAA Active Partner</span></div>`;
   if (init.breakthroughTarget) stamps += `<div class="pro-stamp breakthrough"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span>${init.breakthroughTarget}</span></div>`;
 
   // Header with logo
