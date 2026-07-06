@@ -10,8 +10,7 @@ const _BASE = `https://docs.google.com/spreadsheets/d/${_SHEET_ID}/gviz/tq?tqx=o
 const CSV_URLS = {
   initiatives: _isLocal
     ? _BASE + '5.%20DEV_INITIATIVES'
-    : _BASE + '6.%20PUB_INITIATIVES',
-  partners: _BASE + '3.%20PARTNERS'
+    : _BASE + '6.%20PUB_INITIATIVES'
 };
 
 // ---- CSV PARSER ----
@@ -473,17 +472,6 @@ function transformInitiativeRow(row) {
   };
 }
 
-function transformPartnerRow(row) {
-  const rawId = (row['Partner ID'] || '').trim();
-  const baseId = rawId.split('-')[0];
-  return {
-    id: rawId,
-    name: (row['Partner Name'] || '').trim(),
-    logo: LOCAL_LOGOS[baseId] || LOCAL_LOGOS[rawId] || '',
-    website: ''  // populated from PUB_INITIATIVES in loadData
-  };
-}
-
 // ---- COMPUTE FILTER OPTIONS FROM DATA ----
 function computeFilterOptions(inits) {
   return {
@@ -571,41 +559,40 @@ async function loadData() {
   const overlay = document.getElementById('loading-overlay');
 
   try {
-    const [initRes, partnerRes] = await Promise.all([
-      fetch(CSV_URLS.initiatives).then(r => { if (!r.ok) throw new Error('Failed to load initiatives'); return r; }),
-      fetch(CSV_URLS.partners).then(r => { if (!r.ok) throw new Error('Failed to load partners'); return r; })
-    ]);
+    const initRes = await fetch(CSV_URLS.initiatives);
+    if (!initRes.ok) throw new Error('Failed to load initiatives');
 
     const initLastMod = initRes.headers.get('Last-Modified');
-    const partnerLastMod = partnerRes.headers.get('Last-Modified');
-    const candidates = [initLastMod, partnerLastMod].map(s => s ? new Date(s) : null).filter(d => d && !isNaN(d));
-    window.dataLastModified = candidates.length ? new Date(Math.max(...candidates.map(d => d.getTime()))) : new Date();
+    window.dataLastModified = initLastMod ? new Date(initLastMod) : new Date();
 
-    const [initCSV, partnerCSV] = await Promise.all([initRes.text(), partnerRes.text()]);
+    const initCSV = await initRes.text();
 
     function stripEmptyLeadingRows(csv) {
-      return csv.split('\n').filter((line, i, arr) => {
+      return csv.split('\n').filter((line, i) => {
         if (i === 0 && line.replace(/,/g, '').trim() === '') return false;
         return true;
       }).join('\n');
     }
 
-    const initRows = parseCSV(stripEmptyLeadingRows(initCSV));
-    const partnerRows = parseCSV(stripEmptyLeadingRows(partnerCSV));
+    window.initiatives = parseCSV(stripEmptyLeadingRows(initCSV)).map(transformInitiativeRow).filter(i => i.name);
 
-    window.initiatives = initRows.map(transformInitiativeRow).filter(i => i.name);
-    window.partners = partnerRows
-      .map(transformPartnerRow)
-      .filter(p => p.name && window.initiatives.some(i => i.id === p.id || i.id.startsWith(p.id + '-')))
-      .map(p => {
-        const match = window.initiatives.find(i => i.id === p.id || i.id.startsWith(p.id + '-'));
-        const matchWithSite = window.initiatives.find(i => (i.id === p.id || i.id.startsWith(p.id + '-')) && i.website);
-        if (match) {
-          if (!p.logo && match.logo) p.logo = match.logo;
-        }
-        if (matchWithSite) p.website = matchWithSite.website;
-        return p;
-      });
+    // Derive partners from initiatives — no separate PARTNERS sheet needed
+    const partnerMap = new Map();
+    window.initiatives.forEach(i => {
+      const baseId = i.id.split('-')[0];
+      if (!partnerMap.has(baseId)) {
+        partnerMap.set(baseId, {
+          id: baseId,
+          name: i.partnerName,
+          logo: LOCAL_LOGOS[baseId] || i.logo || '',
+          website: i.website || ''
+        });
+      } else if (!partnerMap.get(baseId).website && i.website) {
+        partnerMap.get(baseId).website = i.website;
+      }
+    });
+    window.partners = [...partnerMap.values()].filter(p => p.name);
+
     window.platforms = platforms;
     window.filterOptions = computeFilterOptions(window.initiatives);
     window.snapshotData = computeSnapshotData(window.initiatives);
