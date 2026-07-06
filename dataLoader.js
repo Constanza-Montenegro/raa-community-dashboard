@@ -382,7 +382,9 @@ const LOCAL_LOGOS = {
   'P088': 'logos/logo-P088.png',
   'P058': 'logos/logo-P058.png',
   'P079': 'logos/logo-P079.png',
-  'P080': 'logos/logo-P080.png'
+  'P080': 'logos/logo-P080.png',
+  'P013': 'logos/logo-P013.png',
+  'P081': 'logos/logo-P081.jpg'
 };
 
 // ---- SECONDARY LOGOS ----
@@ -477,9 +479,8 @@ function transformPartnerRow(row) {
   return {
     id: rawId,
     name: (row['Partner Name'] || '').trim(),
-    logo: LOCAL_LOGOS[baseId] || LOCAL_LOGOS[rawId] || driveToImgUrl((row['Logo '] || row['Logo'] || '').split(',')[0].trim()),
-    website: ensureHttps(row['Website']),
-    location: row['Location'] || ''
+    logo: LOCAL_LOGOS[baseId] || LOCAL_LOGOS[rawId] || '',
+    website: ''  // populated from PUB_INITIATIVES in loadData
   };
 }
 
@@ -597,10 +598,12 @@ async function loadData() {
       .map(transformPartnerRow)
       .filter(p => p.name && window.initiatives.some(i => i.id === p.id || i.id.startsWith(p.id + '-')))
       .map(p => {
-        if (!p.logo) {
-          const match = window.initiatives.find(i => i.id === p.id || i.id.startsWith(p.id + '-'));
-          if (match && match.logo) p.logo = match.logo;
+        const match = window.initiatives.find(i => i.id === p.id || i.id.startsWith(p.id + '-'));
+        const matchWithSite = window.initiatives.find(i => (i.id === p.id || i.id.startsWith(p.id + '-')) && i.website);
+        if (match) {
+          if (!p.logo && match.logo) p.logo = match.logo;
         }
+        if (matchWithSite) p.website = matchWithSite.website;
         return p;
       });
     window.platforms = platforms;
