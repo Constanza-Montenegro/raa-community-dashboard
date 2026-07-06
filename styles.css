@@ -1121,7 +1121,7 @@ body {
   margin-top: 6px;
 }
 
-.filter-dropdown.open { display: flex; flex-direction: column; }
+.filter-dropdown.open { display: flex; flex-direction: column; max-height: 280px; overflow-y: auto; }
 
 .filter-option {
   padding: 9px 16px;
