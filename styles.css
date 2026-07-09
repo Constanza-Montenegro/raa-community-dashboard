@@ -2884,6 +2884,34 @@ body {
 }
 .pro-sec-value { color: var(--text-secondary); }
 
+/* Rio Convention Synergies */
+.pro-rio {
+  padding: 16px 0 4px; border-top: 1px solid var(--border);
+}
+.pro-rio-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.8px; color: var(--text-light); display: block; margin-bottom: 12px;
+}
+.pro-rio-logos {
+  display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+}
+.pro-rio-logo {
+  height: 44px; display: flex; align-items: center;
+  filter: grayscale(100%); opacity: 0.2;
+  transition: filter 0.2s, opacity 0.2s;
+}
+.pro-rio-logo.active {
+  filter: grayscale(0%); opacity: 1;
+}
+.pro-rio-logo img {
+  height: 44px; width: auto; max-width: 120px; object-fit: contain;
+}
+.pro-rio-text {
+  height: 44px; line-height: 44px;
+  font-size: 11px; font-weight: 800; letter-spacing: 0.5px;
+  color: var(--dark-teal);
+}
+
 /* Logo fallback for missing images */
 .logo-fallback {
   display: inline-flex; align-items: center; justify-content: center;
