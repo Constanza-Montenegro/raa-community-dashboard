@@ -564,7 +564,6 @@ function showProfile(name, showDirectoryBtn) {
   }
   addSecondary('Geographic Scope', init.geographicScope);
   if (init.specificGeography) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Specific Geography</span><span class="pro-sec-value">${init.specificGeography}</span></div>`;
-  addSecondary('Rio Synergies', init.rioSynergies);
   if (init.otherMultilateralAgreements) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Engagement in other multilateral agreements</span><span class="pro-sec-value">${init.otherMultilateralAgreements}</span></div>`;
   if (init.canDisclose31) addSecondary('Beneficiaries', init.beneficiaries);
   if (init.additionalIndicators) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Additional Indicators</span><span class="pro-sec-value">${init.additionalIndicators}</span></div>`;
@@ -592,6 +591,22 @@ function showProfile(name, showDirectoryBtn) {
       ${primary ? `<div class="pro-primary">${primary}</div>` : ''}
       ${details ? `<div class="pro-details-grid">${details}</div>` : ''}
       ${secondary ? `<div class="pro-secondary">${secondary}</div>` : ''}
+      ${(() => {
+        const active = init.rioSynergies || [];
+        const has = key => active.some(v => v.toUpperCase().includes(key));
+        const LOGOS = [
+          { key: 'UNCCD',  src: 'logos/Rio Synergies logos/UNCCD logo.png',  alt: 'UNCCD', alwaysActive: true },
+          { key: 'UNFCCC', src: 'logos/Rio Synergies logos/UNFCCC logo.png', alt: 'UNFCCC' },
+          { key: 'CBD',    src: 'logos/Rio Synergies logos/UNCBD logo.png',  alt: 'CBD' },
+          { key: 'SDG',    src: 'logos/Rio Synergies logos/images.jpg',      alt: 'SDGs' },
+        ];
+        const items = LOGOS.map(({ key, src, alt, alwaysActive }) => {
+          const on = alwaysActive || has(key);
+          const img = `<img src="${src}" alt="${alt}">`;
+          return `<div class="pro-rio-logo${on ? ' active' : ''}">${img}</div>`;
+        }).join('');
+        return `<div class="pro-rio"><span class="pro-rio-label">Rio Synergies</span><div class="pro-rio-logos">${items}</div></div>`;
+      })()}
       ${directoryBtn}
     </div>
   `;
