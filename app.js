@@ -483,19 +483,26 @@ function showProfile(name, showDirectoryBtn) {
   if (init.video) ctas += `<a href="${init.video}" target="_blank" class="profile-cta-btn video"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>Watch Video</a>`;
 
   // Impact numbers (respect disclosure flags)
-  let impacts = '';
+  let impactsAchieved = '', impactsProjected = '';
   function addImpact(value, label, color) {
     if (!value || value === 0) return;
-    impacts += `<div class="pro-impact" style="--impact-color:${color}"><div class="pro-impact-num">${formatNumber(value)}</div><div class="pro-impact-label">${label}</div></div>`;
+    impactsAchieved += `<div class="pro-impact" style="--impact-color:${color}"><div class="pro-impact-num">${formatNumber(value)}</div><div class="pro-impact-label">${label}</div></div>`;
+  }
+  function addImpactProjected(value, label, color) {
+    if (!value || value === 0) return;
+    impactsProjected += `<div class="pro-impact-projected" style="--impact-color:${color}"><div class="pro-impact-num">${formatNumber(value)}</div><div class="pro-impact-label">${label}</div></div>`;
   }
   if (init.canDisclose31) {
-    const totalHa = (init.haToBeRestored || 0) + (init.haToBeConserved || 0) + (init.haUnderRestoration || 0) + (init.haConserved || 0) + (init.inlandWatersRestoration || 0);
-    addImpact(totalHa, 'Hectares', '#48966a');
-    addImpact(init.peopleToBeBenefited || init.peopleBenefited, init.peopleToBeBenefited ? 'People to Benefit' : 'People Benefited', '#587da0');
+    const haActive = (init.haUnderRestoration || 0) + (init.haConserved || 0) + (init.inlandWatersRestoration || 0) + (init.inlandWatersConserved || 0);
+    const haPlanned = (init.haToBeRestored || 0) + (init.haToBeConserved || 0) + (init.inlandWatersToBeRestored || 0) + (init.inlandWatersToBeConserved || 0);
+    addImpact(haActive, 'Ha Under Action', '#48966a');
+    addImpactProjected(haPlanned, 'Ha Projected', '#48966a');
+    addImpact(init.peopleBenefited, 'People Benefited', '#587da0');
+    addImpactProjected(init.peopleToBeBenefited, 'People to Benefit', '#587da0');
   }
   if (init.canDisclose33) {
-    const totalFinance = (init.financialToMobilize || 0) + (init.financialMobilized || 0);
-    addImpact(totalFinance, 'USD Committed', '#c49a3c');
+    addImpact(init.financialMobilized, 'Already Mobilized', '#c49a3c');
+    addImpactProjected(init.financialToMobilize, 'Finance to Mobilize', '#c49a3c');
   }
 
   // Description (collapsible if long)
@@ -533,11 +540,11 @@ function showProfile(name, showDirectoryBtn) {
   }
   // 3.1 & 3.2: Land, water, people
   if (init.canDisclose31) {
-    addDetail('Ha Under Restoration', init.haUnderRestoration, '', ' ha');
-    addDetail('Ha Conserved', init.haConserved, '', ' ha');
-    addDetail('Inland Waters', init.inlandWatersRestoration, '', ' ha');
-    addDetail('Ha to Restore', init.haToBeRestored, '', ' ha');
-    addDetail('Ha to Conserve', init.haToBeConserved, '', ' ha');
+    addDetail('Ha Under Restoration', init.haUnderRestoration, '', ' Ha');
+    addDetail('Ha Conserved', init.haConserved, '', ' Ha');
+    addDetail('Inland Waters', init.inlandWatersRestoration, '', ' Ha');
+    addDetail('Ha to Restore', init.haToBeRestored, '', ' Ha');
+    addDetail('Ha to Conserve', init.haToBeConserved, '', ' Ha');
     addDetail('People Benefited', init.peopleBenefited, '', '');
     addDetail('People to Benefit', init.peopleToBeBenefited, '', '');
     if (init.howPeopleBenefited) details += `<div class="pro-detail-num full"><span class="pro-detail-label">How people are being benefited</span><span class="pro-detail-value">${init.howPeopleBenefited}</span></div>`;
@@ -550,7 +557,6 @@ function showProfile(name, showDirectoryBtn) {
   }
   // 3.4: Other indicators
   if (init.canDisclose34) {
-    if (init.additionalIndicators) details += `<div class="pro-detail-num full"><span class="pro-detail-label">Additional Indicators</span><span class="pro-detail-value">${init.additionalIndicators}</span></div>`;
     if (init.toolsForLandData) details += `<div class="pro-detail-num full"><span class="pro-detail-label">Tools for land-related data</span><span class="pro-detail-value">${init.toolsForLandData}</span></div>`;
   }
 
@@ -565,6 +571,7 @@ function showProfile(name, showDirectoryBtn) {
   addSecondary('Rio Synergies', init.rioSynergies);
   if (init.otherMultilateralAgreements) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Engagement in other multilateral agreements</span><span class="pro-sec-value">${init.otherMultilateralAgreements}</span></div>`;
   if (init.canDisclose31) addSecondary('Beneficiaries', init.beneficiaries);
+  if (init.additionalIndicators) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Additional Indicators</span><span class="pro-sec-value">${init.additionalIndicators}</span></div>`;
   if (init.otherPartners) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Other Partners</span><span class="pro-sec-value">${init.otherPartners}</span></div>`;
   if (init.reportedElsewhere) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Reported somewhere else</span><span class="pro-sec-value">${init.reportedElsewhere}</span></div>`;
   if (init.otherReportingPlatform) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Other reporting platform</span><span class="pro-sec-value">${init.otherReportingPlatform}</span></div>`;
@@ -583,7 +590,8 @@ function showProfile(name, showDirectoryBtn) {
       ${stamps ? `<div class="pro-stamps">${stamps}</div>` : ''}
       ${ctas ? `<div class="pro-ctas">${ctas}</div>` : ''}
       ${descHtml}
-      ${impacts ? `<div class="pro-impacts">${impacts}</div>` : ''}
+      ${impactsAchieved ? `<div class="pro-impacts">${impactsAchieved}</div>` : ''}
+      ${impactsProjected ? `<div class="pro-impacts pro-impacts--projected">${impactsProjected}</div>` : ''}
       ${primary ? `<div class="pro-primary">${primary}</div>` : ''}
       ${details ? `<div class="pro-details-grid">${details}</div>` : ''}
       ${secondary ? `<div class="pro-secondary">${secondary}</div>` : ''}
@@ -951,14 +959,14 @@ function animateCounters() {
     requestAnimationFrame(update);
   }
 
-  animateGoalNum('goal-land-achieved', landAchieved, '', ' ha');
-  animateGoalNum('goal-land-projected', landProjected, '', ' ha');
+  animateGoalNum('goal-land-achieved', landAchieved, '', ' Ha');
+  animateGoalNum('goal-land-projected', landProjected, '', ' Ha');
 
   // Drought Resilience goals — fed by inland waters conserved
   const droughtAchieved = initiatives.reduce((s, i) => s + (i.inlandWatersConserved || 0), 0);
   const droughtProjected = initiatives.reduce((s, i) => s + (i.inlandWatersToBeConserved || 0), 0);
-  animateGoalNum('goal-drought-achieved', droughtAchieved, '', ' ha');
-  animateGoalNum('goal-drought-projected', droughtProjected, '', ' ha');
+  animateGoalNum('goal-drought-achieved', droughtAchieved, '', ' Ha');
+  animateGoalNum('goal-drought-projected', droughtProjected, '', ' Ha');
 
   // Finance goals — achieved vs projected (aggregates all initiatives;
   // disclosure flag only affects visibility on individual profile cards, not snapshot totals)

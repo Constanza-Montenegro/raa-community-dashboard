@@ -2799,12 +2799,17 @@ body {
 
 /* Impact numbers — hero cards */
 .pro-impacts {
-  display: flex; gap: 10px; margin-bottom: 20px;
+  display: flex; gap: 10px; margin-bottom: 8px;
 }
+.pro-impacts--projected {
+  margin-bottom: 14px;
+}
+
+/* ── Achieved / Under Action ── solid border, tinted bg */
 .pro-impact {
-  flex: 1; padding: 14px 16px;
+  flex: 1; min-width: 100px; padding: 14px 16px;
   border-radius: var(--radius-sm);
-  background: color-mix(in srgb, var(--impact-color) 8%, white);
+  background: color-mix(in srgb, var(--impact-color) 9%, white);
   border-left: 3px solid var(--impact-color);
 }
 .pro-impact-num {
@@ -2814,6 +2819,22 @@ body {
 .pro-impact-label {
   font-size: 10px; font-weight: 600; text-transform: uppercase;
   letter-spacing: 0.5px; color: var(--text-secondary); margin-top: 4px;
+}
+
+/* ── Projected / To Be ── dashed border, white bg, lighter text */
+.pro-impact-projected {
+  flex: 1; min-width: 100px; padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  background: #fff;
+  border: 1.5px dashed var(--impact-color);
+}
+.pro-impact-projected .pro-impact-num {
+  font-size: 22px; font-weight: 700; color: var(--impact-color);
+  letter-spacing: -0.5px; line-height: 1; opacity: 0.7;
+}
+.pro-impact-projected .pro-impact-label {
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.5px; color: var(--text-secondary); margin-top: 4px; opacity: 0.8;
 }
 
 /* Primary tags section */
