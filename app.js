@@ -1179,14 +1179,17 @@ async function initApp() {
     .sort((a, b) => b.value - a.value);
   if (benefData.length) renderBarChart('chart-beneficiary', benefData);
 
-  // Rio Synergies chart (dynamic from data)
+  // Rio Synergies chart — UNCCD always 100% (all partners aligned by definition)
   const rioCounts = {};
   initiatives.forEach(i => {
     if (i.rioSynergies) i.rioSynergies.forEach(r => { rioCounts[r] = (rioCounts[r] || 0) + 1; });
   });
-  const rioData = Object.entries(rioCounts)
-    .map(([label, value]) => ({ label, value, pct: Math.round((value / initiatives.length) * 100) }))
-    .sort((a, b) => b.value - a.value);
+  const rioData = [
+    { label: 'UNCCD', value: initiatives.length, pct: 100 },
+    ...Object.entries(rioCounts)
+      .map(([label, value]) => ({ label, value, pct: Math.round((value / initiatives.length) * 100) }))
+      .sort((a, b) => b.value - a.value)
+  ];
   if (rioData.length) renderBarChart('chart-rio', rioData);
 
   // Priority Ecosystem chart
