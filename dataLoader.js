@@ -71,6 +71,74 @@ function parseCSV(text) {
   return rows;
 }
 
+// ---- COUNTRY NAME → REGION ----
+const COUNTRY_NAME_TO_REGION = {
+  // Africa
+  'Algeria':'Africa','Angola':'Africa','Benin':'Africa','Botswana':'Africa','Burkina Faso':'Africa',
+  'Burundi':'Africa','Cameroon':'Africa','Cape Verde':'Africa','Central African Republic':'Africa',
+  'Chad':'Africa','Comoros':'Africa','Congo':'Africa','Democratic Republic of the Congo':'Africa',
+  'DRC':'Africa','Djibouti':'Africa','Egypt':'Africa','Equatorial Guinea':'Africa','Eritrea':'Africa',
+  'Eswatini':'Africa','Ethiopia':'Africa','Gabon':'Africa','Gambia':'Africa','Ghana':'Africa',
+  'Guinea':'Africa','Guinea-Bissau':'Africa','Ivory Coast':'Africa','Kenya':'Africa',
+  'Lesotho':'Africa','Liberia':'Africa','Madagascar':'Africa','Malawi':'Africa','Mali':'Africa',
+  'Mauritania':'Africa','Mauritius':'Africa','Morocco':'Africa','Mozambique':'Africa',
+  'Namibia':'Africa','Niger':'Africa','Nigeria':'Africa','Rwanda':'Africa',
+  'Sao Tome and Principe':'Africa','Senegal':'Africa','Sierra Leone':'Africa','Somalia':'Africa',
+  'South Africa':'Africa','South Sudan':'Africa','Sudan':'Africa','Tanzania':'Africa',
+  'Togo':'Africa','Tunisia':'Africa','Uganda':'Africa','Zambia':'Africa','Zimbabwe':'Africa',
+  // Asia-Pacific
+  'Afghanistan':'Asia-Pacific','Armenia':'Asia-Pacific','Australia':'Asia-Pacific',
+  'Azerbaijan':'Asia-Pacific','Bangladesh':'Asia-Pacific','Bhutan':'Asia-Pacific',
+  'Brunei':'Asia-Pacific','Cambodia':'Asia-Pacific','China':'Asia-Pacific','Fiji':'Asia-Pacific',
+  'Georgia':'Asia-Pacific','India':'Asia-Pacific','Indonesia':'Asia-Pacific','Japan':'Asia-Pacific',
+  'Kazakhstan':'Asia-Pacific','Kyrgyzstan':'Asia-Pacific','Laos':'Asia-Pacific',
+  'Malaysia':'Asia-Pacific','Maldives':'Asia-Pacific','Mongolia':'Asia-Pacific',
+  'Myanmar':'Asia-Pacific','Nepal':'Asia-Pacific','New Zealand':'Asia-Pacific',
+  'Pakistan':'Asia-Pacific','Papua New Guinea':'Asia-Pacific','Philippines':'Asia-Pacific',
+  'Singapore':'Asia-Pacific','Sri Lanka':'Asia-Pacific','Tajikistan':'Asia-Pacific',
+  'Thailand':'Asia-Pacific','Timor-Leste':'Asia-Pacific','Turkmenistan':'Asia-Pacific',
+  'Uzbekistan':'Asia-Pacific','Vietnam':'Asia-Pacific',
+  // Europe
+  'Albania':'Europe','Austria':'Europe','Belarus':'Europe','Belgium':'Europe',
+  'Bosnia and Herzegovina':'Europe','Bulgaria':'Europe','Croatia':'Europe','Cyprus':'Europe',
+  'Czech Republic':'Europe','Denmark':'Europe','Estonia':'Europe','Finland':'Europe',
+  'France':'Europe','Germany':'Europe','Greece':'Europe','Hungary':'Europe','Iceland':'Europe',
+  'Ireland':'Europe','Italy':'Europe','Latvia':'Europe','Lithuania':'Europe','Luxembourg':'Europe',
+  'Malta':'Europe','Moldova':'Europe','Montenegro':'Europe','Netherlands':'Europe',
+  'North Macedonia':'Europe','Norway':'Europe','Poland':'Europe','Portugal':'Europe',
+  'Romania':'Europe','Russia':'Europe','Serbia':'Europe','Slovakia':'Europe','Slovenia':'Europe',
+  'Spain':'Europe','Sweden':'Europe','Switzerland':'Europe','Ukraine':'Europe',
+  'United Kingdom':'Europe',
+  // Latin America & Caribbean
+  'Argentina':'Latin America & Caribbean','Bolivia':'Latin America & Caribbean',
+  'Brazil':'Latin America & Caribbean','Chile':'Latin America & Caribbean',
+  'Colombia':'Latin America & Caribbean','Costa Rica':'Latin America & Caribbean',
+  'Cuba':'Latin America & Caribbean','Dominican Republic':'Latin America & Caribbean',
+  'Ecuador':'Latin America & Caribbean','El Salvador':'Latin America & Caribbean',
+  'Guatemala':'Latin America & Caribbean','Haiti':'Latin America & Caribbean',
+  'Honduras':'Latin America & Caribbean','Jamaica':'Latin America & Caribbean',
+  'Mexico':'Latin America & Caribbean','Nicaragua':'Latin America & Caribbean',
+  'Panama':'Latin America & Caribbean','Paraguay':'Latin America & Caribbean',
+  'Peru':'Latin America & Caribbean','Trinidad and Tobago':'Latin America & Caribbean',
+  'Uruguay':'Latin America & Caribbean','Venezuela':'Latin America & Caribbean',
+  // Middle East & North Africa
+  'Bahrain':'Middle East & North Africa','Iran':'Middle East & North Africa',
+  'Iraq':'Middle East & North Africa','Israel':'Middle East & North Africa',
+  'Jordan':'Middle East & North Africa','Kuwait':'Middle East & North Africa',
+  'Lebanon':'Middle East & North Africa','Libya':'Middle East & North Africa',
+  'Oman':'Middle East & North Africa','Palestine':'Middle East & North Africa',
+  'Qatar':'Middle East & North Africa','Saudi Arabia':'Middle East & North Africa',
+  'Syria':'Middle East & North Africa','United Arab Emirates':'Middle East & North Africa',
+  'Yemen':'Middle East & North Africa',
+  // North America
+  'Canada':'North America','United States':'North America',
+};
+
+function countryToRegion(countryName) {
+  if (!countryName) return 'Global / International';
+  return COUNTRY_NAME_TO_REGION[countryName] || 'Global / International';
+}
+
 // ---- COUNTRY LOOKUP (lat/lng/flag) ----
 const COUNTRY_GEO = {
   "Afghanistan": { lat: 33.93, lng: 67.71, code: "AF" },
@@ -283,14 +351,14 @@ const COUNTRY_ALIASES = {
 function lookupCountry(countryName) {
   const clean = (COUNTRY_ALIASES[countryName.trim()] || countryName.trim());
   const geo = COUNTRY_GEO[clean];
-  if (geo) return { lat: geo.lat, lng: geo.lng, flag: flagEmoji(geo.code), country: clean };
+  if (geo) return { lat: geo.lat, lng: geo.lng, flag: flagEmoji(geo.code), country: clean, code: geo.code };
   // Try case-insensitive
   const key = Object.keys(COUNTRY_GEO).find(k => k.toLowerCase() === clean.toLowerCase());
   if (key) {
     const g = COUNTRY_GEO[key];
-    return { lat: g.lat, lng: g.lng, flag: flagEmoji(g.code), country: key };
+    return { lat: g.lat, lng: g.lng, flag: flagEmoji(g.code), country: key, code: g.code };
   }
-  return { lat: 0, lng: 0, flag: '', country: clean };
+  return { lat: 0, lng: 0, flag: '', country: clean, code: '' };
 }
 
 function determineScope(geographicScope) {
@@ -424,6 +492,7 @@ function transformInitiativeRow(row) {
     video: VIDEO_LINKS[row['Initiative ID']?.split('-')[0]] || '',
     country: geo.country,
     flag: geo.flag,
+    region: countryToRegion(country),
     lat: lat,
     lng: lng,
     scope: scope,
@@ -481,6 +550,7 @@ function computeFilterOptions(inits) {
     enabler: [...new Set(inits.flatMap(i => i.enablers))].filter(Boolean).sort(),
     actor: [...new Set(inits.map(i => i.actorType))].filter(Boolean).sort(),
     country: [...new Set(inits.map(i => i.country))].filter(Boolean).sort((a, b) => a.localeCompare(b)),
+    region: [...new Set(inits.map(i => i.region))].filter(Boolean).sort(),
     breakthrough: [...new Set(inits.map(i => i.breakthroughTarget))].filter(Boolean).sort()
   };
 }
