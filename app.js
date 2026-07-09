@@ -325,6 +325,7 @@ function renderInitiatives() {
       if (key === 'enabler' && !init.enablers.some(e => values.includes(e))) return false;
       if (key === 'actor' && !values.includes(init.actorType)) return false;
       if (key === 'country' && !values.includes(init.country)) return false;
+      if (key === 'region' && !values.includes(init.region)) return false;
       if (key === 'breakthrough' && !values.includes(init.breakthroughTarget)) return false;
       if (key === 'activePartner' && !init.activePartner) return false;
     }
