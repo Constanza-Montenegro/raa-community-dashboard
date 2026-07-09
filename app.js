@@ -600,14 +600,18 @@ function showProfile(name, showDirectoryBtn) {
       ${(() => {
         const active = init.rioSynergies || [];
         const has = key => active.some(v => v.toUpperCase().includes(key));
-        const LOGOS = [
-          { key: 'UNCCD',  src: 'logos/Rio Synergies logos/UNCCD logo.png',  alt: 'UNCCD', alwaysActive: true },
-          { key: 'UNFCCC', src: 'logos/Rio Synergies logos/UNFCCC logo.png', alt: 'UNFCCC' },
-          { key: 'CBD',    src: 'logos/Rio Synergies logos/UNCBD logo.png',  alt: 'CBD' },
-          { key: 'SDG',    src: 'logos/Rio Synergies logos/images.jpg',      alt: 'SDGs' },
+        const BADGES = [
+          { key: 'UNCCD',  label: 'UNCCD',  full: 'UN Convention to Combat Desertification', color: '#1C75BC', alwaysActive: true },
+          { key: 'UNFCCC', label: 'UNFCCC', full: 'UN Framework Convention on Climate Change', color: '#009CDE' },
+          { key: 'CBD',    label: 'CBD',    full: 'Convention on Biological Diversity', color: '#009A44' },
+          { key: 'SDG',    label: 'SDGs',   full: 'Sustainable Development Goals', color: '#E5243B' },
         ];
-        const items = LOGOS.filter(({ key, alwaysActive }) => alwaysActive || has(key))
-          .map(({ src, alt }) => `<div class="pro-rio-logo active"><img src="${src}" alt="${alt}"></div>`)
+        const items = BADGES.filter(({ key, alwaysActive }) => alwaysActive || has(key))
+          .map(({ label, full, color }) => `
+            <div class="pro-rio-badge" style="--rio-color:${color}">
+              <span class="pro-rio-badge-abbr">${label}</span>
+              <span class="pro-rio-badge-full">${full}</span>
+            </div>`)
           .join('');
         return `<div class="pro-rio"><span class="pro-rio-label">Rio Synergies</span><div class="pro-rio-logos">${items}</div></div>`;
       })()}
