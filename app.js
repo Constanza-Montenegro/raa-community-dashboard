@@ -600,11 +600,9 @@ function showProfile(name, showDirectoryBtn) {
           { key: 'CBD',    src: 'logos/Rio Synergies logos/UNCBD logo.png',  alt: 'CBD' },
           { key: 'SDG',    src: 'logos/Rio Synergies logos/images.jpg',      alt: 'SDGs' },
         ];
-        const items = LOGOS.map(({ key, src, alt, alwaysActive }) => {
-          const on = alwaysActive || has(key);
-          const img = `<img src="${src}" alt="${alt}">`;
-          return `<div class="pro-rio-logo${on ? ' active' : ''}">${img}</div>`;
-        }).join('');
+        const items = LOGOS.filter(({ key, alwaysActive }) => alwaysActive || has(key))
+          .map(({ src, alt }) => `<div class="pro-rio-logo active"><img src="${src}" alt="${alt}"></div>`)
+          .join('');
         return `<div class="pro-rio"><span class="pro-rio-label">Rio Synergies</span><div class="pro-rio-logos">${items}</div></div>`;
       })()}
       ${directoryBtn}
