@@ -562,19 +562,25 @@ function showProfile(name, showDirectoryBtn) {
     if (!arr || !arr.length) return;
     secondary += `<div class="pro-sec-item"><span class="pro-sec-label">${label}</span><span class="pro-sec-value">${arr.join(' · ')}</span></div>`;
   }
+  // Geography
   addSecondary('Geographic Scope', init.geographicScope);
   if (init.specificGeography) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Specific Geography</span><span class="pro-sec-value">${init.specificGeography}</span></div>`;
-  if (init.otherMultilateralAgreements) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Engagement in other multilateral agreements</span><span class="pro-sec-value">${init.otherMultilateralAgreements}</span></div>`;
+  // Beneficiaries
   if (init.canDisclose31) addSecondary('Beneficiaries', init.beneficiaries);
-  if (init.additionalIndicators) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Additional Indicators</span><span class="pro-sec-value">${init.additionalIndicators}</span></div>`;
-  if (init.canDisclose34 && init.toolsForLandData) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Tools for land-related data</span><span class="pro-sec-value">${init.toolsForLandData}</span></div>`;
-  if (init.otherPartners) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Other Partners</span><span class="pro-sec-value">${init.otherPartners}</span></div>`;
-  if (init.reportedElsewhere) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Reported somewhere else</span><span class="pro-sec-value">${init.reportedElsewhere}</span></div>`;
-  if (init.otherReportingPlatform) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Other reporting platform</span><span class="pro-sec-value">${init.otherReportingPlatform}</span></div>`;
+  // Non-financial resources
   if (init.canDisclose33) {
     if (init.otherResourcesMobilized) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Resources Mobilized</span><span class="pro-sec-value">${init.otherResourcesMobilized}</span></div>`;
     if (init.otherResourcesToMobilize) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Resources to Mobilize</span><span class="pro-sec-value">${init.otherResourcesToMobilize}</span></div>`;
   }
+  // Partnerships
+  if (init.otherPartners) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Other Partners</span><span class="pro-sec-value">${init.otherPartners}</span></div>`;
+  // Reporting & agreements
+  if (init.reportedElsewhere) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Reported somewhere else</span><span class="pro-sec-value">${init.reportedElsewhere}</span></div>`;
+  if (init.otherReportingPlatform) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Other reporting platform</span><span class="pro-sec-value">${init.otherReportingPlatform}</span></div>`;
+  if (init.otherMultilateralAgreements) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Engagement in other multilateral agreements</span><span class="pro-sec-value">${init.otherMultilateralAgreements}</span></div>`;
+  // Additional data
+  if (init.additionalIndicators) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Additional Indicators</span><span class="pro-sec-value">${init.additionalIndicators}</span></div>`;
+  if (init.canDisclose34 && init.toolsForLandData) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Tools for land-related data</span><span class="pro-sec-value">${init.toolsForLandData}</span></div>`;
 
   document.getElementById('modal-body').innerHTML = `
     ${headerBlock}
