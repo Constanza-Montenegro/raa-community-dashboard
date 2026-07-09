@@ -555,10 +555,6 @@ function showProfile(name, showDirectoryBtn) {
     addDetail('Finance Mobilized', init.financialMobilized, 'USD ', '');
     addDetail('Finance to Mobilize', init.financialToMobilize, 'USD ', '');
   }
-  // 3.4: Other indicators
-  if (init.canDisclose34) {
-    if (init.toolsForLandData) details += `<div class="pro-detail-num full"><span class="pro-detail-label">Tools for land-related data</span><span class="pro-detail-value">${init.toolsForLandData}</span></div>`;
-  }
 
   // Secondary compact info
   let secondary = '';
@@ -572,6 +568,7 @@ function showProfile(name, showDirectoryBtn) {
   if (init.otherMultilateralAgreements) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Engagement in other multilateral agreements</span><span class="pro-sec-value">${init.otherMultilateralAgreements}</span></div>`;
   if (init.canDisclose31) addSecondary('Beneficiaries', init.beneficiaries);
   if (init.additionalIndicators) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Additional Indicators</span><span class="pro-sec-value">${init.additionalIndicators}</span></div>`;
+  if (init.canDisclose34 && init.toolsForLandData) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Tools for land-related data</span><span class="pro-sec-value">${init.toolsForLandData}</span></div>`;
   if (init.otherPartners) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Other Partners</span><span class="pro-sec-value">${init.otherPartners}</span></div>`;
   if (init.reportedElsewhere) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Reported somewhere else</span><span class="pro-sec-value">${init.reportedElsewhere}</span></div>`;
   if (init.otherReportingPlatform) secondary += `<div class="pro-sec-item"><span class="pro-sec-label">Other reporting platform</span><span class="pro-sec-value">${init.otherReportingPlatform}</span></div>`;
