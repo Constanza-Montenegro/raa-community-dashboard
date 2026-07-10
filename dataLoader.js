@@ -420,8 +420,8 @@ const LOCAL_LOGOS = {
   'P020': 'logos/logo-P020.png',
   'P033': 'logos/logo-P033.png',
   'P021': 'logos/logo-P021.png',
-  'P024': 'logos/logo-P024 : logo-P025.png',
-  'P025': 'logos/logo-P024 : logo-P025.png',
+  'P024': 'logos/logo-P024.png',
+  'P025': 'logos/logo-P025.png',
   'P026': 'logos/logo-P026.png',
   'P027': 'logos/logo-P027.png',
   'P028': 'logos/logo-P028.png',
@@ -452,7 +452,13 @@ const LOCAL_LOGOS = {
   'P079': 'logos/logo-P079.png',
   'P080': 'logos/logo-P080.png',
   'P013': 'logos/logo-P013.png',
-  'P081': 'logos/logo-P081.jpg'
+  'P081': 'logos/logo-P081.jpg',
+  'P057': 'logos/logo-P057.png',
+  'P062': 'logos/logo-P062.png',
+  'P063': 'logos/logo-P063.png',
+  'P084': 'logos/logo-P084.png',
+  'P090': 'logos/logo-P090.png',
+  'P091-099': 'logos/logo-P091-099.png'
 };
 
 // ---- SECONDARY LOGOS ----
