@@ -10,7 +10,10 @@ const _BASE = `https://docs.google.com/spreadsheets/d/${_SHEET_ID}/gviz/tq?tqx=o
 const CSV_URLS = {
   initiatives: _isLocal
     ? _BASE + '5.%20DEV_INITIATIVES'
-    : _BASE + '6.%20PUB_INITIATIVES'
+    : _BASE + '6.%20PUB_INITIATIVES',
+  platforms: _isLocal
+    ? _BASE + '10.%20DEV_PLATFORMS'
+    : _BASE + '11.%20PUB_PLATFORMS'
 };
 
 // ---- CSV PARSER ----
@@ -458,7 +461,15 @@ const LOCAL_LOGOS = {
   'P063': 'logos/logo-P063.png',
   'P084': 'logos/logo-P084.png',
   'P090': 'logos/logo-P090.png',
-  'P091-099': 'logos/logo-P091-099.png'
+  'P091-099': 'logos/logo-P091-099.png',
+  'P094': 'logos/logo-P094.png'
+};
+
+// ---- LOCAL PLATFORM IMAGE LOOKUP ----
+// Register local platform banner images here. Key = full Platform ID, Value = file path.
+// Update this map when adding new images to the "platforms images/" folder.
+const LOCAL_PLATFORM_IMAGES = {
+  'P094-PL001': 'platforms images/P094-PL001.png'
 };
 
 // ---- SECONDARY LOGOS ----
@@ -610,26 +621,38 @@ function computeSnapshotData(inits) {
   return { bySector, byScope, byPriority, byEnabler, byRegion, byBreakthrough, byEcosystem };
 }
 
-// ---- PLATFORMS (hardcoded — no CSV yet) ----
-const platforms = {
-  data: [
-    { name: "Lorem Ipsum", logo: "\ud83d\udcca", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore.", relevance: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", objectives: ["Lorem ipsum dolor sit amet", "Consectetur adipiscing elit", "Sed do eiusmod tempor"], link: "" },
-    { name: "Dolor Sit Amet", logo: "\ud83c\udf0d", description: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.", relevance: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", objectives: ["Ut enim ad minim veniam", "Quis nostrud exercitation", "Ullamco laboris nisi"], link: "" },
-    { name: "Consectetur Adipiscing", logo: "\ud83d\uddfa\ufe0f", description: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", relevance: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur.", objectives: ["Duis aute irure dolor", "Reprehenderit in voluptate", "Cillum dolore eu fugiat"], link: "" },
-    { name: "Sed Do Eiusmod", logo: "\ud83d\udcc0", description: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est.", relevance: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", objectives: ["Excepteur sint occaecat", "Cupidatat non proident", "Officia deserunt mollit"], link: "" }
-  ],
-  funding: [
-    { name: "Tempor Incididunt", logo: "\ud83c\udf10", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam quis nostrud exercitation.", relevance: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.", objectives: ["Lorem ipsum dolor sit amet", "Consectetur adipiscing elit", "Sed do eiusmod tempor"], link: "" },
-    { name: "Ut Labore Et Dolore", logo: "\ud83c\udf31", description: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", relevance: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur.", objectives: ["Duis aute irure dolor", "Reprehenderit in voluptate", "Cillum dolore eu fugiat"], link: "" },
-    { name: "Magna Aliqua Enim", logo: "\ud83c\udfe6", description: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est.", relevance: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", objectives: ["Excepteur sint occaecat", "Cupidatat non proident", "Officia deserunt mollit"], link: "" }
-  ],
-  knowledge: [
-    { name: "Ad Minim Veniam", logo: "\ud83d\udcda", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.", relevance: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.", objectives: ["Lorem ipsum dolor sit amet", "Consectetur adipiscing elit", "Sed do eiusmod tempor"], link: "" },
-    { name: "Quis Nostrud Exercitation", logo: "\ud83c\udf3f", description: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.", relevance: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", objectives: ["Ut enim ad minim veniam", "Quis nostrud exercitation", "Ullamco laboris nisi"], link: "" },
-    { name: "Ullamco Laboris", logo: "\ud83c\udf3e", description: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", relevance: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur.", objectives: ["Duis aute irure dolor", "Reprehenderit in voluptate", "Cillum dolore eu fugiat"], link: "" },
-    { name: "Nisi Ut Aliquip", logo: "\ud83c\udf33", description: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est.", relevance: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", objectives: ["Excepteur sint occaecat", "Cupidatat non proident", "Officia deserunt mollit"], link: "" }
-  ]
+// ---- PLATFORMS ----
+const PLATFORM_CATEGORY_KEYS = {
+  'Data & Metrics on Land': 'data',
+  'Funding & Grants': 'funding',
+  'Knowledge Ecosystem': 'knowledge'
 };
+
+function parseKeyFunctions(str) {
+  if (!str) return [];
+  return str.split('\n').map(s => s.trim().replace(/^-+\s*/, '')).filter(Boolean);
+}
+
+function transformPlatformRow(row) {
+  const platformId = row['Platform ID'] || '';
+  const partnerId = platformId.split('-')[0];
+  return {
+    id: platformId,
+    name: (row['Platform Oficial Name'] || '').trim(),
+    link: ensureHttps(row['Link']),
+    categoryKey: PLATFORM_CATEGORY_KEYS[(row['Category'] || '').trim()] || '',
+    description: row['Description (what + how) max. 120 words'] || '',
+    objectives: parseKeyFunctions(row['Key functions or services. Max 5 bullet points.']),
+    logo: LOCAL_LOGOS[partnerId] || driveToImgUrl((row['Platform logo'] || '').split(',')[0].trim()),
+    image: LOCAL_PLATFORM_IMAGES[platformId] || driveToImgUrl((row['Platform image'] || '').split(',')[0].trim())
+  };
+}
+
+function groupPlatforms(rows) {
+  const groups = { data: [], funding: [], knowledge: [] };
+  rows.forEach(p => { if (groups[p.categoryKey]) groups[p.categoryKey].push(p); });
+  return groups;
+}
 
 // ---- MAIN LOADER ----
 async function loadData() {
@@ -670,7 +693,18 @@ async function loadData() {
     });
     window.partners = [...partnerMap.values()].filter(p => p.name);
 
-    window.platforms = platforms;
+    try {
+      const platRes = await fetch(CSV_URLS.platforms);
+      const platCSV = platRes.ok ? await platRes.text() : '';
+      const platformRows = platCSV
+        ? parseCSV(stripEmptyLeadingRows(platCSV)).map(transformPlatformRow).filter(p => p.name)
+        : [];
+      window.platforms = groupPlatforms(platformRows);
+    } catch (platErr) {
+      console.error('Platforms load error:', platErr);
+      window.platforms = { data: [], funding: [], knowledge: [] };
+    }
+
     window.filterOptions = computeFilterOptions(window.initiatives);
     window.snapshotData = computeSnapshotData(window.initiatives);
 

@@ -634,7 +634,7 @@ document.querySelectorAll('.modal-overlay').forEach(ov => {
 const ecoDescriptions = {
   'data-metrics': { title: 'Data & Metrics on Land', desc: 'Access to data portals, monitoring systems and metric platforms tackling land degradation and supporting restoration and drought resilience.' },
   'funding-grants': { title: 'Funding & Grants', desc: 'Visibility of existing financial instruments and funding opportunities related to land and drought.' },
-  'knowledge': { title: 'Knowledge Ecosystem', desc: 'Orientation across knowledge, technical and policy infrastructures shaping the global land and soil agenda.' }
+  'knowledge': { title: 'Knowledge & Research', desc: 'Orientation across knowledge, technical and policy infrastructures shaping the global land and soil agenda.' }
 };
 
 function switchEcoCategory(ecoId) {
@@ -670,11 +670,11 @@ const ecoColors = { data: '#48966a', funding: '#F8AA41', knowledge: '#587da0' };
 
 function showPlatformProfile(p, color) {
   const objectives = p.objectives ? p.objectives.map(o => `<li>${o}</li>`).join('') : '';
+  const bannerImg = p.image ? `background-image:url('${p.image}');background-size:cover;background-position:center;` : '';
   document.getElementById('platform-modal-body').innerHTML = `
-    <div class="plat-profile-banner" style="background:${color}">
-      <div class="plat-profile-logo">${p.logo}</div>
-    </div>
+    <div class="plat-profile-banner" style="background:${color};${bannerImg}"></div>
     <div class="plat-profile-body">
+      <div class="plat-profile-logo">${logoHtml(p, 56)}</div>
       <h2 class="plat-profile-name">${p.name}</h2>
       <p class="plat-profile-desc">${p.description}</p>
       ${p.relevance ? `<div class="plat-profile-section"><h4>Relevance</h4><p>${p.relevance}</p></div>` : ''}
@@ -693,11 +693,12 @@ function renderPlatforms(containerId, data, color) {
     card.style.setProperty('--platform-color', color);
     card.style.cursor = 'pointer';
     card.addEventListener('click', () => showPlatformProfile(p, color));
+    const bannerStyle = p.image ? ` style="background-image:url('${p.image}');background-size:cover;background-position:center"` : '';
     card.innerHTML = `
-      <div class="platform-banner"></div>
+      <div class="platform-banner"${bannerStyle}></div>
       <div class="platform-body">
         <div class="platform-header">
-          <div class="platform-logo">${p.logo}</div>
+          <div class="platform-logo">${logoHtml(p, 44)}</div>
           <div class="platform-name">${p.name}</div>
         </div>
         <div class="platform-desc">${p.description}</div>
