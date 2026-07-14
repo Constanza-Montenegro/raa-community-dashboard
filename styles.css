@@ -1373,7 +1373,7 @@ body {
 
 .platform-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
   margin-top: -20px;
   margin-bottom: 10px;
@@ -1390,8 +1390,11 @@ body {
   font-size: 20px; flex-shrink: 0;
 }
 
-.platform-name { font-size: 15px; font-weight: 700; color: var(--dark-teal); margin-top: 20px; }
-.platform-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 14px; flex: 1; }
+.platform-name { font-size: 15px; font-weight: 700; color: var(--dark-teal); margin-top: 28px; }
+.platform-desc {
+  font-size: 12px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 14px; flex: 1;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden;
+}
 
 .platform-footer {
   display: flex;
@@ -1411,9 +1414,6 @@ body {
 .plat-profile-banner {
   height: 120px;
   position: relative;
-  display: flex;
-  align-items: flex-end;
-  padding: 0 24px;
   border-radius: var(--radius) var(--radius) 0 0;
   overflow: hidden;
 }
@@ -1439,7 +1439,8 @@ body {
   font-size: 26px;
   position: relative;
   z-index: 1;
-  margin-bottom: -28px;
+  margin-top: -64px;
+  margin-bottom: 8px;
 }
 
 .plat-profile-body { padding: 36px 24px 24px; }
