@@ -429,6 +429,7 @@ const LOCAL_LOGOS = {
   'P027': 'logos/logo-P027.png',
   'P028': 'logos/logo-P028.png',
   'P035': 'logos/logo-P035.png',
+  'P036': 'logos/logo-P036.jpg',
   'P037': 'logos/logo-P037.png',
   'P039': 'logos/logo-P039.png',
   'P042-045': 'logos/P042-045.png',
@@ -625,7 +626,8 @@ function computeSnapshotData(inits) {
 const PLATFORM_CATEGORY_KEYS = {
   'Data & Metrics on Land': 'data',
   'Funding & Grants': 'funding',
-  'Knowledge Ecosystem': 'knowledge'
+  'Knowledge Ecosystem': 'knowledge',
+  'Knowledge & Research': 'knowledge'
 };
 
 function parseKeyFunctions(str) {
