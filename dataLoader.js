@@ -406,6 +406,14 @@ function ensureHttps(url) {
   return 'https://' + trimmed;
 }
 
+// Extracts every http(s) URL found in a field (some initiatives list
+// several partner organizations' links separated by spaces/"&"/commas).
+function extractAllUrls(str) {
+  if (!str) return [];
+  const matches = str.match(/https?:\/\/\S+/g) || [];
+  return matches.map(m => m.replace(/[.,;)'"&]+$/, '')).filter(Boolean);
+}
+
 // ---- LOCAL LOGO LOOKUP ----
 // Register local logo files here. Key = Partner ID, Value = file path.
 // Update this map when adding new logos to the logos/ folder.
@@ -440,18 +448,26 @@ const LOCAL_LOGOS = {
   'P016': 'logos/logo-P016.png',
   'P049': 'logos/logo-P049.png',
   'P054': 'logos/logo-P054.png',
+  'P059': 'logos/logo-P059.png',
+  'P060': 'logos/logo-P060.png',
   'P061': 'logos/logo-P061.png',
   'P065': 'logos/logo-P065.jpg',
+  'P066': 'logos/logo-P066.png',
   'P068': 'logos/logo-P068.jpg',
+  'P069': 'logos/logo-P069.jpg',
+  'P070': 'logos/logo-P070.jpg',
   'P071': 'logos/logo-P071.png',
   'P072': 'logos/logo-P072.jpg',
   'P073': 'logos/logo-P073.jpg',
   'P082': 'logos/logo-P082.jpg',
   'P048': 'logos/logo-P048.png',
   'P050': 'logos/logo-P050.png',
+  'P051': 'logos/logo-P051.png',
+  'P052': 'logos/logo-P052.png',
   'P056': 'logos/logo-P056.png',
   'P086': 'logos/logo-P086.png',
   'P088': 'logos/logo-P088.png',
+  'P089': 'logos/logo-P089.jpeg',
   'P058': 'logos/logo-P058.png',
   'P079': 'logos/logo-P079.png',
   'P080': 'logos/logo-P080.png',
@@ -460,6 +476,7 @@ const LOCAL_LOGOS = {
   'P057': 'logos/logo-P057.png',
   'P062': 'logos/logo-P062.png',
   'P063': 'logos/logo-P063.png',
+  'P064': 'logos/logo-P064.png',
   'P084': 'logos/logo-P084.png',
   'P090': 'logos/logo-P090.png',
   'P091-099': 'logos/logo-P091-099.png',
@@ -506,6 +523,7 @@ function transformInitiativeRow(row) {
     logo: LOCAL_LOGOS[row['Initiative ID']] || LOCAL_LOGOS[row['Initiative ID']?.split('-')[0]] || driveToImgUrl((row['Logo (link)'] || '').split(',')[0].trim()),
     logo2: SECONDARY_LOGOS[row['Initiative ID']] || SECONDARY_LOGOS[row['Initiative ID']?.split('-')[0]] || '',
     website: ensureHttps(row['Link to website']),
+    websites: extractAllUrls(row['Link to website']),
     initiativeLink: ensureHttps(row['Link to initiative']),
     video: VIDEO_LINKS[row['Initiative ID']?.split('-')[0]] || '',
     country: geo.country,

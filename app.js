@@ -478,7 +478,16 @@ function showProfile(name, showDirectoryBtn) {
 
   // CTAs
   let ctas = '';
-  if (init.website) ctas += `<a href="${init.website}" target="_blank" class="profile-cta-btn org"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Visit Organization</a>`;
+  const orgIcon = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>';
+  if (init.websites && init.websites.length > 1) {
+    init.websites.forEach(url => {
+      let label = 'Visit Organization';
+      try { label = new URL(url).hostname.replace(/^www\./, ''); } catch (e) {}
+      ctas += `<a href="${url}" target="_blank" class="profile-cta-btn org">${orgIcon}Visit ${label}</a>`;
+    });
+  } else if (init.website) {
+    ctas += `<a href="${init.website}" target="_blank" class="profile-cta-btn org">${orgIcon}Visit Organization</a>`;
+  }
   if (init.initiativeLink) ctas += `<a href="${init.initiativeLink}" target="_blank" class="profile-cta-btn initiative"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Explore Initiative</a>`;
   if (init.annualReport && init.canDisclose34) ctas += `<a href="${init.annualReport}" target="_blank" class="profile-cta-btn report"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Annual Report</a>`;
   if (init.video) ctas += `<a href="${init.video}" target="_blank" class="profile-cta-btn video"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>Watch Video</a>`;
