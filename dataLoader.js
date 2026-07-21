@@ -7,13 +7,16 @@ const _isLocal = ['localhost', '127.0.0.1', ''].includes(window.location.hostnam
 const _SHEET_ID = '1K2oV35MOnzpybC4TUIczIM1dhIe1ZmbbUqCZkalDfGY';
 const _BASE = `https://docs.google.com/spreadsheets/d/${_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=`;
 
+// "&headers=1" tells gviz explicitly that row 1 is the header row — without it,
+// gviz sometimes mis-detects the header count and merges header labels with
+// the first data row's values (seen on 5. DEV_INITIATIVES).
 const CSV_URLS = {
   initiatives: _isLocal
-    ? _BASE + '5.%20DEV_INITIATIVES'
-    : _BASE + '6.%20PUB_INITIATIVES',
+    ? _BASE + '5.%20DEV_INITIATIVES&headers=1'
+    : _BASE + '6.%20PUB_INITIATIVES&headers=1',
   platforms: _isLocal
-    ? _BASE + '10.%20DEV_PLATFORMS'
-    : _BASE + '11.%20PUB_PLATFORMS'
+    ? _BASE + '10.%20DEV_PLATFORMS&headers=1'
+    : _BASE + '11.%20PUB_PLATFORMS&headers=1'
 };
 
 // ---- CSV PARSER ----
