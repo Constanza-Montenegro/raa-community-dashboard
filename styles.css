@@ -759,6 +759,14 @@ body {
 .cs-about-block:hover {
   box-shadow: 0 3px 10px rgba(0,0,0,0.08);
 }
+.cs-about-block--invite {
+  background: #eef6f0;
+  border-left-color: var(--green);
+}
+.cs-about-block--invite a {
+  color: var(--green);
+  font-weight: 600;
+}
 .cs-about-block-header {
   margin-bottom: 10px;
   padding-bottom: 10px;
