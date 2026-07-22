@@ -1737,11 +1737,11 @@ body {
 .cs-info-btn--sm { width: 16px; height: 16px; font-size: 10px; flex-shrink: 0; }
 .cs-info-tooltip--left { right: auto; left: 30px; top: 0; }
 
-.cs-info-btn--text {
-  width: auto; height: auto; border-radius: 20px;
-  padding: 5px 12px; font-size: 11px; font-weight: 600;
-  font-style: normal; font-family: inherit; white-space: nowrap;
+.btn-about--sm {
+  padding: 5px 12px 5px 8px; font-size: 11px; margin-top: 0;
 }
+.btn-about--sm .btn-about-icon { width: 15px; height: 15px; font-size: 10px; }
+
 .cs-info-tooltip--wide { width: 320px; }
 .cs-info-tooltip a { color: #9fd8b3; text-decoration: underline; }
 .cs-info-tooltip a:hover { color: #fff; }
