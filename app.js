@@ -1014,7 +1014,7 @@ function animateCounters() {
   }, 300);
 
   // Info tooltip toggle (generic — wires up all cs-info-btn pairs)
-  [['cs-info-toggle', 'cs-info-tooltip'], ['rio-info-toggle', 'rio-info-tooltip'], ['enabler-info-toggle', 'enabler-info-tooltip'], ['btt-info-toggle', 'btt-info-tooltip']].forEach(([btnId, tipId]) => {
+  [['cs-info-toggle', 'cs-info-tooltip'], ['rio-info-toggle', 'rio-info-tooltip'], ['enabler-info-toggle', 'enabler-info-tooltip'], ['btt-info-toggle', 'btt-info-tooltip'], ['goals-about-toggle', 'goals-about-tooltip']].forEach(([btnId, tipId]) => {
     const btn = document.getElementById(btnId);
     const tip = document.getElementById(tipId);
     if (btn && tip) {
