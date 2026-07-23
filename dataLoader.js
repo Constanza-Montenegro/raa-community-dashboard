@@ -627,11 +627,16 @@ function computeSnapshotData(inits) {
   const byPriority = countBy(inits.flatMap(i => i.thematicPriorities));
   const byEnabler = countBy(inits.flatMap(i => i.enablers));
 
+  // "Geographic scope" is a fixed set of form checkboxes (Africa, Americas, Asia,
+  // Europe, Global, Oceania) — this is the initiative's self-reported operating
+  // footprint, distinct from the country/HQ-based "region" used by the
+  // Initiatives Directory filter and Global Presence map.
+  const GEO_SCOPE_LABELS = { 'Global': 'Global / International' };
   const regionCounts = {};
   inits.forEach(i => {
     i.geographicScope.forEach(g => {
-      const r = REGIONS.find(reg => g.toLowerCase().includes(reg.toLowerCase())) || g;
-      regionCounts[r] = (regionCounts[r] || 0) + 1;
+      const label = GEO_SCOPE_LABELS[g] || g;
+      regionCounts[label] = (regionCounts[label] || 0) + 1;
     });
   });
   const byRegion = Object.entries(regionCounts)
