@@ -1014,12 +1014,12 @@ function animateCounters() {
   }, 300);
 
   // Info tooltip toggle (generic — wires up all cs-info-btn pairs)
-  [['cs-info-toggle', 'cs-info-tooltip'], ['rio-info-toggle', 'rio-info-tooltip'], ['enabler-info-toggle', 'enabler-info-tooltip'], ['btt-info-toggle', 'btt-info-tooltip'], ['goals-about-toggle', 'goals-about-tooltip']].forEach(([btnId, tipId]) => {
+  [['rio-info-toggle', 'rio-info-tooltip'], ['enabler-info-toggle', 'enabler-info-tooltip'], ['btt-info-toggle', 'btt-info-tooltip'], ['goals-about-toggle', 'goals-about-tooltip']].forEach(([btnId, tipId]) => {
     const btn = document.getElementById(btnId);
     const tip = document.getElementById(tipId);
     if (btn && tip) {
-      btn.onclick = (e) => { e.stopPropagation(); tip.classList.toggle('open'); };
-      document.addEventListener('click', () => tip.classList.remove('open'));
+      btn.onclick = (e) => { e.stopPropagation(); const isOpen = tip.classList.toggle('open'); btn.setAttribute('aria-expanded', String(isOpen)); };
+      document.addEventListener('click', () => { tip.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); });
     }
   });
 
