@@ -509,7 +509,6 @@ const LOCAL_PLATFORM_IMAGES = {
 // Override the CSS background-position of a platform's banner image here
 // when the default "center" crops out an important part of the photo.
 const PLATFORM_IMAGE_POSITIONS = {
-  'P101-PL002': '15% center'
 };
 
 // ---- SECONDARY LOGOS ----
