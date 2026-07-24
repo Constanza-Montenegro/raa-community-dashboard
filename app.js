@@ -679,7 +679,7 @@ const ecoColors = { data: '#48966a', funding: '#F8AA41', knowledge: '#587da0' };
 
 function showPlatformProfile(p, color) {
   const objectives = p.objectives ? p.objectives.map(o => `<li>${o}</li>`).join('') : '';
-  const bannerImg = p.image ? `background-image:url('${p.image}');background-size:cover;background-position:center;` : '';
+  const bannerImg = p.image ? `background-image:url('${p.image}');background-size:cover;background-position:${p.imagePosition || 'center'};` : '';
   document.getElementById('platform-modal-body').innerHTML = `
     <div class="plat-profile-banner" style="background:${color};${bannerImg}"></div>
     <div class="plat-profile-body">
@@ -702,7 +702,7 @@ function renderPlatforms(containerId, data, color) {
     card.style.setProperty('--platform-color', color);
     card.style.cursor = 'pointer';
     card.addEventListener('click', () => showPlatformProfile(p, color));
-    const bannerStyle = p.image ? ` style="background-image:url('${p.image}');background-size:cover;background-position:center"` : '';
+    const bannerStyle = p.image ? ` style="background-image:url('${p.image}');background-size:cover;background-position:${p.imagePosition || 'center'}"` : '';
     card.innerHTML = `
       <div class="platform-banner"${bannerStyle}></div>
       <div class="platform-body">

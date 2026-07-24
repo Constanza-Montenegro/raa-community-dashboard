@@ -505,6 +505,13 @@ const LOCAL_PLATFORM_IMAGES = {
   'P101-PL002': 'platforms images/P101-PL002.png'
 };
 
+// ---- PLATFORM IMAGE CROP POSITION ----
+// Override the CSS background-position of a platform's banner image here
+// when the default "center" crops out an important part of the photo.
+const PLATFORM_IMAGE_POSITIONS = {
+  'P101-PL002': '70% center'
+};
+
 // ---- SECONDARY LOGOS ----
 // Add entries here when an initiative has a second logo to display on their profile card.
 const SECONDARY_LOGOS = {
@@ -684,7 +691,8 @@ function transformPlatformRow(row) {
     description: row['Description (what + how) max. 120 words'] || '',
     objectives: parseKeyFunctions(row['Key functions or services. Max 5 bullet points.']),
     logo: LOCAL_LOGOS[partnerId] || driveToImgUrl((row['Platform logo'] || '').split(',')[0].trim()),
-    image: LOCAL_PLATFORM_IMAGES[platformId] || driveToImgUrl((row['Platform image'] || '').split(',')[0].trim())
+    image: LOCAL_PLATFORM_IMAGES[platformId] || driveToImgUrl((row['Platform image'] || '').split(',')[0].trim()),
+    imagePosition: PLATFORM_IMAGE_POSITIONS[platformId] || 'center'
   };
 }
 
