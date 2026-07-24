@@ -501,7 +501,8 @@ const LOCAL_LOGOS = {
 // Register local platform banner images here. Key = full Platform ID, Value = file path.
 // Update this map when adding new images to the "platforms images/" folder.
 const LOCAL_PLATFORM_IMAGES = {
-  'P094-PL001': 'platforms images/P094-PL001.png'
+  'P094-PL001': 'platforms images/P094-PL001.png',
+  'P101-PL002': 'platforms images/P101-PL002.png'
 };
 
 // ---- SECONDARY LOGOS ----
