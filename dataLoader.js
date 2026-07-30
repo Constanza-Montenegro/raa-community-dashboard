@@ -636,7 +636,6 @@ function computeFilterOptions(inits) {
     enabler: [...new Set(inits.flatMap(i => i.enablers))].filter(Boolean).sort(),
     actor: [...new Set(inits.map(i => i.actorType))].filter(Boolean).sort(),
     country: [...new Set(inits.map(i => i.country))].filter(Boolean).sort((a, b) => a.localeCompare(b)),
-    region: [...new Set(inits.map(i => i.region))].filter(Boolean).sort(),
     breakthrough: [...new Set(inits.map(i => i.breakthroughTarget))].filter(Boolean).sort()
   };
 }
