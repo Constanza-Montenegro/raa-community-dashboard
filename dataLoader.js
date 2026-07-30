@@ -391,7 +391,9 @@ function driveToImgUrl(driveLink) {
 
 function parseNumber(val) {
   if (!val) return 0;
-  const n = parseFloat(String(val).replace(/[^0-9.-]/g, ''));
+  // Spanish locale exports decimals with a comma (e.g. "15447,5") — treat it as the decimal point.
+  const cleaned = String(val).trim().replace(',', '.').replace(/[^0-9.-]/g, '');
+  const n = parseFloat(cleaned);
   return isNaN(n) ? 0 : n;
 }
 
