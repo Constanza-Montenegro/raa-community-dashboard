@@ -3052,15 +3052,12 @@ body {
 .footer-dot { color: rgba(255,255,255,0.3); }
 
 .footer-glyph {
-  position: absolute;
-  bottom: 6px;
-  right: 12px;
+  margin-left: 5px;
   font-size: 6px;
-  letter-spacing: 1px;
-  color: rgba(255,255,255,0.1);
+  letter-spacing: 0.5px;
+  color: rgba(255,255,255,0.08);
   pointer-events: none;
   user-select: none;
-  z-index: 1;
 }
 
 /* ============ RESPONSIVE ============ */
