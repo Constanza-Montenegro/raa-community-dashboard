@@ -54,7 +54,7 @@ function goToSection(sectionId) {
     showPanelList();
   }
   if (sectionId === 'initiatives-directory') updateIDStats();
-  if (sectionId === 'land-ecosystem') updateEcoStats();
+  if (sectionId === 'resources-opportunities') updateEcoStats();
   if (sectionId === 'community-snapshot') animateCounters();
 }
 
@@ -85,7 +85,7 @@ document.querySelectorAll('.ov-cta').forEach(btn => {
 document.querySelectorAll('.eco-overview-card[data-eco]').forEach(card => {
   card.addEventListener('click', (e) => {
     e.stopPropagation();
-    goToSection('land-ecosystem');
+    goToSection('resources-opportunities');
     setTimeout(() => switchEcoCategory(card.dataset.eco), 50);
   });
 });
@@ -94,7 +94,7 @@ document.querySelectorAll('.eco-overview-card[data-eco]').forEach(card => {
 document.querySelectorAll('.sidebar-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const ecoId = btn.dataset.ecoNav;
-    goToSection('land-ecosystem');
+    goToSection('resources-opportunities');
     setTimeout(() => switchEcoCategory(ecoId), 50);
     document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');

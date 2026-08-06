@@ -8,7 +8,7 @@ Interactive platform for the land & soil community, built to showcase land resto
 
 - **Global Presence** — map of initiatives and partners worldwide
 - **Initiatives Directory** — searchable directory of RAA-aligned initiatives
-- **Knowledge & Tools** — curated platforms for data, funding, and knowledge on land restoration
+- **Resources & Opportunities** — curated platforms for data, funding, and knowledge on land restoration
 - **Community Snapshot** — aggregate stats and visualizations across the community
 - **Partners List** — organizations participating in the RAA
 
