@@ -112,7 +112,7 @@ body {
   border-radius: 999px;
   border: 1.5px solid var(--grey);
   background: transparent;
-  color: var(--brown-gold);
+  color: var(--grey);
   font-size: 13px; font-weight: 600;
   cursor: pointer;
   transition: background var(--t), color var(--t), border-color var(--t);
@@ -2986,7 +2986,7 @@ body {
   font-family: inherit;
   border: 1.5px solid var(--grey);
   background: transparent;
-  color: var(--brown-gold);
+  color: var(--grey);
 }
 
 .get-involved-btn:hover { background: var(--brown-gold); color: white; border-color: var(--brown-gold); }
