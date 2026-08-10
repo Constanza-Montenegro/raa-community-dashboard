@@ -1318,6 +1318,22 @@ async function initApp() {
     });
   }
 
+  // Wire up "About this platform" toggle (Resources & Opportunities)
+  const roAboutBtn = document.getElementById('ro-about-toggle');
+  const roAboutPanel = document.getElementById('ro-about-panel');
+  if (roAboutBtn && roAboutPanel) {
+    roAboutBtn.addEventListener('click', () => {
+      const open = !roAboutPanel.hasAttribute('hidden');
+      if (open) {
+        roAboutPanel.setAttribute('hidden', '');
+        roAboutBtn.setAttribute('aria-expanded', 'false');
+      } else {
+        roAboutPanel.removeAttribute('hidden');
+        roAboutBtn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  }
+
   // Hide loading overlay
   const overlay = document.getElementById('loading-overlay');
   if (overlay) overlay.style.display = 'none';
