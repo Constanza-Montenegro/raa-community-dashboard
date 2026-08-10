@@ -107,19 +107,19 @@ body {
 /* Header action buttons */
 .header-actions { display: flex; gap: 6px; align-items: center; }
 .header-action-btn {
-  display: flex; align-items: center; gap: 5px;
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: 1px solid rgba(255,255,255,0.25);
-  background: rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.85);
-  font-size: 13px; font-weight: 500;
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--green);
+  background: var(--green);
+  color: #fff;
+  font-size: 13px; font-weight: 600;
   cursor: pointer;
-  transition: all var(--t);
+  transition: background var(--t), border-color var(--t);
   font-family: inherit;
   white-space: nowrap;
 }
-.header-action-btn:hover { background: rgba(255,255,255,0.15); color: white; }
+.header-action-btn:hover { background: #3a7a56; border-color: #3a7a56; color: white; }
 .header-action-btn.secondary { border-color: rgba(255,255,255,0.15); background: transparent; }
 .header-action-btn.secondary:hover { background: rgba(255,255,255,0.08); }
 
@@ -2977,26 +2977,25 @@ body {
 .get-involved-actions { display: flex; gap: 10px; }
 
 .get-involved-btn {
-  display: flex; align-items: center; gap: 7px;
+  display: flex; align-items: center; gap: 8px;
   padding: 9px 18px;
-  border-radius: 7px;
+  border-radius: 999px;
   font-size: 13px; font-weight: 600;
   cursor: pointer;
-  transition: all var(--t);
+  transition: background var(--t), border-color var(--t);
   font-family: inherit;
-  border: none;
+  border: 1px solid var(--green);
 }
 
 .get-involved-btn.primary {
-  background: #a08450; color: white;
+  background: var(--green); color: white;
 }
-.get-involved-btn.primary:hover { background: #8b7243; }
+.get-involved-btn.primary:hover { background: #3a7a56; border-color: #3a7a56; }
 
 .get-involved-btn.secondary {
-  background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85);
-  border: 1px solid rgba(255,255,255,0.2);
+  background: var(--green); color: white;
 }
-.get-involved-btn.secondary:hover { background: rgba(255,255,255,0.18); color: white; }
+.get-involved-btn.secondary:hover { background: #3a7a56; border-color: #3a7a56; }
 
 .footer-bottom {
   display: flex;
