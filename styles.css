@@ -712,6 +712,19 @@ body {
 .btn-about[aria-expanded="true"] { background: var(--dark-teal); color: #fff; border-color: var(--dark-teal); }
 .btn-about[aria-expanded="true"] .btn-about-icon { color: #fff; border-color: #fff; }
 
+.section-intro-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+.btn-join-platform {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 18px; border-radius: 999px;
+  background: var(--dark-teal); color: #fff;
+  border: 1px solid var(--dark-teal);
+  font-family: inherit; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: background var(--t);
+  flex-shrink: 0; margin-top: 6px;
+}
+.btn-join-platform:hover { background: var(--muted-teal); }
+
 .btn-about-icon {
   width: 18px; height: 18px; border-radius: 50%;
   border: 1.5px solid currentColor;
