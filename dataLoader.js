@@ -533,20 +533,6 @@ const LOCAL_LOGOS = {
   'P094': 'logos/logo-P094.png'
 };
 
-// ---- LOCAL PLATFORM IMAGE LOOKUP ----
-// Register local platform banner images here. Key = full Platform ID, Value = file path.
-// Update this map when adding new images to the "platforms images/" folder.
-const LOCAL_PLATFORM_IMAGES = {
-  'P094-PL001': 'platforms images/P094-PL001.png',
-  'P101-PL002': 'platforms images/P101-PL002.png'
-};
-
-// ---- PLATFORM IMAGE CROP POSITION ----
-// Override the CSS background-position of a platform's banner image here
-// when the default "center" crops out an important part of the photo.
-const PLATFORM_IMAGE_POSITIONS = {
-};
-
 // ---- SECONDARY LOGOS ----
 // Add entries here when an initiative has a second logo to display on their profile card.
 const SECONDARY_LOGOS = {
@@ -716,17 +702,13 @@ function parseKeyFunctions(str) {
 
 function transformPlatformRow(row) {
   const platformId = row['Platform ID'] || '';
-  const partnerId = platformId.split('-')[0];
   return {
     id: platformId,
     name: (row['Platform Oficial Name'] || '').trim(),
     link: ensureHttps(row['Link']),
     categoryKey: PLATFORM_CATEGORY_KEYS[(row['Category'] || '').trim()] || '',
     description: row['Description (what + how) max. 120 words'] || '',
-    objectives: parseKeyFunctions(row['Key functions or services. Max 5 bullet points.']),
-    logo: LOCAL_LOGOS[partnerId] || driveToImgUrl((row['Platform logo'] || '').split(',')[0].trim()),
-    image: LOCAL_PLATFORM_IMAGES[platformId] || driveToImgUrl((row['Platform image'] || '').split(',')[0].trim()),
-    imagePosition: PLATFORM_IMAGE_POSITIONS[platformId] || 'center'
+    objectives: parseKeyFunctions(row['Key functions or services. Max 5 bullet points.'])
   };
 }
 

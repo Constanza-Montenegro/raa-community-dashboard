@@ -678,11 +678,9 @@ const ecoColors = { data: '#48966a', funding: '#F8AA41', knowledge: '#587da0' };
 
 function showPlatformProfile(p, color) {
   const objectives = p.objectives ? p.objectives.map(o => `<li>${o}</li>`).join('') : '';
-  const bannerImg = p.image ? `background-image:url('${p.image}');background-size:cover;background-position:${p.imagePosition || 'center'};` : '';
   document.getElementById('platform-modal-body').innerHTML = `
-    <div class="plat-profile-banner" style="background:${color};${bannerImg}"></div>
+    <div class="plat-profile-topbar" style="background:${color};"></div>
     <div class="plat-profile-body">
-      <div class="plat-profile-logo">${logoHtml(p, 56)}</div>
       <h2 class="plat-profile-name">${p.name}</h2>
       <p class="plat-profile-desc">${p.description}</p>
       ${p.relevance ? `<div class="plat-profile-section"><h4>Relevance</h4><p>${p.relevance}</p></div>` : ''}
@@ -701,12 +699,9 @@ function renderPlatforms(containerId, data, color) {
     card.style.setProperty('--platform-color', color);
     card.style.cursor = 'pointer';
     card.addEventListener('click', () => showPlatformProfile(p, color));
-    const bannerStyle = p.image ? ` style="background-image:url('${p.image}');background-size:cover;background-position:${p.imagePosition || 'center'}"` : '';
     card.innerHTML = `
-      <div class="platform-banner"${bannerStyle}></div>
       <div class="platform-body">
         <div class="platform-header">
-          <div class="platform-logo">${logoHtml(p, 44)}</div>
           <div class="platform-name">${p.name}</div>
         </div>
         <div class="platform-desc">${p.description}</div>

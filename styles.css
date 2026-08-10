@@ -1355,51 +1355,16 @@ body {
 
 .platform-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
 
-.platform-banner {
-  height: 100px;
-  background: var(--platform-color, var(--dark-teal));
-  position: relative;
-  overflow: hidden;
-}
-
-.platform-banner::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  opacity: 0.2;
-  background-image: url('raa-brand/raa-pattern.png');
-  background-size: 300px auto;
-  background-repeat: repeat;
-  pointer-events: none;
-}
-
 .platform-body {
-  padding: 0 18px 18px;
+  padding: 18px;
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-.platform-header {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-top: -20px;
-  margin-bottom: 10px;
-  position: relative;
-  z-index: 1;
-}
+.platform-header { margin-bottom: 10px; }
 
-.platform-logo {
-  width: 44px; height: 44px; border-radius: 10px;
-  background: var(--bg-card);
-  border: 2px solid var(--bg-card);
-  box-shadow: var(--shadow);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px; flex-shrink: 0;
-}
-
-.platform-name { font-size: 15px; font-weight: 700; color: var(--dark-teal); margin-top: 28px; }
+.platform-name { font-size: 15px; font-weight: 700; color: var(--dark-teal); }
 .platform-desc {
   font-size: 12px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 14px; flex: 1;
   display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden;
@@ -1420,39 +1385,12 @@ body {
 .platform-link:hover { color: var(--green); }
 
 /* Platform profile modal */
-.plat-profile-banner {
-  height: 120px;
-  position: relative;
+.plat-profile-topbar {
+  height: 6px;
   border-radius: var(--radius) var(--radius) 0 0;
-  overflow: hidden;
 }
 
-.plat-profile-banner::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  opacity: 0.2;
-  background-image: url('raa-brand/raa-pattern.png');
-  background-size: 300px auto;
-  background-repeat: repeat;
-  pointer-events: none;
-}
-
-.plat-profile-logo {
-  width: 56px; height: 56px;
-  border-radius: 12px;
-  background: var(--bg-card);
-  border: 3px solid var(--bg-card);
-  box-shadow: var(--shadow-md);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 26px;
-  position: relative;
-  z-index: 1;
-  margin-top: -64px;
-  margin-bottom: 8px;
-}
-
-.plat-profile-body { padding: 36px 24px 24px; }
+.plat-profile-body { padding: 24px; }
 
 .plat-profile-name {
   font-size: 20px;
