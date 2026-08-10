@@ -79,12 +79,12 @@ body {
 .logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
   text-decoration: none;
 }
 
 .logo-img { height: 42px; width: auto; }
-.logo-img--raa { height: 34px; }
+.logo-img--raa { height: 38px; }
 .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
 .logo-title { font-family: 'Aktiv Grotesk', 'Inter', sans-serif; font-weight: 800; font-size: 16px; color: var(--white); letter-spacing: 0.3px; text-transform: uppercase; }
 .logo-subtitle { font-size: 10px; font-weight: 600; color: var(--green); letter-spacing: 2px; }
