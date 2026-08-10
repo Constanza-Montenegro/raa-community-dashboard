@@ -110,16 +110,16 @@ body {
   display: flex; align-items: center; gap: 8px;
   padding: 9px 18px;
   border-radius: 999px;
-  border: 1.5px solid var(--brown-gold);
+  border: 1.5px solid var(--grey);
   background: transparent;
   color: var(--brown-gold);
   font-size: 13px; font-weight: 600;
   cursor: pointer;
-  transition: background var(--t), color var(--t);
+  transition: background var(--t), color var(--t), border-color var(--t);
   font-family: inherit;
   white-space: nowrap;
 }
-.header-action-btn:hover { background: var(--brown-gold); color: white; }
+.header-action-btn:hover { background: var(--brown-gold); color: white; border-color: var(--brown-gold); }
 .header-action-btn.secondary { border-color: rgba(255,255,255,0.15); background: transparent; }
 .header-action-btn.secondary:hover { background: rgba(255,255,255,0.08); }
 
@@ -2982,14 +2982,14 @@ body {
   border-radius: 999px;
   font-size: 13px; font-weight: 600;
   cursor: pointer;
-  transition: background var(--t), color var(--t);
+  transition: background var(--t), color var(--t), border-color var(--t);
   font-family: inherit;
-  border: 1.5px solid var(--brown-gold);
+  border: 1.5px solid var(--grey);
   background: transparent;
   color: var(--brown-gold);
 }
 
-.get-involved-btn:hover { background: var(--brown-gold); color: white; }
+.get-involved-btn:hover { background: var(--brown-gold); color: white; border-color: var(--brown-gold); }
 
 .footer-bottom {
   display: flex;
