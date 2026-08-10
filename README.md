@@ -1,4 +1,4 @@
-# Riyadh Platform
+# RAA Community Platform
 
 Interactive platform for the land & soil community, built to showcase land restoration initiatives, partners, and platforms ahead of UNCCD COP17.
 

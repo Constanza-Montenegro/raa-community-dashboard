@@ -1,5 +1,5 @@
 // ============================================================
-// RAA COMMUNITY DASHBOARD — DATA LOADER
+// RAA COMMUNITY PLATFORM — DATA LOADER
 // Fetches live data from published Google Sheets CSVs
 // ============================================================
 

@@ -1,5 +1,5 @@
 // ============================================================
-// RAA COMMUNITY DASHBOARD — DATA LAYER
+// RAA COMMUNITY PLATFORM — DATA LAYER
 // All data is placeholder. Replace with real data when ready.
 // ============================================================
 
