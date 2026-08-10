@@ -676,12 +676,25 @@ document.querySelectorAll('.eco-tab').forEach(tab => {
 
 const ecoColors = { data: '#48966a', funding: '#F8AA41', knowledge: '#587da0' };
 
+const PLATFORM_CATEGORY_ICONS = {
+  data: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>',
+  funding: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.66 3.58 3 8 3s8-1.34 8-3V6"/><path d="M4 12v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/></svg>',
+  knowledge: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.5C2 4.67 2.67 4 3.5 4H10a2 2 0 0 1 2 2v14a1.5 1.5 0 0 0-1.5-1.5H2z"/><path d="M22 5.5c0-.83-.67-1.5-1.5-1.5H14a2 2 0 0 0-2 2v14a1.5 1.5 0 0 1 1.5-1.5H22z"/></svg>'
+};
+
+function platformCategoryIcon(categoryKey) {
+  return PLATFORM_CATEGORY_ICONS[categoryKey] || '';
+}
+
 function showPlatformProfile(p, color) {
   const objectives = p.objectives ? p.objectives.map(o => `<li>${o}</li>`).join('') : '';
   document.getElementById('platform-modal-body').innerHTML = `
     <div class="plat-profile-topbar" style="background:${color};"></div>
     <div class="plat-profile-body">
-      <h2 class="plat-profile-name">${p.name}</h2>
+      <div class="plat-profile-header">
+        <div class="plat-profile-icon" style="color:${color}">${platformCategoryIcon(p.categoryKey)}</div>
+        <h2 class="plat-profile-name">${p.name}</h2>
+      </div>
       <p class="plat-profile-desc">${p.description}</p>
       ${p.relevance ? `<div class="plat-profile-section"><h4>Relevance</h4><p>${p.relevance}</p></div>` : ''}
       ${objectives ? `<div class="plat-profile-section"><h4>Main Objectives</h4><ul>${objectives}</ul></div>` : ''}
@@ -702,6 +715,7 @@ function renderPlatforms(containerId, data, color) {
     card.innerHTML = `
       <div class="platform-body">
         <div class="platform-header">
+          <div class="platform-icon" style="color:${color}">${platformCategoryIcon(p.categoryKey)}</div>
           <div class="platform-name">${p.name}</div>
         </div>
         <div class="platform-desc">${p.description}</div>
