@@ -142,7 +142,11 @@ function addMarkers(map, usePanel) {
   // Chile-based initiatives all resolve to the same country centroid), which
   // otherwise stack invisibly on top of each other. Group overlapping/nearby pins
   // into a clustered badge (Leaflet.markercluster) that expands on click/zoom.
-  const cluster = L.markerClusterGroup({ maxClusterRadius: 40, iconCreateFunction: clusterIcon });
+  const cluster = L.markerClusterGroup({
+    maxClusterRadius: 40,
+    iconCreateFunction: clusterIcon,
+    spiderLegPolylineOptions: { weight: 0, opacity: 0 }
+  });
 
   initiatives.forEach(init => {
     if (!init.lat && !init.lng) return;
