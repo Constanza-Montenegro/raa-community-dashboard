@@ -575,7 +575,7 @@ function transformInitiativeRow(row) {
     id: row['Initiative ID'] || '',
     name: (row['Initiative name'] || '').trim(),
     partnerName: (row['Organization Name'] || '').trim(),
-    logo: LOCAL_LOGOS[row['Initiative ID']] || LOCAL_LOGOS[row['Initiative ID']?.split('-')[0]] || driveToImgUrl((row['Logo (link)'] || '').split(',')[0].trim()),
+    logo: LOCAL_LOGOS[row['Initiative ID']] || LOCAL_LOGOS[row['Initiative ID']?.split('-')[0]] || '',
     logo2: SECONDARY_LOGOS[row['Initiative ID']] || SECONDARY_LOGOS[row['Initiative ID']?.split('-')[0]] || '',
     website: ensureHttps(row['Link to website']),
     websites: extractAllUrls(row['Link to website']),
