@@ -127,15 +127,37 @@ function popupHtml(init) {
 }
 
 function addMarkers(map, usePanel) {
+  // Several initiatives can share the same country-level coordinate (e.g. several
+  // Chile-based initiatives all resolve to the same country centroid). Group them
+  // by exact coordinate and fan out overlapping pins in a small pixel-radius circle
+  // so each one is visible and clickable instead of stacking invisibly on top of
+  // each other.
+  const coordGroups = {};
   initiatives.forEach(init => {
     if (!init.lat && !init.lng) return;
-    const marker = L.marker([init.lat, init.lng], { icon: pinIcon(init.scope) })
-      .addTo(map);
-    if (usePanel) {
-      marker.on('click', () => showSidePanel(init));
-    } else {
-      marker.bindPopup(popupHtml(init), { className: 'map-popup', maxWidth: 280 });
-    }
+    const key = init.lat + ',' + init.lng;
+    (coordGroups[key] = coordGroups[key] || []).push(init);
+  });
+
+  Object.values(coordGroups).forEach(group => {
+    group.forEach((init, i) => {
+      let lat = init.lat, lng = init.lng;
+      if (group.length > 1) {
+        const angle = (2 * Math.PI * i) / group.length;
+        const radiusPx = 10 + Math.floor(i / 8) * 10;
+        const center = map.latLngToLayerPoint([init.lat, init.lng]);
+        const jitteredPoint = center.add([Math.cos(angle) * radiusPx, Math.sin(angle) * radiusPx]);
+        const jittered = map.layerPointToLatLng(jitteredPoint);
+        lat = jittered.lat; lng = jittered.lng;
+      }
+      const marker = L.marker([lat, lng], { icon: pinIcon(init.scope) })
+        .addTo(map);
+      if (usePanel) {
+        marker.on('click', () => showSidePanel(init));
+      } else {
+        marker.bindPopup(popupHtml(init), { className: 'map-popup', maxWidth: 280 });
+      }
+    });
   });
 }
 
