@@ -641,7 +641,11 @@ function computeFilterOptions(inits) {
     enabler: [...new Set(inits.flatMap(i => i.enablers))].filter(Boolean).sort(),
     actor: [...new Set(inits.map(i => i.actorType))].filter(Boolean).sort(),
     country: [...new Set(inits.map(i => i.country))].filter(Boolean).sort((a, b) => a.localeCompare(b)),
-    breakthrough: [...new Set(inits.map(i => i.breakthroughTarget))].filter(Boolean).sort()
+    breakthrough: [...new Set(inits.map(i => i.breakthroughTarget))].filter(Boolean).sort(),
+    // Self-reported "Geographic scope" from the form — the region(s) the partner
+    // themselves said the initiative belongs to, distinct from the country/HQ-based
+    // "region" used for the Country filter and Global Presence map.
+    geoScope: [...new Set(inits.flatMap(i => i.geographicScope))].filter(Boolean).sort()
   };
 }
 
