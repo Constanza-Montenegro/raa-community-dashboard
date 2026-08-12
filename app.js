@@ -126,39 +126,36 @@ function popupHtml(init) {
   </div>`;
 }
 
+function clusterIcon(cluster) {
+  const count = cluster.getChildCount();
+  const size = count < 10 ? 32 : count < 50 ? 38 : 44;
+  const fontSize = count < 10 ? 12 : 13;
+  return L.divIcon({
+    html: `<div style="width:${size}px;height:${size}px;border-radius:50%;background:var(--dark-teal);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-weight:700;font-size:${fontSize}px;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.3);">${count}</div>`,
+    className: 'raa-cluster-icon',
+    iconSize: L.point(size, size)
+  });
+}
+
 function addMarkers(map, usePanel) {
   // Several initiatives can share the same country-level coordinate (e.g. several
-  // Chile-based initiatives all resolve to the same country centroid). Group them
-  // by exact coordinate and fan out overlapping pins in a small pixel-radius circle
-  // so each one is visible and clickable instead of stacking invisibly on top of
-  // each other.
-  const coordGroups = {};
+  // Chile-based initiatives all resolve to the same country centroid), which
+  // otherwise stack invisibly on top of each other. Group overlapping/nearby pins
+  // into a clustered badge (Leaflet.markercluster) that expands on click/zoom.
+  const cluster = L.markerClusterGroup({ maxClusterRadius: 40, iconCreateFunction: clusterIcon });
+
   initiatives.forEach(init => {
     if (!init.lat && !init.lng) return;
-    const key = init.lat + ',' + init.lng;
-    (coordGroups[key] = coordGroups[key] || []).push(init);
+    const marker = L.marker([init.lat, init.lng], { icon: pinIcon(init.scope) });
+    if (usePanel) {
+      marker.on('click', () => showSidePanel(init));
+    } else {
+      marker.bindPopup(popupHtml(init), { className: 'map-popup', maxWidth: 280 });
+    }
+    cluster.addLayer(marker);
   });
 
-  Object.values(coordGroups).forEach(group => {
-    group.forEach((init, i) => {
-      let lat = init.lat, lng = init.lng;
-      if (group.length > 1) {
-        const angle = (2 * Math.PI * i) / group.length;
-        const radiusPx = 10 + Math.floor(i / 8) * 10;
-        const center = map.latLngToLayerPoint([init.lat, init.lng]);
-        const jitteredPoint = center.add([Math.cos(angle) * radiusPx, Math.sin(angle) * radiusPx]);
-        const jittered = map.layerPointToLatLng(jitteredPoint);
-        lat = jittered.lat; lng = jittered.lng;
-      }
-      const marker = L.marker([lat, lng], { icon: pinIcon(init.scope) })
-        .addTo(map);
-      if (usePanel) {
-        marker.on('click', () => showSidePanel(init));
-      } else {
-        marker.bindPopup(popupHtml(init), { className: 'map-popup', maxWidth: 280 });
-      }
-    });
-  });
+  map.addLayer(cluster);
 }
 
 function initOverviewMap() {
