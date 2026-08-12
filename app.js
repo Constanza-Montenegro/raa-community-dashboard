@@ -108,8 +108,8 @@ function pinIcon(scope) {
   const c = scopeColors[scope] || '#48966a';
   return L.divIcon({
     className: 'custom-pin',
-    html: `<svg viewBox="0 0 28 36" width="26" height="34"><path d="M14 0C6.3 0 0 6.3 0 14c0 10.5 14 22 14 22s14-11.5 14-22C28 6.3 21.7 0 14 0z" fill="${c}"/><circle cx="14" cy="13" r="5" fill="white" opacity="0.9"/></svg>`,
-    iconSize: [26, 34], iconAnchor: [13, 34], popupAnchor: [0, -34]
+    html: `<svg viewBox="0 0 28 36" width="18" height="23"><path d="M14 0C6.3 0 0 6.3 0 14c0 10.5 14 22 14 22s14-11.5 14-22C28 6.3 21.7 0 14 0z" fill="${c}"/><circle cx="14" cy="13" r="5" fill="white" opacity="0.9"/></svg>`,
+    iconSize: [18, 23], iconAnchor: [9, 23], popupAnchor: [0, -23]
   });
 }
 
