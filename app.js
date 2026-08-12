@@ -126,36 +126,67 @@ function popupHtml(init) {
   </div>`;
 }
 
-function clusterIcon(cluster) {
-  const count = cluster.getChildCount();
-  const size = count < 10 ? 32 : count < 50 ? 38 : 44;
-  const fontSize = count < 10 ? 12 : 13;
-  return L.divIcon({
-    html: `<div style="width:${size}px;height:${size}px;border-radius:50%;background:var(--dark-teal);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-weight:700;font-size:${fontSize}px;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.3);">${count}</div>`,
-    className: 'raa-cluster-icon',
-    iconSize: L.point(size, size)
-  });
+// Deterministic pseudo-random in [0, 1) from a string seed, so the same
+// initiative always jitters to the same spot across page loads/renders.
+function seededRandom(seed) {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) { h = (h * 31 + seed.charCodeAt(i)) >>> 0; }
+  return (h % 100000) / 100000;
 }
+
+// Default scatter is a circle around the country centroid — fine for roughly
+// round/compact countries, but it overshoots into neighboring countries for
+// narrow, elongated ones (a circular scatter for Chile pushes pins east into
+// Argentina). Override the scatter ellipse's lat/lng radius (in degrees) here
+// for countries where that matters — bigger radius along the country's long axis,
+// smaller across its narrow axis.
+const COUNTRY_JITTER_SHAPE = {
+  'Chile': { latDeg: 7, lngDeg: 0.7 },
+  'Norway': { latDeg: 6, lngDeg: 1.3 },
+  'Vietnam': { latDeg: 5, lngDeg: 1 },
+  'Italy': { latDeg: 4, lngDeg: 1.3 },
+  'Japan': { latDeg: 5, lngDeg: 2 },
+  'Philippines': { latDeg: 4, lngDeg: 2.2 },
+  'Indonesia': { latDeg: 2.2, lngDeg: 6 },
+  'Argentina': { latDeg: 7, lngDeg: 2 }
+};
+const DEFAULT_JITTER_SHAPE = { latDeg: 4, lngDeg: 4 };
 
 function addMarkers(map, usePanel) {
   // Several initiatives can share the same country-level coordinate (e.g. several
   // Chile-based initiatives all resolve to the same country centroid), which
-  // otherwise stack invisibly on top of each other. Group overlapping/nearby pins
-  // into a clustered badge (Leaflet.markercluster) that expands on click/zoom.
-  const cluster = L.markerClusterGroup({ maxClusterRadius: 40, iconCreateFunction: clusterIcon });
-
+  // otherwise stack invisibly on top of each other. Scatter them to different
+  // points within the country's general area (real lat/lng jitter, not a fixed
+  // on-screen pixel offset) so they read as spread across the country at any zoom.
+  const coordGroups = {};
   initiatives.forEach(init => {
     if (!init.lat && !init.lng) return;
-    const marker = L.marker([init.lat, init.lng], { icon: pinIcon(init.scope) });
-    if (usePanel) {
-      marker.on('click', () => showSidePanel(init));
-    } else {
-      marker.bindPopup(popupHtml(init), { className: 'map-popup', maxWidth: 280 });
-    }
-    cluster.addLayer(marker);
+    const key = init.lat + ',' + init.lng;
+    (coordGroups[key] = coordGroups[key] || []).push(init);
   });
 
-  map.addLayer(cluster);
+  Object.values(coordGroups).forEach(group => {
+    group.forEach(init => {
+      let lat = init.lat, lng = init.lng;
+      if (group.length > 1) {
+        const shape = COUNTRY_JITTER_SHAPE[init.country] || DEFAULT_JITTER_SHAPE;
+        const angle = seededRandom(init.id + '-a') * 2 * Math.PI;
+        const dist = seededRandom(init.id + '-r');
+        // Longitude degrees shrink toward the poles — widen the east/west spread
+        // so it still reads as a comparable ground distance to the north/south spread.
+        const lngScale = 1 / Math.max(0.3, Math.cos(init.lat * Math.PI / 180));
+        lat = init.lat + Math.sin(angle) * dist * shape.latDeg;
+        lng = init.lng + Math.cos(angle) * dist * shape.lngDeg * lngScale;
+      }
+      const marker = L.marker([lat, lng], { icon: pinIcon(init.scope) })
+        .addTo(map);
+      if (usePanel) {
+        marker.on('click', () => showSidePanel(init));
+      } else {
+        marker.bindPopup(popupHtml(init), { className: 'map-popup', maxWidth: 280 });
+      }
+    });
+  });
 }
 
 function initOverviewMap() {
