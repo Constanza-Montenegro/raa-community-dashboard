@@ -1170,7 +1170,8 @@ async function initApp() {
   // Render overview partners — logos only, marquee style (only partners with real logos)
   const overviewPartners = document.getElementById('overview-partners');
   overviewPartners.innerHTML = '';
-  const partnersWithLogo = window.partners.filter(p => p.logo && p.logo.startsWith('logos/'));
+  const LOGO_CAROUSEL_EXCLUDE = ['P151'];
+  const partnersWithLogo = window.partners.filter(p => p.logo && p.logo.startsWith('logos/') && !LOGO_CAROUSEL_EXCLUDE.includes(p.id));
   const seenLogos = new Set();
   const uniquePartners = partnersWithLogo.filter(p => { if (seenLogos.has(p.logo)) return false; seenLogos.add(p.logo); return true; });
   const partnerList = [...uniquePartners, ...uniquePartners];
