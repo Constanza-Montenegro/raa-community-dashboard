@@ -160,6 +160,15 @@ function addMarkers(map, usePanel) {
   });
 
   map.addLayer(cluster);
+
+  // Toggle UX: clicking an already-spiderfied cluster's badge again collapses it back.
+  // Registered after addLayer so it fires after markercluster's own click handler
+  // (which no-ops when re-spiderfying an already-spiderfied cluster).
+  cluster.on('clusterclick', (e) => {
+    if (cluster._spiderfied === e.layer) {
+      e.layer.unspiderfy();
+    }
+  });
 }
 
 function initOverviewMap() {
