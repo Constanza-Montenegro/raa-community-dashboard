@@ -622,7 +622,7 @@ function showProfile(name, showDirectoryBtn) {
     <div class="pro-body">
       <div class="pro-title-row">
         <h2 class="pro-name">${init.name}</h2>
-        <div class="pro-subtitle">${init.partnerName}${init.country ? ' &middot; ' + init.flag + ' ' + init.country : ''}</div>
+        <div class="pro-subtitle">${init.partnerName}${init.country ? ' &middot; Organization based in ' + init.flag + ' ' + init.country : ''}</div>
       </div>
       ${stamps ? `<div class="pro-stamps">${stamps}</div>` : ''}
       ${ctas ? `<div class="pro-ctas">${ctas}</div>` : ''}
