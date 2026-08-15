@@ -355,6 +355,8 @@ function renderInitiatives() {
     return true;
   });
 
+  filtered.sort((a, b) => a.name.localeCompare(b.name));
+
   if (countEl) {
     const hasFilters = idSearchQuery || Object.values(activeFilters).some(v => v.length > 0);
     countEl.textContent = hasFilters
