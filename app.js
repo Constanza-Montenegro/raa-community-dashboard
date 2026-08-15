@@ -145,7 +145,8 @@ function addMarkers(map, usePanel) {
   const cluster = L.markerClusterGroup({
     maxClusterRadius: 40,
     iconCreateFunction: clusterIcon,
-    spiderLegPolylineOptions: { weight: 0, opacity: 0 }
+    spiderLegPolylineOptions: { weight: 0, opacity: 0 },
+    showCoverageOnHover: false
   });
 
   initiatives.forEach(init => {
