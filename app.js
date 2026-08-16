@@ -1047,9 +1047,9 @@ function animateCounters() {
   animateGoalNum('goal-land-achieved', landAchieved, '', ' Ha');
   animateGoalNum('goal-land-projected', landProjected, '', ' Ha');
 
-  // Drought Resilience goals — fed by inland waters conserved
-  const droughtAchieved = initiatives.reduce((s, i) => s + (i.inlandWatersConserved || 0), 0);
-  const droughtProjected = initiatives.reduce((s, i) => s + (i.inlandWatersToBeConserved || 0), 0);
+  // Drought Resilience goals — fed by inland waters restored + conserved
+  const droughtAchieved = initiatives.reduce((s, i) => s + (i.inlandWatersRestoration || 0) + (i.inlandWatersConserved || 0), 0);
+  const droughtProjected = initiatives.reduce((s, i) => s + (i.inlandWatersToBeRestored || 0) + (i.inlandWatersToBeConserved || 0), 0);
   animateGoalNum('goal-drought-achieved', droughtAchieved, '', ' Ha');
   animateGoalNum('goal-drought-projected', droughtProjected, '', ' Ha');
 
