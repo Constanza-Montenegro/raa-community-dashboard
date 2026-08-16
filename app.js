@@ -1115,6 +1115,7 @@ async function initApp() {
   const totalInit = initiatives.length;
   const totalCountries = new Set(initiatives.map(i => i.country)).size;
   const metricHa       = initiatives.reduce((s, i) => s + (i.haUnderRestoration || 0) + (i.haConserved || 0), 0);
+  const metricDrought  = initiatives.reduce((s, i) => s + (i.inlandWatersRestoration || 0) + (i.inlandWatersConserved || 0), 0);
   const metricPeople   = initiatives.reduce((s, i) => s + (i.peopleBenefited || 0), 0);
   const metricFinance  = initiatives.reduce((s, i) => s + (i.financialMobilized || 0), 0);
 
@@ -1389,6 +1390,7 @@ async function initApp() {
   const dynInit = initiatives.length;
   const dynCountries = new Set(initiatives.map(i => i.country)).size;
   const dynHa = metricHa;
+  const dynDrought = metricDrought;
   const dynActors = new Set(initiatives.map(i => i.actorType)).size;
 
   function formatHa(ha) {
@@ -1410,12 +1412,14 @@ async function initApp() {
   // Snapshot overview cards
   const snapInit = document.getElementById('snap-initiatives');
   const snapHectares = document.getElementById('snap-hectares');
+  const snapDrought = document.getElementById('snap-drought');
   const snapFinance = document.getElementById('snap-finance');
   const snapPeople = document.getElementById('snap-people');
   const dynPeople = metricPeople;
   const dynFinance = metricFinance;
   if (snapInit) snapInit.textContent = dynInit + '+';
   if (snapHectares) snapHectares.textContent = formatHa(dynHa) + '+';
+  if (snapDrought) snapDrought.textContent = dynDrought > 0 ? formatHa(dynDrought) + '+' : '--';
   if (snapFinance) snapFinance.textContent = dynFinance > 0 ? 'USD$' + formatHa(dynFinance) : '--';
   if (snapPeople) snapPeople.textContent = dynPeople > 0 ? formatHa(dynPeople) + '+' : '--';
 
