@@ -595,11 +595,14 @@ function showProfile(name, showDirectoryBtn) {
     if (haActiveParts >= 2) {
       addDetail('Ha Under Restoration', init.haUnderRestoration, '', ' Ha');
       addDetail('Ha Conserved', init.haConserved, '', ' Ha');
-      addDetail('Inland Waters', init.inlandWatersRestoration, '', ' Ha');
+      addDetail('Inland Waters Under Restoration', init.inlandWatersRestoration, '', ' Ha');
+      addDetail('Inland Waters Conserved', init.inlandWatersConserved, '', ' Ha');
     }
     if (haPlannedParts >= 2) {
       addDetail('Ha to Restore', init.haToBeRestored, '', ' Ha');
       addDetail('Ha to Conserve', init.haToBeConserved, '', ' Ha');
+      addDetail('Inland Waters to Restore', init.inlandWatersToBeRestored, '', ' Ha');
+      addDetail('Inland Waters to Conserve', init.inlandWatersToBeConserved, '', ' Ha');
     }
     if (init.howPeopleBenefited) details += `<div class="pro-detail-num full"><span class="pro-detail-label">How people are being benefited</span><span class="pro-detail-value">${init.howPeopleBenefited}</span></div>`;
     if (init.howPeopleWillBeBenefited) details += `<div class="pro-detail-num full"><span class="pro-detail-label">How people will be benefited</span><span class="pro-detail-value">${init.howPeopleWillBeBenefited}</span></div>`;
