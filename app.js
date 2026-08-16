@@ -529,15 +529,13 @@ function showProfile(name, showDirectoryBtn) {
 
   // Impact numbers (respect disclosure flags)
   let impactsAchieved = '', impactsProjected = '';
-  function addImpact(value, label, color, tooltip) {
+  function addImpact(value, label, color, prefix) {
     if (!value || value === 0) return;
-    const info = tooltip ? `<span class="pro-impact-info" title="${tooltip}">i</span>` : '';
-    impactsAchieved += `<div class="pro-impact" style="--impact-color:${color}"><div class="pro-impact-num">${formatNumber(value)}</div><div class="pro-impact-label">${label}${info}</div></div>`;
+    impactsAchieved += `<div class="pro-impact" style="--impact-color:${color}"><div class="pro-impact-num">${prefix || ''}${formatNumber(value)}</div><div class="pro-impact-label">${label}</div></div>`;
   }
-  function addImpactProjected(value, label, color, tooltip) {
+  function addImpactProjected(value, label, color, prefix) {
     if (!value || value === 0) return;
-    const info = tooltip ? `<span class="pro-impact-info" title="${tooltip}">i</span>` : '';
-    impactsProjected += `<div class="pro-impact-projected" style="--impact-color:${color}"><div class="pro-impact-num">${formatNumber(value)}</div><div class="pro-impact-label">${label}${info}</div></div>`;
+    impactsProjected += `<div class="pro-impact-projected" style="--impact-color:${color}"><div class="pro-impact-num">${prefix || ''}${formatNumber(value)}</div><div class="pro-impact-label">${label}</div></div>`;
   }
   let haActiveParts = 0, haPlannedParts = 0;
   if (init.canDisclose31) {
@@ -545,14 +543,14 @@ function showProfile(name, showDirectoryBtn) {
     haPlannedParts = [init.haToBeRestored, init.haToBeConserved, init.inlandWatersToBeRestored, init.inlandWatersToBeConserved].filter(v => v > 0).length;
     const haActive = (init.haUnderRestoration || 0) + (init.haConserved || 0) + (init.inlandWatersRestoration || 0) + (init.inlandWatersConserved || 0);
     const haPlanned = (init.haToBeRestored || 0) + (init.haToBeConserved || 0) + (init.inlandWatersToBeRestored || 0) + (init.inlandWatersToBeConserved || 0);
-    addImpact(haActive, 'Ha Under Action', '#48966a', haActiveParts >= 2 ? 'Sum of Ha under restoration + Ha conserved (see breakdown below)' : '');
-    addImpactProjected(haPlanned, 'Ha Projected', '#48966a', haPlannedParts >= 2 ? 'Sum of Ha to restore + Ha to conserve (see breakdown below)' : '');
+    addImpact(haActive, 'Ha Under Action', '#48966a');
+    addImpactProjected(haPlanned, 'Ha Projected', '#48966a');
     addImpact(init.peopleBenefited, 'People Benefited', '#587da0');
     addImpactProjected(init.peopleToBeBenefited, 'People to Benefit', '#587da0');
   }
   if (init.canDisclose33) {
-    addImpact(init.financialMobilized, 'USD Already Mobilized', '#c49a3c');
-    addImpactProjected(init.financialToMobilize, 'USD to be Mobilized', '#c49a3c');
+    addImpact(init.financialMobilized, 'Already Mobilized', '#c49a3c', 'USD$');
+    addImpactProjected(init.financialToMobilize, 'To be Mobilized', '#c49a3c', 'USD$');
   }
 
   // Description (collapsible if long)
@@ -607,6 +605,8 @@ function showProfile(name, showDirectoryBtn) {
     if (init.howPeopleBenefited) details += `<div class="pro-detail-num full"><span class="pro-detail-label">How people are being benefited</span><span class="pro-detail-value">${init.howPeopleBenefited}</span></div>`;
     if (init.howPeopleWillBeBenefited) details += `<div class="pro-detail-num full"><span class="pro-detail-label">How people will be benefited</span><span class="pro-detail-value">${init.howPeopleWillBeBenefited}</span></div>`;
   }
+  const detailsNote = (haActiveParts >= 2 || haPlannedParts >= 2)
+    ? `<p class="pro-details-note">Together, the Ha figures below add up to the totals shown in the summary above.</p>` : '';
   // Finance and People Benefited/to Benefit are single-value fields (never a sum of
   // sub-components), so they're only shown once, in the colored summary cards above —
   // repeating them here would always be an exact duplicate.
@@ -650,7 +650,7 @@ function showProfile(name, showDirectoryBtn) {
       ${impactsAchieved ? `<div class="pro-impacts">${impactsAchieved}</div>` : ''}
       ${impactsProjected ? `<div class="pro-impacts pro-impacts--projected">${impactsProjected}</div>` : ''}
       ${primary ? `<div class="pro-primary">${primary}</div>` : ''}
-      ${details ? `<div class="pro-details-grid">${details}</div>` : ''}
+      ${details ? `${detailsNote}<div class="pro-details-grid">${details}</div>` : ''}
       ${secondary ? `<div class="pro-secondary">${secondary}</div>` : ''}
       ${(() => {
         const active = init.rioSynergies || [];
@@ -1057,8 +1057,8 @@ function animateCounters() {
   // disclosure flag only affects visibility on individual profile cards, not snapshot totals)
   const finAchieved = initiatives.reduce((s, i) => s + (i.financialMobilized || 0), 0);
   const finProjected = initiatives.reduce((s, i) => s + (i.financialToMobilize || 0), 0);
-  animateGoalNum('goal-finance-achieved', finAchieved, 'US$');
-  animateGoalNum('goal-finance-projected', finProjected, 'US$');
+  animateGoalNum('goal-finance-achieved', finAchieved, 'USD$');
+  animateGoalNum('goal-finance-projected', finProjected, 'USD$');
 
   // Bar fills animate with stagger
   setTimeout(() => {
@@ -1416,7 +1416,7 @@ async function initApp() {
   const dynFinance = metricFinance;
   if (snapInit) snapInit.textContent = dynInit + '+';
   if (snapHectares) snapHectares.textContent = formatHa(dynHa) + '+';
-  if (snapFinance) snapFinance.textContent = dynFinance > 0 ? 'US$' + formatHa(dynFinance) : '--';
+  if (snapFinance) snapFinance.textContent = dynFinance > 0 ? 'USD$' + formatHa(dynFinance) : '--';
   if (snapPeople) snapPeople.textContent = dynPeople > 0 ? formatHa(dynPeople) + '+' : '--';
 
   // Animate hero count-up (for overview hero)
