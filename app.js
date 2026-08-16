@@ -1130,7 +1130,7 @@ async function initApp() {
     if (label === 'Initiatives') { el.dataset.count = totalInit; el.dataset.suffix = ''; }
     if (label === 'Countries') { el.dataset.count = totalCountries; el.dataset.suffix = ''; }
     if (label === 'Hectares') {
-      const f = fmtHero(metricHa);
+      const f = fmtHero(metricHa + metricDrought);
       el.dataset.count = f.val; el.dataset.suffix = f.suffix; el.dataset.decimal = f.decimal;
     }
   });
@@ -1407,7 +1407,7 @@ async function initApp() {
   const heroHectares = document.getElementById('hero-hectares');
   if (heroInit) heroInit.textContent = dynInit;
   if (heroCountries) heroCountries.textContent = dynCountries;
-  if (heroHectares) heroHectares.textContent = formatHa(dynHa);
+  if (heroHectares) heroHectares.textContent = formatHa(dynHa + dynDrought);
 
   // Snapshot overview cards
   const snapInit = document.getElementById('snap-initiatives');
