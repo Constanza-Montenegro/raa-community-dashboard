@@ -539,9 +539,10 @@ function showProfile(name, showDirectoryBtn) {
     const info = tooltip ? `<span class="pro-impact-info" title="${tooltip}">i</span>` : '';
     impactsProjected += `<div class="pro-impact-projected" style="--impact-color:${color}"><div class="pro-impact-num">${formatNumber(value)}</div><div class="pro-impact-label">${label}${info}</div></div>`;
   }
+  let haActiveParts = 0, haPlannedParts = 0;
   if (init.canDisclose31) {
-    const haActiveParts = [init.haUnderRestoration, init.haConserved, init.inlandWatersRestoration, init.inlandWatersConserved].filter(v => v > 0).length;
-    const haPlannedParts = [init.haToBeRestored, init.haToBeConserved, init.inlandWatersToBeRestored, init.inlandWatersToBeConserved].filter(v => v > 0).length;
+    haActiveParts = [init.haUnderRestoration, init.haConserved, init.inlandWatersRestoration, init.inlandWatersConserved].filter(v => v > 0).length;
+    haPlannedParts = [init.haToBeRestored, init.haToBeConserved, init.inlandWatersToBeRestored, init.inlandWatersToBeConserved].filter(v => v > 0).length;
     const haActive = (init.haUnderRestoration || 0) + (init.haConserved || 0) + (init.inlandWatersRestoration || 0) + (init.inlandWatersConserved || 0);
     const haPlanned = (init.haToBeRestored || 0) + (init.haToBeConserved || 0) + (init.inlandWatersToBeRestored || 0) + (init.inlandWatersToBeConserved || 0);
     addImpact(haActive, 'Ha Under Action', '#48966a', haActiveParts >= 2 ? 'Sum of Ha under restoration + Ha conserved (see breakdown below)' : '');
