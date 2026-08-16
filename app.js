@@ -529,25 +529,29 @@ function showProfile(name, showDirectoryBtn) {
 
   // Impact numbers (respect disclosure flags)
   let impactsAchieved = '', impactsProjected = '';
-  function addImpact(value, label, color) {
+  function addImpact(value, label, color, tooltip) {
     if (!value || value === 0) return;
-    impactsAchieved += `<div class="pro-impact" style="--impact-color:${color}"><div class="pro-impact-num">${formatNumber(value)}</div><div class="pro-impact-label">${label}</div></div>`;
+    const info = tooltip ? `<span class="pro-impact-info" title="${tooltip}">i</span>` : '';
+    impactsAchieved += `<div class="pro-impact" style="--impact-color:${color}"><div class="pro-impact-num">${formatNumber(value)}</div><div class="pro-impact-label">${label}${info}</div></div>`;
   }
-  function addImpactProjected(value, label, color) {
+  function addImpactProjected(value, label, color, tooltip) {
     if (!value || value === 0) return;
-    impactsProjected += `<div class="pro-impact-projected" style="--impact-color:${color}"><div class="pro-impact-num">${formatNumber(value)}</div><div class="pro-impact-label">${label}</div></div>`;
+    const info = tooltip ? `<span class="pro-impact-info" title="${tooltip}">i</span>` : '';
+    impactsProjected += `<div class="pro-impact-projected" style="--impact-color:${color}"><div class="pro-impact-num">${formatNumber(value)}</div><div class="pro-impact-label">${label}${info}</div></div>`;
   }
   if (init.canDisclose31) {
+    const haActiveParts = [init.haUnderRestoration, init.haConserved, init.inlandWatersRestoration, init.inlandWatersConserved].filter(v => v > 0).length;
+    const haPlannedParts = [init.haToBeRestored, init.haToBeConserved, init.inlandWatersToBeRestored, init.inlandWatersToBeConserved].filter(v => v > 0).length;
     const haActive = (init.haUnderRestoration || 0) + (init.haConserved || 0) + (init.inlandWatersRestoration || 0) + (init.inlandWatersConserved || 0);
     const haPlanned = (init.haToBeRestored || 0) + (init.haToBeConserved || 0) + (init.inlandWatersToBeRestored || 0) + (init.inlandWatersToBeConserved || 0);
-    addImpact(haActive, 'Ha Under Action', '#48966a');
-    addImpactProjected(haPlanned, 'Ha Projected', '#48966a');
+    addImpact(haActive, 'Ha Under Action', '#48966a', haActiveParts >= 2 ? 'Sum of Ha under restoration + Ha conserved (see breakdown below)' : '');
+    addImpactProjected(haPlanned, 'Ha Projected', '#48966a', haPlannedParts >= 2 ? 'Sum of Ha to restore + Ha to conserve (see breakdown below)' : '');
     addImpact(init.peopleBenefited, 'People Benefited', '#587da0');
     addImpactProjected(init.peopleToBeBenefited, 'People to Benefit', '#587da0');
   }
   if (init.canDisclose33) {
-    addImpact(init.financialMobilized, 'Already Mobilized', '#c49a3c');
-    addImpactProjected(init.financialToMobilize, 'Finance to Mobilize', '#c49a3c');
+    addImpact(init.financialMobilized, 'USD Already Mobilized', '#c49a3c');
+    addImpactProjected(init.financialToMobilize, 'USD to be Mobilized', '#c49a3c');
   }
 
   // Description (collapsible if long)
@@ -584,22 +588,24 @@ function showProfile(name, showDirectoryBtn) {
     details += `<div class="pro-detail-num"><span class="pro-detail-label">${label}</span><span class="pro-detail-value">${prefix || ''}${formatNumber(value)}${suffix || ''}</span></div>`;
   }
   // 3.1 & 3.2: Land, water, people
+  // Ha breakdown only shown when 2+ sub-components make up the top summary card —
+  // otherwise the single published number would just repeat what's already shown above.
   if (init.canDisclose31) {
-    addDetail('Ha Under Restoration', init.haUnderRestoration, '', ' Ha');
-    addDetail('Ha Conserved', init.haConserved, '', ' Ha');
-    addDetail('Inland Waters', init.inlandWatersRestoration, '', ' Ha');
-    addDetail('Ha to Restore', init.haToBeRestored, '', ' Ha');
-    addDetail('Ha to Conserve', init.haToBeConserved, '', ' Ha');
-    addDetail('People Benefited', init.peopleBenefited, '', '');
-    addDetail('People to Benefit', init.peopleToBeBenefited, '', '');
+    if (haActiveParts >= 2) {
+      addDetail('Ha Under Restoration', init.haUnderRestoration, '', ' Ha');
+      addDetail('Ha Conserved', init.haConserved, '', ' Ha');
+      addDetail('Inland Waters', init.inlandWatersRestoration, '', ' Ha');
+    }
+    if (haPlannedParts >= 2) {
+      addDetail('Ha to Restore', init.haToBeRestored, '', ' Ha');
+      addDetail('Ha to Conserve', init.haToBeConserved, '', ' Ha');
+    }
     if (init.howPeopleBenefited) details += `<div class="pro-detail-num full"><span class="pro-detail-label">How people are being benefited</span><span class="pro-detail-value">${init.howPeopleBenefited}</span></div>`;
     if (init.howPeopleWillBeBenefited) details += `<div class="pro-detail-num full"><span class="pro-detail-label">How people will be benefited</span><span class="pro-detail-value">${init.howPeopleWillBeBenefited}</span></div>`;
   }
-  // 3.3: Finance
-  if (init.canDisclose33) {
-    addDetail('Finance Mobilized', init.financialMobilized, 'USD ', '');
-    addDetail('Finance to Mobilize', init.financialToMobilize, 'USD ', '');
-  }
+  // Finance and People Benefited/to Benefit are single-value fields (never a sum of
+  // sub-components), so they're only shown once, in the colored summary cards above —
+  // repeating them here would always be an exact duplicate.
 
   // Secondary compact info
   let secondary = '';
