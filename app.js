@@ -395,7 +395,7 @@ function renderInitiatives() {
           <span class="card-name">${init.name}</span>
         </div>
       </div>
-      <div class="card-country"><span class="card-meta-label">Organization based in</span> <span class="flag">${init.flag}</span> ${init.country} <span class="card-scope-text ${sc}"><span class="card-meta-label">Scope:</span> <svg width="11" height="14" viewBox="0 0 28 36" fill="currentColor" style="vertical-align:-2px;margin-right:4px;"><path d="M14 0C6.3 0 0 6.3 0 14c0 10.5 14 22 14 22s14-11.5 14-22C28 6.3 21.7 0 14 0z"/><circle cx="14" cy="13" r="5" fill="white" opacity="0.9"/></svg>${init.scope}</span></div>
+      <div class="card-country">${init.country ? `<span class="card-meta-label">Organization based in</span> <span class="flag">${init.flag}</span> ${init.country}` : ''} <span class="card-scope-text ${sc}"><span class="card-meta-label">Scope:</span> <svg width="11" height="14" viewBox="0 0 28 36" fill="currentColor" style="vertical-align:-2px;margin-right:4px;"><path d="M14 0C6.3 0 0 6.3 0 14c0 10.5 14 22 14 22s14-11.5 14-22C28 6.3 21.7 0 14 0z"/><circle cx="14" cy="13" r="5" fill="white" opacity="0.9"/></svg>${init.scope}</span></div>
       <div class="card-stamps">${stamps.join('')}</div>
       ${priorities ? `<div class="card-priorities">${priorities}</div>` : ''}
       <div class="card-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
@@ -1180,7 +1180,7 @@ async function initApp() {
           <span class="card-name">${init.name}</span>
         </div>
       </div>
-      <div class="card-country"><span class="card-meta-label">Organization based in</span> <span class="flag">${init.flag}</span> ${init.country} <span class="card-scope-text ${sc}"><span class="card-meta-label">Scope:</span> <svg width="11" height="14" viewBox="0 0 28 36" fill="currentColor" style="vertical-align:-2px;margin-right:4px;"><path d="M14 0C6.3 0 0 6.3 0 14c0 10.5 14 22 14 22s14-11.5 14-22C28 6.3 21.7 0 14 0z"/><circle cx="14" cy="13" r="5" fill="white" opacity="0.9"/></svg>${init.scope}</span></div>
+      <div class="card-country">${init.country ? `<span class="card-meta-label">Organization based in</span> <span class="flag">${init.flag}</span> ${init.country}` : ''} <span class="card-scope-text ${sc}"><span class="card-meta-label">Scope:</span> <svg width="11" height="14" viewBox="0 0 28 36" fill="currentColor" style="vertical-align:-2px;margin-right:4px;"><path d="M14 0C6.3 0 0 6.3 0 14c0 10.5 14 22 14 22s14-11.5 14-22C28 6.3 21.7 0 14 0z"/><circle cx="14" cy="13" r="5" fill="white" opacity="0.9"/></svg>${init.scope}</span></div>
     `;
     card.addEventListener('click', (e) => {
       e.stopPropagation();
