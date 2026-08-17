@@ -550,7 +550,10 @@ const LOCAL_LOGOS = {
   'P152': 'logos/logo-P152.png',
   'P153': 'logos/logo-P153.jpg',
   'P041': 'logos/logo-P041.png',
-  'P131': 'logos/logo-P131.png'
+  'P131': 'logos/logo-P131.png',
+  'P095': 'logos/logo-P095.png',
+  'P098': 'logos/logo-P098.png',
+  'P144': 'logos/logo-P144.jpg'
 };
 
 // ---- SECONDARY LOGOS ----
