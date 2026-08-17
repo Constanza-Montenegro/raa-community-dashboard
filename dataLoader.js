@@ -352,6 +352,7 @@ const COUNTRY_ALIASES = {
   'Mexico City / Mexico': 'Mexico',
   'UAE': 'United Arab Emirates',
   'U.A.E.': 'United Arab Emirates',
+  'Brasil': 'Brazil',
 };
 
 function lookupCountry(countryName) {
