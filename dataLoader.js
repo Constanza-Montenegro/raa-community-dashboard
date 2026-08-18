@@ -555,7 +555,15 @@ const LOCAL_LOGOS = {
   'P098': 'logos/logo-P098.png',
   'P144': 'logos/logo-P144.jpg',
   'P157': 'logos/logo-P157.png',
-  'P145': 'logos/logo-P145.png'
+  'P145': 'logos/logo-P145.png',
+  'P054-I182': 'logos/logo-P054-I182.png',
+  'P132': 'logos/logo-P132.jpg',
+  'P159': 'logos/logo-P159.png',
+  'P167': 'logos/logo-P167.png',
+  'P171': 'logos/logo-P171.png',
+  'P173': 'logos/logo-P173.jpg',
+  'P178': 'logos/logo-P178.png',
+  'P180': 'logos/logo-P180.jpg'
 };
 
 // ---- SECONDARY LOGOS ----
