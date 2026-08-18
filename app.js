@@ -19,6 +19,13 @@ function formatNumber(n) {
   return String(n);
 }
 
+// The Nature Conservancy (P169-I198) reports its own global-scale 2030 target (650M Ha to
+// conserve, 30M Ha of inland waters to conserve) — a worldwide commitment figure, not
+// directly-additive local hectares. Summed with every other initiative it would swamp every
+// platform-wide Ha total, the same category of issue as UCLG's global reach figure for People
+// Benefited. Excluded from all aggregate Ha totals below; its own profile card is unaffected.
+const HA_PROJECTED_EXCLUDE = ['P169-I198'];
+
 // ---- NAVIGATION: LANDING vs DETAIL ----
 const navLinks = document.querySelectorAll('.nav-link');
 const sections = document.querySelectorAll('.page-section');
@@ -935,7 +942,7 @@ function animateGoalBars() {
   });
 
   // Calculate real hectares from data
-  const totalHa = initiatives.reduce((s, i) => s + (i.haToBeRestored || 0) + (i.haToBeConserved || 0) + (i.haUnderRestoration || 0) + (i.haConserved || 0), 0);
+  const totalHa = initiatives.reduce((s, i) => s + (HA_PROJECTED_EXCLUDE.includes(i.id) ? 0 : (i.haToBeRestored || 0) + (i.haToBeConserved || 0)) + (i.haUnderRestoration || 0) + (i.haConserved || 0), 0);
   const goalLandEl = document.getElementById('goal-land-current');
   if (goalLandEl) {
     if (totalHa > 0) {
@@ -961,7 +968,7 @@ function animateGoalBars() {
 function animateCounters() {
   const totalInit = initiatives.length;
   const totalCountries = new Set(initiatives.map(i => i.country)).size;
-  const totalHa = initiatives.reduce((s, i) => s + (i.haToBeRestored || 0) + (i.haToBeConserved || 0) + (i.haUnderRestoration || 0) + (i.haConserved || 0), 0);
+  const totalHa = initiatives.reduce((s, i) => s + (HA_PROJECTED_EXCLUDE.includes(i.id) ? 0 : (i.haToBeRestored || 0) + (i.haToBeConserved || 0)) + (i.haUnderRestoration || 0) + (i.haConserved || 0), 0);
 
   // Reset all bar fills to 0
   document.querySelectorAll('.bar-fill').forEach(bar => { bar.style.width = '0%'; });
@@ -992,7 +999,7 @@ function animateCounters() {
   }
 
   const haAchieved = initiatives.reduce((s, i) => s + (i.haUnderRestoration || 0) + (i.haConserved || 0), 0);
-  const haProjected = initiatives.reduce((s, i) => s + (i.haToBeRestored || 0) + (i.haToBeConserved || 0), 0);
+  const haProjected = initiatives.reduce((s, i) => s + (HA_PROJECTED_EXCLUDE.includes(i.id) ? 0 : (i.haToBeRestored || 0) + (i.haToBeConserved || 0)), 0);
   const peopleAchieved = initiatives.reduce((s, i) => s + (i.peopleBenefited || 0), 0);
   // UCLG (P094-I102) reports a global network-reach figure (6.65B), not directly-additive
   // beneficiaries — including it here would double-count nearly the entire world population.
@@ -1028,7 +1035,7 @@ function animateCounters() {
 
   // Land goals — achieved vs projected
   const landAchieved = initiatives.reduce((s, i) => s + (i.haUnderRestoration || 0) + (i.haConserved || 0), 0);
-  const landProjected = initiatives.reduce((s, i) => s + (i.haToBeRestored || 0) + (i.haToBeConserved || 0), 0);
+  const landProjected = initiatives.reduce((s, i) => s + (HA_PROJECTED_EXCLUDE.includes(i.id) ? 0 : (i.haToBeRestored || 0) + (i.haToBeConserved || 0)), 0);
   const goalLandA = document.getElementById('goal-land-achieved');
   const goalLandP = document.getElementById('goal-land-projected');
   // Animate goal numbers
@@ -1053,7 +1060,7 @@ function animateCounters() {
 
   // Drought Resilience goals — fed by inland waters restored + conserved
   const droughtAchieved = initiatives.reduce((s, i) => s + (i.inlandWatersRestoration || 0) + (i.inlandWatersConserved || 0), 0);
-  const droughtProjected = initiatives.reduce((s, i) => s + (i.inlandWatersToBeRestored || 0) + (i.inlandWatersToBeConserved || 0), 0);
+  const droughtProjected = initiatives.reduce((s, i) => s + (HA_PROJECTED_EXCLUDE.includes(i.id) ? 0 : (i.inlandWatersToBeRestored || 0) + (i.inlandWatersToBeConserved || 0)), 0);
   animateGoalNum('goal-drought-achieved', droughtAchieved, '', ' Ha');
   animateGoalNum('goal-drought-projected', droughtProjected, '', ' Ha');
 
