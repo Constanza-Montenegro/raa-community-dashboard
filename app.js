@@ -994,12 +994,11 @@ function animateCounters() {
   const haAchieved = initiatives.reduce((s, i) => s + (i.haUnderRestoration || 0) + (i.haConserved || 0), 0);
   const haProjected = initiatives.reduce((s, i) => s + (i.haToBeRestored || 0) + (i.haToBeConserved || 0), 0);
   const peopleAchieved = initiatives.reduce((s, i) => s + (i.peopleBenefited || 0), 0);
-  // Capped at UCLG's own reported figure (6.65B — a global network-reach claim, not a
-  // directly-additive beneficiary count). Summing it with every other initiative would push
-  // the total past world population; no other initiative's reach can plausibly exceed it.
-  const PEOPLE_PROJECTED_CAP = 6650000000;
-  const peopleProjectedRaw = initiatives.reduce((s, i) => s + (i.peopleToBeBenefited || 0), 0);
-  const peopleProjected = Math.min(peopleProjectedRaw, PEOPLE_PROJECTED_CAP);
+  // UCLG (P094-I102) reports a global network-reach figure (6.65B), not directly-additive
+  // beneficiaries — including it here would double-count nearly the entire world population.
+  // Its own profile card still shows the full self-reported number; only this aggregate excludes it.
+  const PEOPLE_PROJECTED_EXCLUDE = ['P094-I102'];
+  const peopleProjected = initiatives.reduce((s, i) => s + (PEOPLE_PROJECTED_EXCLUDE.includes(i.id) ? 0 : (i.peopleToBeBenefited || 0)), 0);
 
   // Animated count-up for big numbers
   function countUpBig(id, target, prefix) {
