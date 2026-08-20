@@ -564,13 +564,22 @@ const LOCAL_LOGOS = {
   'P173': 'logos/logo-P173.jpg',
   'P178': 'logos/logo-P178.png',
   'P180': 'logos/logo-P180.jpg',
-  'P175': 'logos/logo-P175.png'
+  'P175': 'logos/logo-P175.png',
+  'P181': 'logos/logo-P181.png',
+  'P183': 'logos/logo-P183a.jpg'
 };
 
 // ---- SECONDARY LOGOS ----
 // Add entries here when an initiative has a second logo to display on their profile card.
 const SECONDARY_LOGOS = {
-  'P005': 'logos/logo-P005b.jpg'
+  'P005': 'logos/logo-P005b.jpg',
+  'P183': 'logos/logo-P183b.PNG'
+};
+
+// Override the default "In partnership with" label shown above the second logo.
+// Set to '' to show the second logo with no label at all.
+const SECONDARY_LOGO_LABELS = {
+  'P183': ''
 };
 
 // ---- VIDEO LINKS ----
@@ -599,6 +608,7 @@ function transformInitiativeRow(row) {
     partnerName: (row['Organization Name'] || '').trim(),
     logo: LOCAL_LOGOS[row['Initiative ID']] || LOCAL_LOGOS[row['Initiative ID']?.split('-')[0]] || '',
     logo2: SECONDARY_LOGOS[row['Initiative ID']] || SECONDARY_LOGOS[row['Initiative ID']?.split('-')[0]] || '',
+    logo2Label: SECONDARY_LOGO_LABELS[row['Initiative ID']] ?? SECONDARY_LOGO_LABELS[row['Initiative ID']?.split('-')[0]] ?? 'In partnership with',
     website: ensureHttps(row['Link to website']),
     websites: extractAllUrls(row['Link to website']),
     initiativeLink: ensureHttps(row['Link to initiative']),
