@@ -416,8 +416,19 @@ function ensureHttps(url) {
 // several partner organizations' links separated by spaces/"&"/commas).
 function extractAllUrls(str) {
   if (!str) return [];
-  const matches = str.match(/https?:\/\/\S+/g) || [];
-  return matches.map(m => m.replace(/[.,;)'"&]+$/, '')).filter(Boolean);
+  const tokens = str.split(/[\s,;]+/).filter(Boolean);
+  const urls = [];
+  tokens.forEach(t => {
+    const cleaned = t.replace(/[.,;)'"&]+$/, '');
+    if (!cleaned) return;
+    if (/^https?:\/\//i.test(cleaned)) {
+      urls.push(cleaned);
+    } else if (/^[\w-]+(\.[\w-]+)+(\/\S*)?$/i.test(cleaned)) {
+      // Bare domain (no http/https prefix) — treat as its own link too.
+      urls.push('https://' + cleaned);
+    }
+  });
+  return urls;
 }
 
 // ---- LOCAL LOGO LOOKUP ----
@@ -505,7 +516,7 @@ const LOCAL_LOGOS = {
   'P104': 'logos/logo-P104.png',
   'P105': 'logos/logo-P105.jpg',
   'P108': 'logos/logo-P108.png',
-  'P109': 'logos/logo-P109.png',
+  'P109': 'logos/logo-P109-I120.png',
   'P110-I121': 'logos/logo-P110-I121.png',
   'P110-I122': 'logos/logo-P110-I122.png',
   'P111': 'logos/logo-P111.png',
@@ -552,6 +563,7 @@ const LOCAL_LOGOS = {
   'P041': 'logos/logo-P041.png',
   'P131': 'logos/logo-P131.png',
   'P095': 'logos/logo-P095.png',
+  'P097': 'logos/logo-P097.png',
   'P098': 'logos/logo-P098.png',
   'P144': 'logos/logo-P144.jpg',
   'P157': 'logos/logo-P157.png',
@@ -566,7 +578,8 @@ const LOCAL_LOGOS = {
   'P180': 'logos/logo-P180.jpg',
   'P175': 'logos/logo-P175.png',
   'P181': 'logos/logo-P181.png',
-  'P183': 'logos/logo-P183a.jpg'
+  'P183': 'logos/logo-P183a.jpg',
+  'P185': 'logos/logo-P185.png'
 };
 
 // ---- SECONDARY LOGOS ----
