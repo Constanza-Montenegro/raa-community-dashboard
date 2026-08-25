@@ -202,11 +202,17 @@
         <div class="gp-map-layout">
           <div id="map-detail" class="map-container map-container--large"></div>
           <div class="gp-side-panel" id="gp-side-panel">
-            <div class="gp-panel-filters">
-              <button class="gp-filter-btn active" data-scope="all">All</button>
-              <button class="gp-filter-btn" data-scope="Global">Global</button>
-              <button class="gp-filter-btn" data-scope="Regional">Regional</button>
-              <button class="gp-filter-btn" data-scope="National">National</button>
+            <div class="gp-panel-header">
+              <div class="gp-panel-search">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="gp-search-input" placeholder="Search initiatives..." />
+              </div>
+              <div class="gp-panel-filters">
+                <button class="gp-filter-btn active" data-scope="all">All</button>
+                <button class="gp-filter-btn" data-scope="Global">Global</button>
+                <button class="gp-filter-btn" data-scope="Regional">Regional</button>
+                <button class="gp-filter-btn" data-scope="National">National</button>
+              </div>
             </div>
             <div class="gp-panel-list" id="gp-panel-list"></div>
             <div class="gp-panel-detail" id="gp-panel-detail" style="display:none">
