@@ -909,11 +909,26 @@ body {
 /* Panel scope filters */
 .gp-panel-filters {
   display: flex;
+  flex-wrap: wrap;
   gap: 5px;
   padding: 0 20px 10px;
   border-bottom: 1px solid var(--border);
   justify-content: center;
 }
+
+.gp-clear-btn {
+  font-family: inherit;
+  font-size: 10px; font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 14px;
+  border: 1px dashed var(--border);
+  background: var(--bg-card);
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all var(--t);
+}
+
+.gp-clear-btn:hover { color: #c44; border-color: #c44; }
 
 .gp-filter-btn {
   font-family: inherit;

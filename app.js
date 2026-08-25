@@ -288,6 +288,18 @@ if (gpSearchInput) {
   });
 }
 
+const gpClearBtn = document.getElementById('gp-clear-filters');
+if (gpClearBtn) {
+  gpClearBtn.addEventListener('click', () => {
+    gpScopeFilter = 'all';
+    gpSearchQuery = '';
+    if (gpSearchInput) gpSearchInput.value = '';
+    document.querySelectorAll('.gp-filter-btn').forEach(b => b.classList.toggle('active', b.dataset.scope === 'all'));
+    showPanelList();
+    renderPanelList();
+  });
+}
+
 function animateDgStat(id, target) {
   const el = document.getElementById(id);
   if (!el) return;
