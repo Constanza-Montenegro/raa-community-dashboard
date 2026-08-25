@@ -853,7 +853,7 @@ body {
 }
 
 .gp-side-panel {
-  width: 300px;
+  width: 340px;
   flex-shrink: 0;
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -883,7 +883,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin: 14px 20px 10px;
+  margin: 14px 14px 10px;
   padding: 9px 16px;
   border: 1px solid var(--border);
   border-radius: 20px;
@@ -909,9 +909,9 @@ body {
 /* Panel scope filters */
 .gp-panel-filters {
   display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  padding: 0 20px 10px;
+  flex-wrap: nowrap;
+  gap: 4px;
+  padding: 0 14px 10px;
   border-bottom: 1px solid var(--border);
   justify-content: center;
 }
@@ -919,8 +919,9 @@ body {
 .gp-clear-btn {
   font-family: inherit;
   font-size: 10px; font-weight: 600;
-  padding: 4px 10px;
+  padding: 4px 8px;
   border-radius: 14px;
+  flex-shrink: 0;
   border: 1px dashed var(--border);
   background: var(--bg-card);
   color: var(--text-light);
@@ -933,13 +934,14 @@ body {
 .gp-filter-btn {
   font-family: inherit;
   font-size: 10px; font-weight: 600;
-  padding: 4px 10px;
+  padding: 4px 8px;
   border-radius: 14px;
   border: 1px solid var(--border);
   background: var(--bg-card);
   color: var(--text-secondary);
   cursor: pointer;
   transition: all var(--t);
+  flex-shrink: 0;
 }
 
 .gp-filter-btn:hover { border-color: var(--green); color: var(--green); }
