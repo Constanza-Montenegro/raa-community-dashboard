@@ -17,9 +17,6 @@ def run():
 
         print("Loading platform...")
         page.goto(URL)
-        page.wait_for_selector("#gate-input", timeout=15000)
-        page.fill("#gate-input", "SDG15")
-        page.click("button:has-text('Enter')")
         page.wait_for_selector(".hero-stat-num", timeout=20000)
         time.sleep(3)
 
