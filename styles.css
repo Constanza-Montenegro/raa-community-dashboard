@@ -825,7 +825,7 @@ body {
    clusters and popups keep their real colors. */
 #map-overview .leaflet-tile-pane,
 #map-detail .leaflet-tile-pane {
-  filter: grayscale(1) brightness(1.08) contrast(0.95);
+  filter: grayscale(1) brightness(1.2);
 }
 
 /* Legend bar with badges */
