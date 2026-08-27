@@ -820,6 +820,14 @@ body {
   min-width: 0;
 }
 
+/* OSM tiles come in color (blue water, cream land); desaturate to match the
+   old minimalist grey CartoDB style. Scoped to the tile pane only so markers,
+   clusters and popups keep their real colors. */
+#map-overview .leaflet-tile-pane,
+#map-detail .leaflet-tile-pane {
+  filter: grayscale(1) brightness(1.08) contrast(0.95);
+}
+
 /* Legend bar with badges */
 .map-legend-bar {
   display: flex; align-items: center; gap: 10px;
