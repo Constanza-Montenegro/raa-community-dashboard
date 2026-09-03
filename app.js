@@ -179,17 +179,43 @@ function addMarkers(map, usePanel) {
   });
 }
 
+// ---- BASE MAP (borderless — physical land/water only, no political data) ----
+// Uses Natural Earth's public-domain "land" + "lakes" datasets (map-data/*.geojson)
+// instead of a tile provider: no country borders, no place labels, no external
+// service dependency (no API key can ever be required for a local static file).
+let worldLandData = null, worldLakesData = null;
+
+async function loadWorldGeo() {
+  if (!worldLandData) {
+    const [landRes, lakesRes] = await Promise.all([
+      fetch('map-data/world-land.geojson'),
+      fetch('map-data/world-lakes.geojson')
+    ]);
+    worldLandData = await landRes.json();
+    worldLakesData = await lakesRes.json();
+  }
+  return { land: worldLandData, lakes: worldLakesData };
+}
+
+function addLandLayer(map) {
+  loadWorldGeo().then(({ land, lakes }) => {
+    L.geoJSON(land, { style: { fillColor: '#f7f8f6', color: '#f7f8f6', weight: 0.5, fillOpacity: 1 } }).addTo(map);
+    L.geoJSON(lakes, { style: { fillColor: '#dadfdc', color: '#dadfdc', weight: 0, fillOpacity: 1 } }).addTo(map);
+  });
+  map.attributionControl.addAttribution('Land data: <a href="https://www.naturalearthdata.com/" target="_blank">Natural Earth</a>');
+}
+
 function initOverviewMap() {
   mapOverview = L.map('map-overview', { center: [20, 0], zoom: 1.5, minZoom: 1, maxZoom: 6, scrollWheelZoom: true, zoomControl: false, dragging: true, maxBounds: [[-85, -180],[85, 180]], maxBoundsViscosity: 1.0 });
   L.control.zoom({ position: 'bottomleft' }).addTo(mapOverview);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { subdomains: 'abc', maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }).addTo(mapOverview);
+  addLandLayer(mapOverview);
   addMarkers(mapOverview, false);
 }
 
 function initDetailMap() {
   mapDetail = L.map('map-detail', { center: [20, 15], zoom: 2.5, minZoom: 2, maxZoom: 8, scrollWheelZoom: true, zoomControl: false, maxBounds: [[-85, -180],[85, 180]], maxBoundsViscosity: 1.0 });
   L.control.zoom({ position: 'bottomleft' }).addTo(mapDetail);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { subdomains: 'abc', maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }).addTo(mapDetail);
+  addLandLayer(mapDetail);
   addMarkers(mapDetail, true);
 }
 

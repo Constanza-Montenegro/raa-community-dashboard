@@ -820,12 +820,12 @@ body {
   min-width: 0;
 }
 
-/* OSM tiles come in color (blue water, cream land); desaturate to match the
-   old minimalist grey CartoDB style. Scoped to the tile pane only so markers,
-   clusters and popups keep their real colors. */
-#map-overview .leaflet-tile-pane,
-#map-detail .leaflet-tile-pane {
-  filter: grayscale(1) brightness(1.14);
+/* Ocean/background color for the borderless land-only base map (see
+   addLandLayer() in app.js) — matches the lakes fill so open water reads
+   the same everywhere. */
+#map-overview .leaflet-container,
+#map-detail .leaflet-container {
+  background: #dadfdc;
 }
 
 /* Legend bar with badges */
